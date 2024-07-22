@@ -75,10 +75,10 @@ body {
 #quotes {
   color: #f2f2f2;
   font-size: 28px;
-  padding: 20px;
-  margin-top: 80px;
+  padding: 20px;      
+  margin-top: 20px;
   text-align: center;
-  max-width: 600px;
+  max-width: 800px;
   word-wrap: break-word;
   width: 100%;
   box-sizing: border-box;
