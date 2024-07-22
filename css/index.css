@@ -9,9 +9,9 @@
   float: right;   
   color: #f2f2f2;
   text-align: center;
-  padding: 20px 24px;
+  padding: 16px 18px;
   border-radius: 5px;
-  margin: 0 20px;
+  margin: 0 20px; 
   text-decoration: none;
   font-size: 17px;
   font-family: 'Edu AU VIC WA NT Hand', cursive;
@@ -19,13 +19,13 @@
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  background-color: #ddd;
+  background-color: #db5ff7;
   color: black;
 }
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: #04AA6D;
+  background-color: #3904aa;
   color: white;
 }
 
