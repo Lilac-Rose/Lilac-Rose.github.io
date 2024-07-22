@@ -8,7 +8,10 @@ window.onload = function() {
         "Human progress isn’t measured by industry. It’s measured by the value you place on a life. An unimportant life. A life without privilege. The boy who died on the river, that boy's value is your value. That's what defines an age. That's what defines a species. - Twelfth Doctor",
         "I'm not running away from things. I'm running to them before they flare and fade forever. That's all right. Our lives would never remain the same. They can't. One day, soon, maybe, you'll stop. I've known you for a while. - Eleventh Doctor",
         "Some people live more in 20 years than others do in 80. It’s not the time that matters, it’s the person. - Tenth Doctor",
-        "The way I see it, every life is a pile of good things and bad things. The good things don’t always soften the bad things, but vice versa, the bad things don’t always spoil the good things or make them unimportant. - Eleventh Doctor"
+        "The way I see it, every life is a pile of good things and bad things. The good things don’t always soften the bad things, but vice versa, the bad things don’t always spoil the good things or make them unimportant. - Eleventh Doctor",
+        "Nothing’s sad until it’s over, and then everything is. - Twelfth Doctor",
+        "Love, in all its forms, is the most powerful weapon we have. Because love is a form of hope. And like hope, love abides. In the face of everything - Thirteenth Doctor",
+        "We’re all stories, in the end. Just make it a good one, eh? - Elevenfth Doctor"
     ];
 
     var quotesElement = document.getElementById("quotes");
