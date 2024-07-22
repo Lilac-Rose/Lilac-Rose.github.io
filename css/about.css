@@ -30,12 +30,20 @@ body{
 
 .text-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: left;
+    text-align: center;
     padding-left: 2vw;
+    margin-left: auto;
 }
 
 .text {
     font-size: 1.75vw;
+}
+
+.additional-text {
+    font-size: 1vw; /* Slightly smaller text */
+    color: #290133; /* Same color as background */
+    margin-top: 10px; /* Space above the additional text */
 }
