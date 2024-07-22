@@ -16,6 +16,8 @@ body{
     right: 0;
     width: auto;
     z-index: 1000;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .topnav a {
@@ -28,6 +30,7 @@ body{
     text-decoration: none;
     font-size: 17px;
     font-family: 'Edu AU VIC WA NT Hand', cursive;
+    display: inline-block;
 }
 
 .topnav a:hover {
