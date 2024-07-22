@@ -11,7 +11,7 @@ window.onload = function() {
         "The way I see it, every life is a pile of good things and bad things. The good things don’t always soften the bad things, but vice versa, the bad things don’t always spoil the good things or make them unimportant. - Eleventh Doctor",
         "Nothing’s sad until it’s over, and then everything is. - Twelfth Doctor",
         "Love, in all its forms, is the most powerful weapon we have. Because love is a form of hope. And like hope, love abides. In the face of everything - Thirteenth Doctor",
-        "We’re all stories, in the end. Just make it a good one, eh? - Elevenfth Doctor"
+        "We’re all stories, in the end. Just make it a good one, eh? - Elevenfth Doctor"    
     ];
 
     var quotesElement = document.getElementById("quotes");
