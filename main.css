@@ -1,6 +1,6 @@
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: #333;
+  background-color: #290133;
   overflow: hidden;
 }
 
@@ -24,4 +24,8 @@
 .topnav a.active {
   background-color: #04AA6D;
   color: white;
+}
+
+body{
+  background-color: #290133;
 }
