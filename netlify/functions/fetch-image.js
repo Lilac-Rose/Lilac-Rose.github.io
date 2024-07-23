@@ -1,7 +1,5 @@
-const fetch = require('node-fetch');
-
 exports.handler = async function(event, context) {
-    const apiKey = process.env.NASA_API_KEY; // Use environment variable for your API key
+    const apiKey = process.env.NASA_API_KEY;
     const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
     try {
@@ -9,11 +7,19 @@ exports.handler = async function(event, context) {
         const data = await response.json();
         return {
             statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*', // Allow all origins
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(data)
         };
     } catch (error) {
         return {
             statusCode: 500,
+            headers: {
+                'Access-Control-Allow-Origin': '*', // Allow all origins
+                'Content-Type': 'application/json'
+            },
             body: 'Error fetching data'
         };
     }
