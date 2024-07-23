@@ -1,5 +1,3 @@
-// netlify/functions/fetch-image.js
-
 const fetch = require('node-fetch');
 
 exports.handler = async function(event, context) {
@@ -8,6 +6,9 @@ exports.handler = async function(event, context) {
 
     try {
         const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         const data = await response.json();
         return {
             statusCode: 200,
