@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fetchImage() {
-    const apiUrl = 'https://lilacrose.dev/.netlify/functions/fetch-image'; // Update this URL
+    const apiUrl = 'https://gorgeous-liger-a945ec.netlify.app/.netlify/functions/fetch-image'; // Correct URL
+
 
     fetch(apiUrl, {
         method: 'GET',
