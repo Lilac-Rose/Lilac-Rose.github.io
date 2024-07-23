@@ -66,22 +66,23 @@
 
 .projects-container {
   max-width: calc(100vw - 200px); 
-  margin: 80px auto 60px;
   padding: 0 20px;
+  margin: 80px auto 100px;
 }
 
 .project-card {
   background-color: #3d024c;
   border-radius: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
   padding: 20px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   transform-origin: center;
+  transform: scale(0.9);
 }
 
 .project-card:hover {
-  transform: scale(1.05);
+  transform: scale(0.99);   
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.4);
 }
 
@@ -192,4 +193,4 @@
   .project-card:hover .project-description {
     font-size: 20px;
   }
-} 
+}   
