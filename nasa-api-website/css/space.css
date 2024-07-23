@@ -1,4 +1,3 @@
-/* Shoutout to w3schools i want to hug them */
 @font-face {
     font-family: 'Assiduous';
     src: url('../fonts/Assiduous-9m35.ttf') format('truetype');
@@ -43,4 +42,27 @@ body {
     max-width: 100%;
     height: auto;
     margin-top: 10px;
+}
+
+#imageTitle, #imageDate {
+    color: #f2f2f2;
+    font-family: 'Raleway', sans-serif;
+    margin: 10px 0;
+    transition: font-size 0.3s ease;
+}
+
+#imageTitle {
+    font-size: 24px;
+}
+
+#imageDate {
+    font-size: 18px;
+}
+
+#image-container:hover #imageTitle {
+    font-size: 28px;
+}
+
+#image-container:hover #imageDate {
+    font-size: 22px;
 }
