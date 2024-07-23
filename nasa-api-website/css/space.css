@@ -37,6 +37,9 @@ body {
 #image-container {
     margin: 20px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #fetchedImage {
@@ -53,26 +56,28 @@ body {
 }
 
 #imageTitle {
-    font-size: 24px;
+    font-size: 32px;
 }
 
 #imageDate {
-    font-size: 18px;
+    font-size: 24px;
 }
 
 #imageExplanation {
-    font-size: 16px;
-    text-align: left;
+    font-size: 20px;
+    text-align: center;
     max-width: 80%;
     margin: 10px auto;
 }
 
 #image-container:hover #imageTitle {
-    font-size: 28px;
+    font-size: 36px;
 }
 
 #image-container:hover #imageDate {
-    font-size: 22px;
+    font-size: 28px;
 }
 
-#image-container
+#image-container:hover #imageExplanation {
+    font-size: 24px;
+}
