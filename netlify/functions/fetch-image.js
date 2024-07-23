@@ -1,5 +1,7 @@
+const fetch = require('node-fetch');
+
 exports.handler = async function(event, context) {
-    const apiKey = process.env.NASA_API_KEY;
+    const apiKey = process.env.NASA_API_KEY; // Your API key
     const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
     try {
