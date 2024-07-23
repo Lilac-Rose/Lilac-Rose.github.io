@@ -29,6 +29,7 @@ function displayImage(data) {
     const imageElement = document.getElementById('fetchedImage');
     const titleElement = document.getElementById('imageTitle');
     const dateElement = document.getElementById('imageDate');
+    
     if (data.url) {
         imageElement.src = data.url;
         imageElement.alt = data.title || 'NASA APOD';
