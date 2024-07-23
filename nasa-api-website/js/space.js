@@ -3,31 +3,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fetchImage() {
-    const apiUrl = 'https://api.nasa.gov/planetary/apod'; // Replace with your API endpoint
-    const apiKey = '3eIXWBkFHOKCkYf2yhuhXDqfncbtoi3NV2ErYhQI'; // Replace with your API key
+    const apiUrl = 'https://gorgeous-liger-a945ec.netlify.app/.netlify/functions/fetch-image'; // Netlify function URL
 
-    fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Api-Key ${apiKey}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data); // For debugging
-        displayImage(data);
-    })
-    .catch(error => console.error('Error fetching image:', error));
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // For debugging
+            displayImage(data);
+        })
+        .catch(error => console.error('Error fetching image:', error));
 }
 
 function displayImage(data) {
     const imageElement = document.getElementById('fetchedImage');
-    imageElement.src = data.imageUrl; // Adjust the property name based on your API response
-    imageElement.style.display = 'block'; // Show the image element
+    if (data && data.url) {
+        imageElement.src = data.url; // Adjust according to the structure of your API response
+        imageElement.style.display = 'block'; // Show the image element
+    } else {
+        console.error('Image data is not in expected format');
+    }
 }
