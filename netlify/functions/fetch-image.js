@@ -3,7 +3,8 @@
 const fetch = require('node-fetch');
 
 exports.handler = async function(event, context) {
-    const apiUrl = 'https://api.nasa.gov/planetary/apod?api_key=YOUR_API_KEY_HERE'; // Replace with your API endpoint
+    const apiKey = process.env.NASA_API_KEY; // Use environment variable for your API key
+    const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
     try {
         const response = await fetch(apiUrl);
