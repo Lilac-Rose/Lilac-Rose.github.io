@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   function fetchImage() {
     console.log('Fetching image...');
-    const apiUrl = 'https://lilacrose.netlify.app/.netlify/functions/fetch-image';
+    const apiUrl = '/.netlify/functions/fetch-image';
     fetch(apiUrl)
       .then(response => {
         console.log('Response received:', response.status, response.statusText);
