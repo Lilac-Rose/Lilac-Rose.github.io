@@ -28,4 +28,26 @@ function displayImage(data) {
     console.log('Displaying image...');
     const imageElement = document.getElementById('fetchedImage');
     const titleElement = document.getElementById('imageTitle');
-    const dateElement = document.g
+    const dateElement = document.getElementById('imageDate');
+    const explanationElement = document.getElementById('imageExplanation');
+
+    if (data.url) {
+        imageElement.src = data.url;
+        imageElement.alt = data.title || 'NASA APOD';
+        imageElement.style.display = 'block';
+        
+        titleElement.textContent = data.title || 'NASA APOD';
+        titleElement.style.display = 'block';
+        
+        dateElement.textContent = data.date || '';
+        dateElement.style.display = 'block';
+        
+        explanationElement.textContent = data.explanation || '';
+        explanationElement.style.display = 'block';
+
+        console.log('Image displayed');
+    } else {
+        console.error('No image URL in the data');
+        document.body.innerHTML += '<p>Error: No image URL received</p>';
+    }
+}
