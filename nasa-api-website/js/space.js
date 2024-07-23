@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fetchImage() {
-    const apiUrl = 'https://gorgeous-liger-a945ec.netlify.app/.netlify/functions/fetch-image'; // Netlify function URL
+    const apiUrl = 'https://gorgeous-liger-a945ec.netlify.app/.netlify/functions/fetch-image'; // Your Netlify function URL
 
     fetch(apiUrl)
         .then(response => {

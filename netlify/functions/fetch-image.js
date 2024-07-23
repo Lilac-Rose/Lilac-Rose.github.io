@@ -6,18 +6,24 @@ exports.handler = async function(event, context) {
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
         const data = await response.json();
         return {
             statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*', // Allow all origins
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(data)
         };
     } catch (error) {
         return {
             statusCode: 500,
-            body: 'Error fetching data'
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ error: 'Error fetching data' })
         };
     }
 };
+    
