@@ -72,12 +72,3 @@ body {
     max-width: 80%;
     margin: 10px auto;
 }
-
-#image-container:hover #imageTitle {
-    font-size: 36px;
-}
-
-#image-container:hover #imageDate {
-    font-size: 28px;
-}
-
