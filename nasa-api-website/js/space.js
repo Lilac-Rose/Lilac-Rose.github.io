@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
   
   function fetchImage() {
     console.log('Fetching image...');
-    const apiUrl = '/.netlify/functions/fetch-image';
+    const apiUrl = 'https://lilacrose.netlify.app/.netlify/functions/fetch-image.mjs';
     fetch(apiUrl)
       .then(response => {
         console.log('Response received:', response.status, response.statusText);
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(`Network response was not ok: ${response.status}`);
         }
         return response.json();
       })
@@ -27,8 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function displayImage(data) {
     console.log('Displaying image...');
     const imageElement = document.getElementById('fetchedImage');
-    imageElement.src = data.url;
-    imageElement.alt = data.title || 'NASA APOD';
-    imageElement.style.display = 'block';
-    console.log('Image displayed');
+    if (data.url) {
+      imageElement.src = data.url;
+      imageElement.alt = data.title || 'NASA APOD';
+      imageElement.style.display = 'block';
+      console.log('Image displayed');
+    } else {
+      console.error('No image URL in the data');
+      document.body.innerHTML += '<p>Error: No image URL received</p>';
+    }
   }
