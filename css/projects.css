@@ -65,7 +65,7 @@
   }
 
 .projects-container {
-  max-width: 800px;
+  max-width: calc(100vw - 200px); 
   margin: 80px auto 60px;
   padding: 0 20px;
 }
@@ -75,20 +75,21 @@
   border-radius: 15px;
   margin-bottom: 30px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   transform-origin: center;
 }
 
 .project-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.4);
 }
 
 .project-title {
   font-family: 'Edu AU VIC WA NT Hand', cursive;
   font-size: 24px;
   margin-bottom: 15px;
+  transition: font-size 0.3s ease;
 }
 
 .project-title a {
@@ -101,8 +102,13 @@
   color: #8B0000; /* Dark reddish purple */
 }
 
+.project-card:hover .project-title {
+  font-size: 28px; /* Increase the font size on hover */
+}
+
 .project-content {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   gap: 20px;
 }
@@ -110,13 +116,15 @@
 .project-description {
   flex: 1;
   font-family: 'Raleway', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   color: #f2f2f2;
   line-height: 1.6;
   margin-bottom: 15px;
+  transition: font-size 0.3s ease;
 }
 
 .project-content a {
+  flex-shrink: 0; 
   display: block;
   overflow: hidden;
   border-radius: 10px;
@@ -129,6 +137,7 @@
 
 .project-image {
   max-width: 250px;
+  width: 100%;
   height: auto;
   display: block;
   transition: all 0.3s ease;
@@ -159,6 +168,10 @@
   opacity: 1;
 }
 
+.project-card:hover .project-description {
+  font-size: 24px; 
+}
+
 @media (max-width: 768px) {
   .project-content {
       flex-direction: column-reverse;
@@ -172,7 +185,11 @@
       max-width: 100%;
   }
 
-  .project-description{
+  .project-description {
     text-align: center;
+  }
+
+  .project-card:hover .project-description {
+    font-size: 20px;
   }
 }
