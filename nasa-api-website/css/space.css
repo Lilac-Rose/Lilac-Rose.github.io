@@ -6,7 +6,8 @@
 body {
     background-color: #290133;
     margin: 0;
-    padding-bottom: 60px;
+    padding-top: 60px;
+    padding-bottom: 60px; /* Add bottom padding equal to the footer height */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,7 +45,7 @@ body {
     margin-top: 10px;
 }
 
-#imageTitle, #imageDate {
+#imageTitle, #imageDate, #imageExplanation {
     color: #f2f2f2;
     font-family: 'Raleway', sans-serif;
     margin: 10px 0;
@@ -59,6 +60,13 @@ body {
     font-size: 18px;
 }
 
+#imageExplanation {
+    font-size: 16px;
+    text-align: left;
+    max-width: 80%;
+    margin: 10px auto;
+}
+
 #image-container:hover #imageTitle {
     font-size: 28px;
 }
@@ -66,3 +74,5 @@ body {
 #image-container:hover #imageDate {
     font-size: 22px;
 }
+
+#image-container
