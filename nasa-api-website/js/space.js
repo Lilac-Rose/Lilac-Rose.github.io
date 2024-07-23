@@ -47,3 +47,4 @@ function displayImage(data) {
         document.body.innerHTML += '<p>Error: No image URL received</p>';
     }
 }
+    
