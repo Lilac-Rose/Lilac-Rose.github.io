@@ -1,0 +1,81 @@
+@font-face {
+    font-family: 'Assiduous';
+    src: url('../fonts/Assiduous-9m35.ttf') format('truetype');
+}
+
+body {
+    background-color: #290133;
+    margin: 0;
+    padding-top: 60px;
+    padding-bottom: 60px; /* Add bottom padding equal to the footer height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    background-color: #290133;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 15px 15px 0 0;
+}
+
+.footer a {
+    color: #f2f2f2;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footer p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #f2f2f2;
+    font-family: 'Raleway', sans-serif;
+}
+
+#image-container {
+    margin: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#fetchedImage {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+#imageTitle, #imageDate, #imageExplanation {
+    color: #f2f2f2;
+    font-family: 'Raleway', sans-serif;
+    margin: 10px 0;
+    transition: font-size 0.3s ease;
+}
+
+#imageTitle {
+    font-size: 32px;
+}
+
+#imageDate {
+    font-size: 24px;
+}
+
+#imageExplanation {
+    font-size: 20px;
+    text-align: center;
+    max-width: 80%;
+    margin: 10px auto;
+}
