@@ -145,6 +145,7 @@ body {
     background-color: #3904aa;
     color: white;
   }
+  
 /* Responsive Design */
 @media (max-width: 768px) {
     .blog-container {
