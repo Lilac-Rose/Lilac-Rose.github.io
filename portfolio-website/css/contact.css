@@ -63,3 +63,46 @@
   .footer a:hover {
     text-decoration: underline;
   }
+
+  .socials-container {
+    max-width: calc(100vw - 200px); 
+    padding: 0 20px;
+    margin: 80px auto 100px;
+  }
+
+  .socials-card {
+    background-color: #3d024c;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    transform-origin: center;
+    transform: scale(0.9);
+  }
+  
+  .socials-card:hover {
+    transform: scale(0.99);   
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.4);
+  }
+  
+  .socials-title {
+    font-family: 'Edu AU VIC WA NT Hand', cursive;
+    font-size: 24px;
+    margin-bottom: 15px;
+    transition: font-size 0.3s ease;
+  }
+  
+  .socials-title a {
+    color: #db5ff7;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .socials-title a:hover {
+    color: #8B0000; /* Dark reddish purple */
+  }
+  
+  .socials-card:hover .project-title {
+    font-size: 28px; /* Increase the font size on hover */
+  }
