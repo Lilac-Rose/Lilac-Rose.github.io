@@ -1,7 +1,9 @@
-/* Shoutout to w3schools i want to hug them */    
-@font-face {
-  font-family: 'Assiduous';
-  src: url('../fonts/Assiduous-9m35.ttf') format('truetype');
+body {
+  background-color: #290133;
+  height: 100%;
+  margin: 0;
+  display: block;
+  font-family: 'Raleway', sans-serif;
 }
 
 .topnav {
@@ -43,13 +45,88 @@
   color: white;
 }
 
-body {
-  background-color: #290133;
-  margin: 0;
-  padding-top: 60px;
+.main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: calc(100vw - 40px);
+  height: 100vh;
+  margin-top: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.image {
+  width: 25vw;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.text-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.text {
+  font-size: 1.75vw;
+  color: lightblue;
+}
+
+.additional-text {
+  font-size: 1vw;
+  color: #290133;
+  margin-top: 10px;
+}
+
+.friends-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.friends-text {
+  font-size: 2vw;
+  color: lightblue;
+  margin-bottom: 10px;
+}
+
+.friends-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.friends-images a {
+  display: block;
+  margin: 5px;
+}
+
+.friends-images img {
+  width: 88px;
+  height: 31px;
+  image-rendering: pixelated;
 }
 
 .footer {
@@ -74,21 +151,23 @@ body {
 }
 
 #quotes {
+  display: block;
+  text-align: center;
   color: #f2f2f2;
   font-size: 28px;
-  padding: 20px;      
-  margin-top: 20px;
-  text-align: center;
+  padding: 20px;
+  margin-top: 80px;
   max-width: 800px;
   word-wrap: break-word;
   width: 100%;
   box-sizing: border-box;
-  font-family: 'Assiduous', sans-serif; 
-  justify-content: center;
+  font-family: 'Assiduous', sans-serif;
   cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #quotes:hover {
   color: #008B8B;
   text-decoration: wavy;
-} 
+}
