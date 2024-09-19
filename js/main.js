@@ -57,41 +57,4 @@ document.addEventListener('DOMContentLoaded', function() {
             card.style.setProperty('--mouse-y', `${y}px`);
         });
     });
-    const canvas = document.getElementById('cursorCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    let mouseX = 0;
-    let mouseY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-
-    function drawLight() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const gradient = ctx.createRadialGradient(
-            mouseX, mouseY, 10,
-            mouseX, mouseY, 10,
-        );
-
-        gradient.addColorStop(0, 'rgba(255, 0, 255, 0.2)');
-        gradient.addColorStop(1, 'rgba(255, 0, 255, 0)');
-
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        requestAnimationFrame(drawLight);
-    }
-
-    drawLight();
 });
