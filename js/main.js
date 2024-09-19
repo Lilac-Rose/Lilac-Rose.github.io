@@ -44,10 +44,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     projectCards.forEach(card => {
         card.addEventListener('mouseenter', () => {
-            card.style.backgroundColor = '#4e035f';
+            card.style.backgroundColor = '#1a1a1a';
         });
         card.addEventListener('mouseleave', () => {
-            card.style.backgroundColor = '#3d024c';
+            card.style.backgroundColor = '#1a1a1a';
         });
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
