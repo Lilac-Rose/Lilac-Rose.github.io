@@ -81,11 +81,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const gradient = ctx.createRadialGradient(
             mouseX, mouseY, 10,
-            mouseX, mouseY, 300
+            mouseX, mouseY, 10,
         );
 
-        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        gradient.addColorStop(0, 'rgba(255, 0, 255, 0.2)');
+        gradient.addColorStop(1, 'rgba(255, 0, 255, 0)');
 
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
