@@ -479,3 +479,42 @@ blog-container {
       font-size: 16px;
   }
 }
+
+#image-container {
+  margin: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#fetchedImage {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+#imageTitle, #imageDate, #imageExplanation {
+  color: #f2f2f2;
+  font-family: 'Raleway', sans-serif;
+  margin: 10px 0;
+  transition: font-size 0.3s ease;
+}
+
+#imageTitle {
+  font-size: 32px;
+}
+
+#imageDate {
+  font-size: 24px;
+}
+
+#imageExplanation {
+  font-size: 20px;
+  text-align: center;
+  max-width: 80%;
+  margin: 10px auto;
+}
