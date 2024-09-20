@@ -390,17 +390,17 @@ body {
   }
 }
 
-.blog-container {
+blog-container {
   max-width: 800px;
   margin: 40px auto 100px;
   padding: 0 20px;
 }
 
-/* Main Blog Title */
+
 .blog-main-title {
   font-family: 'Edu AU VIC WA NT Hand', cursive;
   font-size: 48px;
-  color: #db5ff7;
+  color: var(--accent-gold);
   text-align: center;
   margin-bottom: 40px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -408,7 +408,7 @@ body {
 }
 
 .blog-post {
-  background-color: #3d024c;
+  background-color: var(--main-bg);
   border-radius: 15px;
   margin-bottom: 40px;
   padding: 30px;
@@ -424,7 +424,7 @@ body {
 .blog-title {
   font-family: 'Edu AU VIC WA NT Hand', cursive;
   font-size: 32px;
-  color: #db5ff7;
+  color: var(--accent-gold);
   margin-bottom: 15px;
 }
 
@@ -449,7 +449,7 @@ body {
 
 .read-more {
   display: inline-block;
-  background-color: #3904aa;
+  background-color: var(--main-bg);
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
@@ -460,4 +460,22 @@ body {
 .read-more:hover {
   background-color: #db5ff7;
   color: black;
+}
+
+@media (max-width: 768px) {
+  .blog-container {
+      padding: 0 15px;
+  }
+
+  .blog-main-title {
+      font-size: 36px;
+  }
+
+  .blog-title {
+      font-size: 28px;
+  }
+
+  .blog-content {
+      font-size: 16px;
+  }
 }
