@@ -389,3 +389,75 @@ body {
       grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.blog-container {
+  max-width: 800px;
+  margin: 40px auto 100px;
+  padding: 0 20px;
+}
+
+/* Main Blog Title */
+.blog-main-title {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 48px;
+  color: #db5ff7;
+  text-align: center;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  padding-top:50px;
+}
+
+.blog-post {
+  background-color: #3d024c;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  padding: 30px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.blog-post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.4);
+}
+
+.blog-title {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 32px;
+  color: #db5ff7;
+  margin-bottom: 15px;
+}
+
+.blog-date {
+  font-size: 14px;
+  color: #a0a0a0;
+  margin-bottom: 20px;
+}
+
+.blog-content {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.blog-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.read-more {
+  display: inline-block;
+  background-color: #3904aa;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.read-more:hover {
+  background-color: #db5ff7;
+  color: black;
+}
