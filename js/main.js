@@ -65,9 +65,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitAccessCode = document.getElementById('submitAccessCode');
     const accessCodeMessage = document.getElementById('accessCodeMessage');
 
+    // Variables for jumbled effect
+    let originalValue = ''; // Store the original value of input
+    let jumbleInterval; // Variable to store the interval ID
+
     if (submitAccessCode) {
         submitAccessCode.addEventListener('click', async function() {
-            const enteredCode = accessCodeInput.value;
+            // Use the originalValue for submission
+            const enteredCode = originalValue;
 
             // Call the Netlify function to verify the access code
             try {
@@ -88,4 +93,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Change input type and jumble characters
+    accessCodeInput.addEventListener('focus', () => {
+        // Change the type to text to stop autofill
+        accessCodeInput.type = 'text';
+    });
+
+    accessCodeInput.addEventListener('blur', () => {
+        // Change back to password type
+        accessCodeInput.type = 'password';
+        clearInterval(jumbleInterval); // Clear jumble effect on blur
+    });
+
+    // Add event listener for input to create jumbled effect
+    accessCodeInput.addEventListener('input', () => {
+        // Update the original value each time the user types
+        originalValue = accessCodeInput.value; // Store the current value
+
+        // Start jumbling
+        clearInterval(jumbleInterval); // Clear any existing jumble interval
+        jumbleInterval = setInterval(() => {
+            // Create a random character string of the same length
+            const randomString = Array.from({ length: originalValue.length }, () => {
+                return String.fromCharCode(Math.floor(Math.random() * 26) + 97); // Random lowercase letters
+            }).join('');
+
+            accessCodeInput.value = randomString; // Update input value with jumbled string
+        }, 100); // Adjust the interval as needed (100ms here)
+    });
 });
