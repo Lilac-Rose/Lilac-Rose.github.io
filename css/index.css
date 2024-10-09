@@ -519,3 +519,59 @@ blog-container {
   margin: 10px auto;
   padding-bottom: 40px;
 }
+
+.access-code-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: var(--secondary-bg);
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
+}
+
+.access-code-container h1 {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 28px;
+  color: var(--accent-gold);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.access-code-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#accessCodeInput {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 2px solid var(--accent-red);
+  border-radius: 5px;
+  background-color: var(--main-bg);
+  color: var(--text-light);
+  font-size: 16px;
+}
+
+#submitAccessCode {
+  padding: 10px 20px;
+  background-color: var(--accent-red);
+  color: var(--text-light);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+#submitAccessCode:hover {
+  background-color: var(--accent-gold);
+  color: var(--text-dark);
+}
+
+#accessCodeMessage {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
