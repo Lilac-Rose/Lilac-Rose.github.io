@@ -57,4 +57,39 @@ document.addEventListener('DOMContentLoaded', function() {
             card.style.setProperty('--mouse-y', `${y}px`);
         });
     });
+
+    // Access Code Functionality
+    const accessCodeInput = document.getElementById('accessCodeInput');
+    const submitAccessCode = document.getElementById('submitAccessCode');
+    const accessCodeMessage = document.getElementById('accessCodeMessage');
+
+    if (submitAccessCode) {
+        submitAccessCode.addEventListener('click', function() {
+            const enteredCode = accessCodeInput.value;
+            
+            // Make a request to your server to verify the access code
+            fetch('/.netlify/functions/verify-access-code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code: enteredCode }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    // Redirect to the ACCESS_GRANTED page
+                    window.location.href = 'VERFALL/ACCESS_GRANTED.html';
+                } else {
+                    accessCodeMessage.textContent = 'Invalid access code. Please try again.';
+                    accessCodeMessage.style.color = 'red';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                accessCodeMessage.textContent = 'An error occurred. Please try again later.';
+                accessCodeMessage.style.color = 'red';
+            });
+        });
+    }
 });
