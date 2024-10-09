@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('hello world!');
-   
+
+    // Quotes Logic
     var quotes = [
         "Whole worlds pivot on acts of imagination. - Thirteenth Doctor",
         "Letting it get to you. You know what that's called? Being alive. Best thing there is. Being alive right now is all that counts. - Eleventh Doctor",
@@ -14,12 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
         "We're all stories, in the end. Just make it a good one, eh? - Eleventh Doctor"    
     ];
     var quotesElement = document.getElementById("quotes");
-   
+
     function getRandomQuote() {
         var randomIndex = Math.floor(Math.random() * quotes.length);
         return quotes[randomIndex];
     }
-   
+
     function setRandomQuote() {
         if (quotesElement) {
             var quote = getRandomQuote();
@@ -28,15 +29,16 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('quotes element not found');
         }
     }      
-   
+
     setRandomQuote();
-   
+
     if (quotesElement) {
         quotesElement.addEventListener('click', function() {
             setRandomQuote();
         });
     }
 
+    // Project Cards Animation
     const projectCards = document.querySelectorAll('.project-card');
     const projectsContainer = document.getElementById('projectsContainer');
     if (projectsContainer) {
@@ -64,32 +66,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const accessCodeMessage = document.getElementById('accessCodeMessage');
 
     if (submitAccessCode) {
-        submitAccessCode.addEventListener('click', function() {
+        submitAccessCode.addEventListener('click', async function() {
             const enteredCode = accessCodeInput.value;
-            
-            // Make a request to your server to verify the access code
-            fetch('/.netlify/functions/verify-access-code', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ code: enteredCode }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.valid) {
-                    // Redirect to the ACCESS_GRANTED page
+
+            // Call the Netlify function to verify the access code
+            try {
+                const response = await fetch(`/.netlify/functions/check-password?password=${encodeURIComponent(enteredCode)}`);
+                const data = await response.json();
+
+                if (data.accessGranted) {
+                    // Redirect to ACCESS_GRANTED page if the password is correct
                     window.location.href = 'VERFALL/ACCESS_GRANTED.html';
                 } else {
                     accessCodeMessage.textContent = 'Invalid access code. Please try again.';
                     accessCodeMessage.style.color = 'red';
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error:', error);
                 accessCodeMessage.textContent = 'An error occurred. Please try again later.';
                 accessCodeMessage.style.color = 'red';
-            });
+            }
         });
     }
 });
