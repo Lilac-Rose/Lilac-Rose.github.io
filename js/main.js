@@ -65,9 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitAccessCode = document.getElementById('submitAccessCode');
     const accessCodeMessage = document.getElementById('accessCodeMessage');
 
-    // Variables for jumbled effect
+    // Store the original input value
     let originalValue = ''; // Store the original value of input
-    let jumbleInterval; // Variable to store the interval ID
 
     if (submitAccessCode) {
         submitAccessCode.addEventListener('click', async function() {
@@ -94,32 +93,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Change input type and jumble characters
+    // Change input type to text on focus
     accessCodeInput.addEventListener('focus', () => {
-        // Change the type to text to stop autofill
-        accessCodeInput.type = 'text';
+        accessCodeInput.type = 'text'; // Show as text to avoid autofill
     });
 
+    // Change input type to password on blur
     accessCodeInput.addEventListener('blur', () => {
-        // Change back to password type
-        accessCodeInput.type = 'password';
-        clearInterval(jumbleInterval); // Clear jumble effect on blur
+        accessCodeInput.type = 'password'; // Hide input
     });
 
-    // Add event listener for input to create jumbled effect
+    // Update the original value and display asterisks
     accessCodeInput.addEventListener('input', () => {
-        // Update the original value each time the user types
         originalValue = accessCodeInput.value; // Store the current value
-
-        // Start jumbling
-        clearInterval(jumbleInterval); // Clear any existing jumble interval
-        jumbleInterval = setInterval(() => {
-            // Create a random character string of the same length
-            const randomString = Array.from({ length: originalValue.length }, () => {
-                return String.fromCharCode(Math.floor(Math.random() * 26) + 97); // Random lowercase letters
-            }).join('');
-
-            accessCodeInput.value = randomString; // Update input value with jumbled string
-        }, 100); // Adjust the interval as needed (100ms here)
+        // Update input to show asterisks
+        accessCodeInput.value = '*'.repeat(originalValue.length); // Display asterisks for the length of the original input
     });
 });
