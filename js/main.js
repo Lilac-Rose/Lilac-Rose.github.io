@@ -65,18 +65,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitAccessCode = document.getElementById('submitAccessCode');
     const accessCodeMessage = document.getElementById('accessCodeMessage');
 
-    // Store the original input value
-    let originalValue = ''; // Store the original value of input
-
     if (submitAccessCode) {
         submitAccessCode.addEventListener('click', async function() {
-            // Use the originalValue for submission
-            const enteredCode = originalValue.trim(); // Get the original input value
+            const enteredCode = accessCodeInput.value.trim(); // Get the user input directly
+            console.log("Entered Code:", enteredCode); // Debug log to check what's being sent
 
             // Call the Netlify function to verify the access code
             try {
                 const response = await fetch(`/.netlify/functions/check-password?password=${encodeURIComponent(enteredCode)}`);
                 const data = await response.json();
+
+                console.log("Response from server:", data); // Debug log to check the response
 
                 if (data.accessGranted) {
                     // Redirect to ACCESS_GRANTED page if the password is correct
@@ -98,15 +97,8 @@ document.addEventListener('DOMContentLoaded', function() {
         accessCodeInput.type = 'text'; // Show as text to avoid autofill
     });
 
-    // Change input type to password on blur
+    // Change input type to password on blur (optional, you can remove this if you want it to stay as text)
     accessCodeInput.addEventListener('blur', () => {
-        accessCodeInput.type = 'password'; // Hide input
-    });
-
-    // Update the original value and display asterisks
-    accessCodeInput.addEventListener('input', () => {
-        originalValue = accessCodeInput.value; // Store the current value
-        // Update input to show asterisks
-        accessCodeInput.value = '*'.repeat(originalValue.length); // Display asterisks for the length of the original input
+        accessCodeInput.type = 'text'; // Keep it as text for user visibility
     });
 });
