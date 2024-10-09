@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (submitAccessCode) {
         submitAccessCode.addEventListener('click', async function() {
             // Use the originalValue for submission
-            const enteredCode = originalValue;
+            const enteredCode = originalValue.trim(); // Get the original input value
 
             // Call the Netlify function to verify the access code
             try {
