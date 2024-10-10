@@ -1,8 +1,8 @@
 :root {
   --main-bg: #0a0a0a;
   --secondary-bg: #1a1a1a;
-  --accent-color: #ffd700; /* Keep this for other uses, like buttons */
-  --error-color: #610000;  /* Used for borders */
+  --accent-color: #ffd700;
+  --error-color: #610000;
   --text-light: #f2f2f2;
 }
 
@@ -10,112 +10,96 @@ body {
   background-color: var(--main-bg);
   font-family: 'Raleway', sans-serif;
   color: var(--text-light);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   margin: 0;
 }
 
-.message-container {
+.topnav {
+  display: flex;
+  justify-content: space-around;
   background-color: var(--secondary-bg);
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
-  max-width: 400px;
-  width: 90%; /* Use percentage to maintain responsiveness */
-  box-sizing: border-box; /* Include padding in width */
-}
-
-.message-container h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: var(--accent-color);
-}
-
-.message-container p.instructions {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--accent-color);
-}
-
-textarea, input[type="text"] {
-  width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 2px solid var(--error-color);
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items at the start for better vertical alignment */
+  padding: 20px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column; /* Stack items on mobile */
+  align-items: center; /* Center items */
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto; /* Maintain aspect ratio */
+}
+
+.friends-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.contact-container,
+.access-code-container,
+.projects-container {
+  padding: 20px;
+  margin: 20px;
+  background-color: var(--secondary-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+  gap: 10px;
+}
+
+.contact-card {
+  padding: 10px;
   background-color: var(--main-bg);
-  color: var(--text-light);
-}
-
-textarea::placeholder, input::placeholder {
-  color: var(--text-light);
-}
-
-button {
-  padding: 10px 20px;
-  background-color: var(--accent-color);
-  color: var(--main-bg);
-  border: none;
   border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: var(--text-light);
-  color: var(--main-bg);
+.access-code-form {
+  display: flex;
+  justify-content: center; /* Center form elements */
+  margin-top: 10px;
 }
 
-#messageStatus {
-  margin-top: 20px;
-  font-size: 14px;
-  color: var(--accent-color);
-}
-
-#error {
-  color: var(--error-color);
+.access-code-form input[type="text"] {
+  width: 60%; /* Control input width */
+  padding: 10px;
 }
 
 @media (max-width: 768px) {
+  .main-container {
+      flex-direction: column; /* Stack items for mobile */
+      align-items: center; /* Center items */
+  }
+
+  .contact-grid {
+      grid-template-columns: 1fr; /* Single column on mobile */
+  }
+
   .message-container {
-      padding: 20px; /* Ensure this isn't too much */
-      border-radius: 10px; /* Ensure this is visually appealing */
-      max-width: 90%; /* Allow for proper width on smaller screens */
+      padding: 20px;
+      max-width: 90%; /* Responsive width */
   }
 
-  .message-container h1 {
-      font-size: 20px; /* Slightly smaller for mobile */
+  .contact-card h2,
+  .access-code-form input[type="text"],
+  .footer {
+      font-size: 16px; /* Adjust font sizes */
   }
+}
 
-  .message-container p.instructions {
-      font-size: 14px; /* Ensure this doesn't take too much space */
-  }
-
-  label {
-      font-size: 14px; /* Adjust as necessary */
-  }
-
-  textarea, input[type="text"] {
-      padding: 8px; /* Smaller padding for inputs */
-      font-size: 14px; /* Ensure readability */
-  }
-
-  button {
-      padding: 8px 16px; /* Smaller button size */
-      font-size: 14px; /* Ensure it fits well */
-  }
-
-  #messageStatus {
-      font-size: 12px; /* Keep status text clear */
-  }
-
-  #error {
-      font-size: 12px; /* Consistent with other text */
-  }
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
