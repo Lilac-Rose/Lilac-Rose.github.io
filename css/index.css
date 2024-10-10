@@ -380,16 +380,6 @@ body {
   color: var(--accent-red);
 }
 
-@media (max-width: 768px) {
-  .contact-container {
-      max-width: calc(100vw - 40px);
-  }
-
-  .contact-grid {
-      grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 blog-container {
   max-width: 800px;
   margin: 40px auto 100px;
@@ -460,24 +450,6 @@ blog-container {
 .read-more:hover {
   background-color: #db5ff7;
   color: black;
-}
-
-@media (max-width: 768px) {
-  .blog-container {
-      padding: 0 15px;
-  }
-
-  .blog-main-title {
-      font-size: 36px;
-  }
-
-  .blog-title {
-      font-size: 28px;
-  }
-
-  .blog-content {
-      font-size: 16px;
-  }
 }
 
 #image-container {
