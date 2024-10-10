@@ -145,18 +145,24 @@
   
   @keyframes pulse {
     0% {
-      width: 0;
-      height: 0;
-      opacity: 0.7;
-      border-color: var(--ring-color);
+        width: 0;
+        height: 0;
+        opacity: 1; /* Increase starting opacity */
+        border-color: rgba(255, 215, 0, 0.7); /* Brighter start color */
+    }
+    50% {
+        width: 150vw; /* Midway size */
+        height: 150vw;
+        opacity: 0.3; /* Fade mid-animation */
+        border-color: rgba(255, 215, 0, 0.3); /* Lighten mid-color */
     }
     100% {
-      width: 300vw;
-      height: 300vw;
-      opacity: 0;
-      border-color: rgba(97, 0, 0, 0.3);
+        width: 300vw;
+        height: 300vw;
+        opacity: 0;
+        border-color: rgba(255, 215, 0, 0); /* Fully fade out */
     }
-  }
+}
   
   .ring:nth-child(1) { animation: pulse 8s infinite 0s ease-out; }
   .ring:nth-child(2) { animation: pulse 8s infinite 2s ease-out; }
