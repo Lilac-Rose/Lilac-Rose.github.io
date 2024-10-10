@@ -135,3 +135,35 @@
   .particle:nth-child(18) { left: 85%; top: 30%; animation-delay: 17s; }
   .particle:nth-child(19) { left: 95%; top: 50%; animation-delay: 18s; }
   .particle:nth-child(20) { left: 5%; top: 10%; animation-delay: 19s; }
+
+  /* Pulsing rings effect */
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid var(--ring-color);
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+  }
+  
+  @keyframes pulse {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 0.7;
+      border-color: var(--ring-color);
+    }
+    100% {
+      width: 300vw;
+      height: 300vw;
+      opacity: 0;
+      border-color: rgba(97, 0, 0, 0.3);
+    }
+  }
+  
+  .ring:nth-child(1) { animation: pulse 8s infinite 0s ease-out; }
+  .ring:nth-child(2) { animation: pulse 8s infinite 2s ease-out; }
+  .ring:nth-child(3) { animation: pulse 8s infinite 4s ease-out; }
+  .ring:nth-child(4) { animation: pulse 8s infinite 6s ease-out; }
