@@ -534,6 +534,14 @@ blog-container {
   font-size: 28px;
   color: var(--accent-gold);
   text-align: center;
+  margin-bottom: 10px;
+}
+
+.access-code-subtext {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  color: var(--text-light);
+  text-align: center;
   margin-bottom: 20px;
 }
 
