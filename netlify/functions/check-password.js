@@ -1,22 +1,22 @@
 exports.handler = async function(event, context) {
     const submittedPassword = event.queryStringParameters.password;
 
-    // Get the Netlify environment variable (password)
-    const correctPassword = process.env.PASSWORD_1;
-    const furconPassword = process.end.PASSWORD_2;
+    // Get the Netlify environment variables (passwords)
+    const correctPassword = process.env.PASSWORD_1;  // First password
+    const furconPassword = process.env.PASSWORD_2;   // Second password
 
     if (submittedPassword === correctPassword) {
-        // If passwords match, return a success response
+        // Redirect to ACCESS_GRANTED page if the first password is correct
         return {
             statusCode: 200,
-            body: JSON.stringify({ accessGranted: true })
+            body: JSON.stringify({ accessGranted: true, redirectTo: 'accessGranted' })
         };
-    if (submittedPassword === furconPassword) {
+    } else if (submittedPassword === furconPassword) {
+        // Redirect to FURPOC message if the second password is correct
         return {
             statusCode: 200,
-            body: JSON.stringify({furconGranted: true})
-        }
-    }
+            body: JSON.stringify({ accessGranted: true, redirectTo: 'furPoc' })
+        };
     } else {
         // If passwords do not match, return an error response
         return {

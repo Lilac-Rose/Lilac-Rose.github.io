@@ -78,12 +78,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log("Response from server:", data); // Debug log to check the response
 
                 if (data.accessGranted) {
-                    // Redirect to ACCESS_GRANTED page if the password is correct
-                    window.location.href = 'VERFALL/ACCESS_GRANTED.html';
-                }
-                if(data.furconGranted)
-                {
-                    window.location.href = "FURPOC/message.html"
+                    // Redirect to ACCESS_GRANTED page if the first password is correct
+                    if (data.redirectTo === 'accessGranted') {
+                        window.location.href = 'VERFALL/ACCESS_GRANTED.html';
+                    } 
+                    // Redirect to FURPOC message if second password is correct
+                    else if (data.redirectTo === 'furPoc') {
+                        window.location.href = 'FURPOC/message.html';
+                    }
                 } else {
                     accessCodeMessage.textContent = 'Invalid access code. Please try again.';
                     accessCodeMessage.style.color = 'red';
@@ -101,8 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
         accessCodeInput.type = 'text'; // Show as text to avoid autofill
     });
 
-    // Change input type to password on blur (optional, you can remove this if you want it to stay as text)
+    // Keep it as text for user visibility
     accessCodeInput.addEventListener('blur', () => {
-        accessCodeInput.type = 'text'; // Keep it as text for user visibility
+        accessCodeInput.type = 'text'; 
     });
-});
+})
