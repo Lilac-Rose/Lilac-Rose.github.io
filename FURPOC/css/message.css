@@ -80,3 +80,29 @@ button:hover {
 #error {
     color: var(--error-color);
 }
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .message-container {
+        padding: 20px; /* Reduce padding on mobile */
+        border-radius: 10px; /* Slightly smaller border radius */
+    }
+
+    .message-container h1 {
+        font-size: 20px; /* Slightly smaller font size */
+    }
+
+    textarea, input[type="text"] {
+        padding: 8px; /* Reduce padding for inputs */
+        font-size: 14px; /* Smaller font size for inputs */
+    }
+
+    button {
+        padding: 8px 16px; /* Smaller button padding */
+        font-size: 14px; /* Smaller button font size */
+    }
+
+    #messageStatus {
+        font-size: 12px; /* Smaller font size for status messages */
+    }
+}
