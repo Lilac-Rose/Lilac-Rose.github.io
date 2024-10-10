@@ -1,105 +1,587 @@
 :root {
   --main-bg: #0a0a0a;
   --secondary-bg: #1a1a1a;
-  --accent-color: #ffd700;
-  --error-color: #610000;
+  --accent-red: #610000;
+  --accent-gold: #ffd700;
   --text-light: #f2f2f2;
+  --text-dark: #0a0a0a;
+}
+
+#cursorCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
 }
 
 body {
   background-color: var(--main-bg);
+  height: 100%;
+  margin: 0;
+  display: block;
   font-family: 'Raleway', sans-serif;
   color: var(--text-light);
-  margin: 0;
 }
 
 .topnav {
-  display: flex;
-  justify-content: space-around;
   background-color: var(--secondary-bg);
-  padding: 10px;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 1000;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(204, 0, 0, 0.3);
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.topnav a {
+  color: var(--text-light);
+  text-align: center;
+  padding: 16px 18px;
+  border-radius: 15px;
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 17px;
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+}
+
+.topnav a:hover {
+  background-color: var(--accent-red);
+  color: var(--text-dark);
+}
+
+.topnav a.active {
+  background-color: var(--accent-gold);
+  color: var(--text-dark);
 }
 
 .main-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Align items at the start for better vertical alignment */
-  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100vw - 40px);
+  margin-top: 10px;
+  box-sizing: border-box;
 }
 
 .content {
   display: flex;
-  flex-direction: column; /* Stack items on mobile */
-  align-items: center; /* Center items */
+  flex-direction: row;
+  width: 100%;
+  max-width: 1200px;
 }
 
-.image-container img {
-  max-width: 100%;
-  height: auto; /* Maintain aspect ratio */
+.image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.image {
+  width: 25vw;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
+}
+
+.text-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.text {
+  font-size: 1.75vw;
+  color: var(--accent-gold);
+}
+
+.additional-text {
+  font-size: 1vw;
+  color: var(--accent-red);
+  margin-top: 10px;
 }
 
 .friends-container {
-  text-align: center;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
 }
 
-.contact-container,
-.access-code-container,
-.projects-container {
-  padding: 20px;
-  margin: 20px;
+.friends-text {
+  font-size: 2vw;
+  color: var(--accent-gold);
+  margin-bottom: 15px;
+}
+
+.friends-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.friends-images a {
+  display: block;
+  margin: 5px;
+}
+
+.friends-images img {
+  width: 88px;
+  height: 31px;
+  image-rendering: pixelated;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
   background-color: var(--secondary-bg);
+  color: var(--text-light);
+  text-align: center;
+  padding: 10px 0;
+  box-shadow: 0 -4px 8px rgba(204, 0, 0, 0.3);
+  border-radius: 15px 15px 0 0;
+}
+
+.footer a {
+  color: var(--text-light);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  color: var(--accent-gold);
+}
+
+#quotes {
+  display: block;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 28px;
+  padding: 20px;
+  margin-top: 80px;
+  max-width: 800px;
+  word-wrap: break-word;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Assiduous', sans-serif;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#quotes:hover {
+  color: var(--accent-gold);
+  text-decoration: wavy;
+}
+
+.projects-container {
+  max-width: calc(100vw - 200px); 
+  margin: 80px auto 100px;
+}
+
+.project-card {
+  background-color: var(--secondary-bg);
+  border-radius: 15px;
+  margin-bottom: 5px;
+  padding: 20px;
+  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  transform-origin: center;
+  transform: scale(0.9);
+}
+
+.project-card:hover {
+  transform: scale(0.99);   
+  box-shadow: 0 12px 24px rgba(204, 0, 0, 0.4), 0 16px 32px rgba(204, 0, 0, 0.4);
+}
+
+.project-title {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 24px;
+  margin-bottom: 15px;
+  transition: font-size 0.3s ease;
+}
+
+.project-title a {
+  color: var(--accent-gold);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.project-title a:hover {
+  color: var(--accent-red);
+}
+
+.project-card:hover .project-title {
+  font-size: 28px;
+}
+
+.project-content {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 20px;
+}
+
+.project-description {
+  flex: 1;
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 15px;
+  transition: font-size 0.3s ease;
+}
+
+.project-content a {
+  flex-shrink: 0; 
+  display: block;
+  overflow: hidden;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.project-image {
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover .project-content a {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(204, 0, 0, 0.4);
+}
+
+.project-card:hover .project-image {
+  transform: scale(1.05);
+}
+
+.project-content a::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-content a::after {
+  opacity: 1;
+}
+
+.project-card:hover .project-description {
+  font-size: 24px; 
+}
+
+@media (max-width: 768px) {
+  .project-content {
+      flex-direction: column-reverse;
+  }
+
+  .project-content a {
+      width: 100%;
+  }
+
+  .project-image {
+      max-width: 100%;
+  }
+
+  .project-description {
+    text-align: center;
+  }
+
+  .project-card:hover .project-description {
+    font-size: 20px;
+  }
+} 
+
+.contact-container {
+  max-width: calc(100vw - 200px);
+  padding: 0 20px;
+  margin: 80px auto 100px;
+}
+
+.contact-container h1 {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 36px;
+  color: var(--accent-gold);
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .contact-card {
-  padding: 10px;
+  background-color: var(--secondary-bg);
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(204, 0, 0, 0.4), 0 16px 32px rgba(204, 0, 0, 0.4);
+}
+
+.contact-card h2 {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 24px;
+  color: var(--accent-gold);
+  margin: 0 0 10px 0;
+}
+
+.contact-card a {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-card a:hover {
+  color: var(--accent-red);
+}
+
+@media (max-width: 768px) {
+  .contact-container {
+      max-width: calc(100vw - 40px);
+  }
+
+  .contact-grid {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+blog-container {
+  max-width: 800px;
+  margin: 40px auto 100px;
+  padding: 0 20px;
+}
+
+
+.blog-main-title {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 48px;
+  color: var(--accent-gold);
+  text-align: center;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  padding-top:50px;
+}
+
+.blog-post {
   background-color: var(--main-bg);
+  border-radius: 15px;
+  margin-bottom: 40px;
+  padding: 30px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.blog-post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.4);
+}
+
+.blog-title {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 32px;
+  color: var(--accent-gold);
+  margin-bottom: 15px;
+}
+
+.blog-date {
+  font-size: 14px;
+  color: #a0a0a0;
+  margin-bottom: 20px;
+}
+
+.blog-content {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.blog-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.read-more {
+  display: inline-block;
+  background-color: var(--main-bg);
+  color: white;
+  padding: 10px 20px;
   border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.read-more:hover {
+  background-color: #db5ff7;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .blog-container {
+      padding: 0 15px;
+  }
+
+  .blog-main-title {
+      font-size: 36px;
+  }
+
+  .blog-title {
+      font-size: 28px;
+  }
+
+  .blog-content {
+      font-size: 16px;
+  }
+}
+
+#image-container {
+  margin: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#fetchedImage {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+#imageTitle, #imageDate, #imageExplanation {
+  color: #f2f2f2;
+  font-family: 'Raleway', sans-serif;
+  margin: 10px 0;
+  transition: font-size 0.3s ease;
+}
+
+#imageTitle {
+  font-size: 32px;
+}
+
+#imageDate {
+  font-size: 24px;
+}
+
+#imageExplanation {
+  font-size: 20px;
+  text-align: center;
+  max-width: 80%;
+  margin: 10px auto;
+  padding-bottom: 40px;
+}
+
+.access-code-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: var(--secondary-bg);
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
+}
+
+.access-code-container h1 {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 28px;
+  color: var(--accent-gold);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.access-code-subtext {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .access-code-form {
   display: flex;
-  justify-content: center; /* Center form elements */
-  margin-top: 10px;
+  flex-direction: column;
+  align-items: center;
 }
 
-.access-code-form input[type="text"] {
-  width: 60%; /* Control input width */
+#accessCodeInput {
+  font-family: 'Raleway', sans-serif;
+  width: 100%;
   padding: 10px;
+  margin-bottom: 15px;
+  border: 2px solid var(--accent-red);
+  border-radius: 5px;
+  background-color: var(--main-bg);
+  color: var(--text-light);
+  font-size: 16px;
 }
 
-@media (max-width: 768px) {
-  .main-container {
-      flex-direction: column; /* Stack items for mobile */
-      align-items: center; /* Center items */
-  }
-
-  .contact-grid {
-      grid-template-columns: 1fr; /* Single column on mobile */
-  }
-
-  .message-container {
-      padding: 20px;
-      max-width: 90%; /* Responsive width */
-  }
-
-  .contact-card h2,
-  .access-code-form input[type="text"],
-  .footer {
-      font-size: 16px; /* Adjust font sizes */
-  }
+#submitAccessCode {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  padding: 10px 20px;
+  background-color: var(--accent-red);
+  color: var(--text-light);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
-.footer {
-  display: flex;
-  justify-content: center;
-  padding: 10px;
+#submitAccessCode:hover {
+  background-color: var(--accent-gold);
+  color: var(--text-dark);
+}
+
+#accessCodeMessage {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
 }
