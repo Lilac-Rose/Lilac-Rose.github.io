@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave a Message</title>
+    <link rel="stylesheet" href="css/message.css">
+</head>
+<body>
+
+<div class="message-container">
+    <h1>Leave a Message for Me at Furpocalypse!</h1>
+    <p class="instructions">Tell me anything! I'm excited to hear from you. Don't forget to include your name!</p>
+    
+    <form id="messageForm">
+        <label for="messageInput">Your Message:</label>
+        <textarea id="messageInput" name="message" rows="4" placeholder="Type your message here..."></textarea>
+        
+        <label for="fromInput">From:</label>
+        <input id="fromInput" type="text" name="from" placeholder="Your name or handle">
+
+        <button type="submit" id="submitMessage">Submit</button>
+    </form>
+
+    <div id="messageStatus"></div>
+</div>
+
+<script src="js/message.js"></script>
+</body>
+</html>
