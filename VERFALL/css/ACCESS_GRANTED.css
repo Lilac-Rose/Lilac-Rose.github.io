@@ -1,10 +1,11 @@
-:root {
+  :root {
     --main-bg: #0a0a0a;
     --secondary-bg: #1a1a1a;
     --accent-red: #610000;
     --accent-gold: #ffd700;
     --text-light: #f2f2f2;
     --text-dark: #0a0a0a;
+    --ring-color: rgba(97, 0, 0, 0.1);
   }
   
   body {
@@ -24,7 +25,7 @@
   .main-container {
     text-align: center;
     padding: 20px;
-    z-index: 1;
+    z-index: 2;
   }
   
   .content {
@@ -48,9 +49,7 @@
   }
   
   @keyframes fadeIn {
-    to {
-      opacity: 1;
-    }
+    to { opacity: 1; }
   }
   
   /* Creepy background effects */
@@ -74,17 +73,13 @@
       transparent 1px,
       transparent 2px
     );
-    z-index: -1;
+    z-index: 1;
     animation: scanline 10s linear infinite;
   }
   
   @keyframes scanline {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(100%);
-    }
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
   }
   
   /* Vignette effect */
@@ -94,7 +89,7 @@
       transparent 20%,
       rgba(10, 10, 10, 0.8) 150%
     );
-    z-index: -2;
+    z-index: 1;
   }
   
   /* Floating particles effect */
@@ -110,7 +105,7 @@
     background-color: rgba(255, 215, 0, 0.2);
     border-radius: 50%;
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
     animation: float 10s infinite ease-in-out;
   }
   
@@ -135,9 +130,9 @@
   .particle:nth-child(18) { left: 85%; top: 30%; animation-delay: 17s; }
   .particle:nth-child(19) { left: 95%; top: 50%; animation-delay: 18s; }
   .particle:nth-child(20) { left: 5%; top: 10%; animation-delay: 19s; }
-
+  
   /* Pulsing rings effect */
-.ring {
+  .ring {
     position: absolute;
     border-radius: 50%;
     border: 2px solid var(--ring-color);
