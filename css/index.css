@@ -23,8 +23,8 @@ body {
   border-radius: 15px;
   box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
   max-width: 400px;
-  width: 100%;
-  box-sizing: border-box; /* Ensure padding is included in width */
+  width: 90%; /* Use percentage to maintain responsiveness */
+  box-sizing: border-box; /* Include padding in width */
 }
 
 .message-container h1 {
@@ -48,7 +48,7 @@ textarea, input[type="text"] {
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 5px;
-  border: 2px solid var(--error-color); /* Changed to softer red */
+  border: 2px solid var(--error-color);
   background-color: var(--main-bg);
   color: var(--text-light);
 }
@@ -85,25 +85,26 @@ button:hover {
 /* Mobile styles */
 @media (max-width: 768px) {
   .message-container {
-      padding: 20px; /* Reduce padding on mobile */
-      border-radius: 10px; /* Slightly smaller border radius */
+      padding: 20px; /* Adjust padding for mobile */
+      border-radius: 10px; /* Adjust border radius */
+      max-width: 95%; /* Allow for more width on smaller screens */
   }
 
   .message-container h1 {
-      font-size: 20px; /* Slightly smaller font size */
+      font-size: 20px; /* Adjust title size for mobile */
   }
 
   .message-container p.instructions {
-      font-size: 14px; /* Adjust instruction text size */
+      font-size: 14px; /* Adjust instructions size */
   }
 
   label {
-      font-size: 14px; /* Adjust label text size */
+      font-size: 14px; /* Adjust label size */
   }
 
   textarea, input[type="text"] {
       padding: 8px; /* Reduce padding for inputs */
-      font-size: 14px; /* Smaller font size for inputs */
+      font-size: 14px; /* Smaller font size */
   }
 
   button {
@@ -112,10 +113,10 @@ button:hover {
   }
 
   #messageStatus {
-      font-size: 12px; /* Smaller font size for status messages */
+      font-size: 12px; /* Smaller status message font size */
   }
 
   #error {
-      font-size: 12px; /* Smaller font size for error messages */
+      font-size: 12px; /* Smaller error message font size */
   }
 }
