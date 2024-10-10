@@ -1,8 +1,8 @@
 :root {
     --main-bg: #0a0a0a;
     --secondary-bg: #1a1a1a;
-    --accent-color: #ffd700;
-    --error-color: #610000;
+    --accent-color: #ffd700; /* Keep this for other uses, like buttons */
+    --error-color: #610000;  /* Used for borders */
     --text-light: #f2f2f2;
 }
 
@@ -47,7 +47,7 @@ textarea, input[type="text"] {
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 5px;
-    border: 2px solid var(--accent-color);
+    border: 2px solid var(--error-color); /* Changed to softer red */
     background-color: var(--main-bg);
     color: var(--text-light);
 }
