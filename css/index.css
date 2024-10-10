@@ -82,41 +82,40 @@ button:hover {
   color: var(--error-color);
 }
 
-/* Mobile styles */
 @media (max-width: 768px) {
   .message-container {
-      padding: 20px; /* Adjust padding for mobile */
-      border-radius: 10px; /* Adjust border radius */
-      max-width: 95%; /* Allow for more width on smaller screens */
+      padding: 20px; /* Ensure this isn't too much */
+      border-radius: 10px; /* Ensure this is visually appealing */
+      max-width: 90%; /* Allow for proper width on smaller screens */
   }
 
   .message-container h1 {
-      font-size: 20px; /* Adjust title size for mobile */
+      font-size: 20px; /* Slightly smaller for mobile */
   }
 
   .message-container p.instructions {
-      font-size: 14px; /* Adjust instructions size */
+      font-size: 14px; /* Ensure this doesn't take too much space */
   }
 
   label {
-      font-size: 14px; /* Adjust label size */
+      font-size: 14px; /* Adjust as necessary */
   }
 
   textarea, input[type="text"] {
-      padding: 8px; /* Reduce padding for inputs */
-      font-size: 14px; /* Smaller font size */
+      padding: 8px; /* Smaller padding for inputs */
+      font-size: 14px; /* Ensure readability */
   }
 
   button {
-      padding: 8px 16px; /* Smaller button padding */
-      font-size: 14px; /* Smaller button font size */
+      padding: 8px 16px; /* Smaller button size */
+      font-size: 14px; /* Ensure it fits well */
   }
 
   #messageStatus {
-      font-size: 12px; /* Smaller status message font size */
+      font-size: 12px; /* Keep status text clear */
   }
 
   #error {
-      font-size: 12px; /* Smaller error message font size */
+      font-size: 12px; /* Consistent with other text */
   }
 }
