@@ -12,14 +12,14 @@
     <h1>Leave a Message for Me at Furpocalypse!</h1>
     <p class="instructions">Tell me anything! I'm excited to hear from you. Don't forget to include your name!</p>
     
-    <form id="messageForm">
-        <label for="messageInput">Your Message:</label>
-        <textarea id="messageInput" name="message" rows="4" placeholder="Type your message here..."></textarea>
+    <form name="message" method="POST" data-netlify="true" action="/thank-you">
+        <label for="from">Your Name:</label>
+        <input type="text" id="from" name="from" required>
         
-        <label for="fromInput">From:</label>
-        <input id="fromInput" type="text" name="from" placeholder="Your name or handle">
-
-        <button type="submit" id="submitMessage">Submit</button>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        
+        <button type="submit">Send</button>
     </form>
 
     <div id="messageStatus"></div>

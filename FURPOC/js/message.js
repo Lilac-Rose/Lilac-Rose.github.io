@@ -1,40 +1,34 @@
-document.getElementById('messageForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
+document.querySelector("form[name='message']").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    const messageInput = document.getElementById('messageInput').value.trim();
-    const fromInput = document.getElementById('fromInput').value.trim();
-    const messageStatus = document.getElementById('messageStatus');
+    // Here, you can add any additional client-side validation if necessary.
+    
+    // Send the form data to Netlify Forms
+    const form = event.target;
+    const data = new FormData(form);
 
-    // Clear previous status
-    messageStatus.textContent = '';
+    // Optionally, display a loading message or disable the button
+    // form.querySelector("button").disabled = true;
 
-    if (!messageInput || !fromInput) {
-        messageStatus.textContent = 'Please enter both a message and your name!';
-        messageStatus.id = 'error';
-        return;
-    }
-
-    const messageData = {
-        message: messageInput,
-        from: fromInput
-    };
-
-    try {
-        const response = await fetch('/.netlify/functions/submitMessage', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(messageData),
-        });
-
-        if (response.ok) {
-            messageStatus.textContent = 'Thank you for your message!';
-            document.getElementById('messageForm').reset();
-        } else {
-            messageStatus.textContent = 'There was a problem submitting your message. Please try again later.';
+    fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
         }
-    } catch (error) {
-        messageStatus.textContent = 'Failed to submit. Please check your connection.';
-    }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Handle successful submission, e.g., show a thank-you message
+            form.reset();
+            alert("Thank you for your message!");
+        } else {
+            // Handle errors, e.g., show an error message
+            alert("There was an error submitting your message.");
+        }
+    })
+    .catch(error => {
+        // Handle network errors
+        alert("There was an error submitting your message: " + error.message);
+    });
 });
