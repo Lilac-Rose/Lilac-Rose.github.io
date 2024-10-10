@@ -80,6 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.accessGranted) {
                     // Redirect to ACCESS_GRANTED page if the password is correct
                     window.location.href = 'VERFALL/ACCESS_GRANTED.html';
+                }
+                if(data.furconGranted)
+                {
+                    window.location.href = "FURPOC/message.html"
                 } else {
                     accessCodeMessage.textContent = 'Invalid access code. Please try again.';
                     accessCodeMessage.style.color = 'red';
