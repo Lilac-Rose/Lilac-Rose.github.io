@@ -544,6 +544,7 @@ blog-container {
 }
 
 #accessCodeInput {
+  font-family: 'Raleway', sans-serif;
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -555,6 +556,7 @@ blog-container {
 }
 
 #submitAccessCode {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
   padding: 10px 20px;
   background-color: var(--accent-red);
   color: var(--text-light);
