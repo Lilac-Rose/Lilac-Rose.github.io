@@ -40,5 +40,19 @@
     <div class="ring"></div>
     <div class="ring"></div>
     <div class="ring"></div>
+
+    <script>
+        function createPulseRing() {
+            const ring = document.createElement('div');
+            ring.classList.add('ring');
+            document.body.appendChild(ring);
+
+            setTimeout(() => {
+                ring.remove();
+            }, 6000);
+        }
+
+        setInterval(createPulseRing, 2000);
+    </script>
 </body>
 </html>
