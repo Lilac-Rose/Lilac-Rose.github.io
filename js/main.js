@@ -85,10 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const customStatusElement = document.getElementById('customStatus');
             const customEmoteElement = document.getElementById('customEmote');
 
-            avatarElement.src = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.webp`;
+            avatarElement.src = `${data.avatar}`;
             usernameElement.textContent = data.username;
             statusElement.textContent = data.status;
-            bannerElement.style.backgroundImage = `url(https://cdn.discordapp.com/banners/${data.id}/${data.banner})`;
+            bannerElement.style.backgroundImage = `url(${data.banner})`;
 
             // Update custom status and emote
             customStatusElement.textContent = data.customStatus;
