@@ -87,7 +87,7 @@ body {
   text-decoration: wavy;
 }
 
-.discordProfileTextContainer {
+.discordProfileTextContainer h1{
   font-family: 'Edu AU VIC WA NT Hand', cursive;
   font-size: 36px;
   color: var(--accent-gold);
