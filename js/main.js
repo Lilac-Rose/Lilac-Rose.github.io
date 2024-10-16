@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded');
-
+  
     var quotes = [
         "Whole worlds pivot on acts of imagination. - Thirteenth Doctor",
         "Letting it get to you. You know what that's called? Being alive. Best thing there is. Being alive right now is all that counts. - Eleventh Doctor",
@@ -11,129 +11,85 @@ document.addEventListener('DOMContentLoaded', function() {
         "The way I see it, every life is a pile of good things and bad things. The good things don't always soften the bad things, but vice versa, the bad things don't always spoil the good things or make them unimportant. - Eleventh Doctor",
         "Nothing's sad until it's over, and then everything is. - Twelfth Doctor",
         "Love, in all its forms, is the most powerful weapon we have. Because love is a form of hope. And like hope, love abides. In the face of everything - Thirteenth Doctor",
-        "We're all stories, in the end. Just make it a good one, eh? - Eleventh Doctor"    
+        "We're all stories, in the end. Just make it a good one, eh? - Eleventh Doctor"
     ];
-
-    var quotesElement = document.getElementById("quotes");
-
+  
+    const quotesElement = document.getElementById('quotes');
+  
     function getRandomQuote() {
-        var randomIndex = Math.floor(Math.random() * quotes.length);
-        return quotes[randomIndex];
+      return quotes[Math.floor(Math.random() * quotes.length)];
     }
-
+  
     function setRandomQuote() {
-        if (quotesElement) {
-            var quote = getRandomQuote();
-            quotesElement.innerHTML = quote;
-        }
+      if (quotesElement) {
+        quotesElement.innerHTML = getRandomQuote();
+      }
     }
-
+  
     setRandomQuote();
-
-    if (quotesElement) {
-        quotesElement.addEventListener('click', setRandomQuote);
-    }
-
+  
+    quotesElement?.addEventListener('click', setRandomQuote);
+  
+    // Project cards functionality
     const projectCards = document.querySelectorAll('.project-card');
-    const projectsContainer = document.getElementById('projectsContainer');
-    if (projectsContainer) {
-        projectsContainer.style.display = 'block';
-    }
-
-    projectCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.backgroundColor = '#1a1a1a';
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.backgroundColor = '#1a1a1a';
-        });
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-        });
+  
+    projectCards.forEach((card) => {
+      card.addEventListener('mouseenter', () => {
+        card.style.backgroundColor = '#1a1a1a';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.backgroundColor = '#1a1a1a';
+      });
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
     });
-
+  
+    // Access code functionality
     const accessCodeInput = document.getElementById('accessCodeInput');
     const submitAccessCode = document.getElementById('submitAccessCode');
     const accessCodeMessage = document.getElementById('accessCodeMessage');
-
-    if (submitAccessCode) {
-        submitAccessCode.addEventListener('click', async function() {
-            const enteredCode = accessCodeInput.value.trim();
-            console.log("Entered Code:", enteredCode);
-
-            try {
-                const response = await fetch(`/.netlify/functions/check-password?password=${encodeURIComponent(enteredCode)}`);
-                const data = await response.json();
-
-                console.log("Response from server:", data);
-
-                if (data.accessGranted) {
-                    window.location.href = data.redirectTo === 'accessGranted' ? 'VERFALL/ACCESS_GRANTED.html' : 'FURPOC/message.html';
-                } else {
-                    accessCodeMessage.textContent = 'Invalid access code. Please try again.';
-                    accessCodeMessage.style.color = 'red';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                accessCodeMessage.textContent = 'An error occurred. Please try again later.';
-                accessCodeMessage.style.color = 'red';
-            }
-        });
-    }
-
-    if (accessCodeInput) {
-        accessCodeInput.addEventListener('focus', () => {
-            accessCodeInput.type = 'text';
-        });
-
-        accessCodeInput.addEventListener('blur', () => {
-            accessCodeInput.type = 'text'; 
-        });
-    }
-
-    console.log("Fetching Discord profile...");
+  
+    submitAccessCode?.addEventListener('click', async function() {
+      try {
+        const enteredCode = accessCodeInput.value.trim();
+        const response = await fetch(`/.netlify/functions/check-password?password=${encodeURIComponent(enteredCode)}`);
+        const data = await response.json();
+  
+        if (data.accessGranted) {
+          window.location.href = data.redirectTo === 'accessGranted' ? 'VERFALL/ACCESS_GRANTED.html' : 'FURPOC/message.html';
+        } else {
+          accessCodeMessage.textContent = 'Invalid access code. Please try again.';
+          accessCodeMessage.style.color = 'red';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        accessCodeMessage.textContent = 'An error occurred. Please try again later.';
+        accessCodeMessage.style.color = 'red';
+      }
+    });
+  
+    // Discord profile functionality
     fetch('/.netlify/functions/get-discord-profile')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Parsed data from API:", data);
-            const avatarElement = document.getElementById('discordAvatar');
-            const usernameElement = document.getElementById('discordUsername');
-            const statusElement = document.getElementById('discordStatus');
-
-            if (avatarElement) {
-                avatarElement.src = data.avatar;
-            } else {
-                console.warn("Avatar element not found.");
-            }
-
-            if (usernameElement) {
-                usernameElement.textContent = data.username;
-            } else {
-                console.warn("Username element not found.");
-            }
-
-            if (statusElement) {
-                statusElement.textContent = data.customStatus;
-            } else {
-                console.warn("Status element not found.");
-            }
-
-            if (data.banner) {
-                document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
-            } else {
-                console.warn("No banner found in data.");
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching Discord profile:', error);
-        });
-});
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Parsed data from API:', data);
+  
+        const avatarElement = document.getElementById('discordAvatar');
+        const usernameElement = document.getElementById('discordUsername');
+        const statusElement = document.getElementById('discordStatus');
+  
+        avatarElement?.src = data.avatar;
+        usernameElement?.textContent = data.username;
+        statusElement?.textContent = data.customStatus;
+  
+        if (data.banner) {
+          document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
+        }
+      })
+      .catch((error) => console.error('Error fetching Discord profile:', error));
+  });
