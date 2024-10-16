@@ -115,40 +115,32 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 console.log("Parsed data from API:", data);
-                
                 if (data.avatar) {
                     document.getElementById('discordAvatar').src = data.avatar;
-                    console.log("Discord avatar updated:", data.avatar);
                 } else {
                     console.warn("No avatar found in data.");
                 }
 
                 if (data.username) {
                     document.getElementById('discordUsername').textContent = data.username;
-                    console.log("Discord username updated:", data.username);
                 } else {
                     console.warn("No username found in data.");
                 }
 
                 if (data.discriminator) {
                     document.getElementById('discordTag').textContent = `#${data.discriminator}`;
-                    console.log("Discord discriminator updated:", data.discriminator);
                 } else {
                     console.warn("No discriminator found in data.");
                 }
 
-                // Change this line to set the custom status instead of online/offline
                 if (data.customStatus) {
                     document.getElementById('discordStatus').textContent = data.customStatus;
-                    console.log("Discord custom status updated:", data.customStatus);
                 } else {
-                    document.getElementById('discordStatus').textContent = "No custom status";
                     console.warn("No custom status found in data.");
                 }
 
                 if (data.banner) {
                     document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
-                    console.log("Discord banner updated:", data.banner);
                 } else {
                     console.warn("No banner found in data.");
                 }
