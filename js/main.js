@@ -74,21 +74,33 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   
     fetch('/.netlify/functions/get-discord-profile')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Parsed data from API:', data);
-  
-      const avatarElement = document.getElementById('discordAvatar');
-      const usernameElement = document.getElementById('discordUsername');
-      const statusElement = document.getElementById('discordStatus');
-      const bannerElement = document.getElementById('discordBanner');
-      const customStatusElement = document.getElementById('customStatus');
-  
-      avatarElement.src = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.webp`;
-      usernameElement.textContent = data.username;
-      statusElement.textContent = data.status;
-      bannerElement.style.backgroundImage = `url(https://cdn.discordapp.com/banners/${data.id}/${data.banner})`;
-      customStatusElement.textContent = data.customStatus;
-    })
-    .catch((error) => console.error('Error fetching Discord profile:', error));
-  });
+  .then((response) => response.json())
+  .then((data) => {
+    console.log('Parsed data from API:', data);
+
+    const avatarElement = document.getElementById('discordAvatar');
+    const usernameElement = document.getElementById('discordUsername');
+    const statusElement = document.getElementById('discordStatus');
+    const bannerElement = document.getElementById('discordBanner');
+    const customStatusElement = document.getElementById('customStatus');
+    const customEmoteElement = document.getElementById('customEmote');
+
+    avatarElement.src = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.webp`;
+    usernameElement.textContent = data.username;
+    statusElement.textContent = data.status;
+    bannerElement.style.backgroundImage = `url(https://cdn.discordapp.com/banners/${data.id}/${data.banner})`;
+
+    // Extract custom status emote
+    const customStatus = data.activities[0];
+    if (customStatus) {
+      customStatusElement.textContent = customStatus.name;
+      if (customStatus.emoji) {
+        const emoteUrl = customStatus.emoji.id
+          ? `https://cdn.discordapp.com/emojis/${customStatus.emoji.id}.webp`
+          : customStatus.emoji.url;
+        customEmoteElement.innerHTML = `<img src="${emoteUrl}" alt="${customStatus.emoji.name}" />`;
+      }
+    }
+  })
+  .catch((error) => console.error('Error fetching Discord profile:', error));
+})
