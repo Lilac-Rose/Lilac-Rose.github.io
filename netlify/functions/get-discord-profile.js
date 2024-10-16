@@ -33,7 +33,8 @@ exports.handler = async function(event, context) {
 
         // Find custom status activity
         const customStatus = member.presence?.activities.find(activity => activity.type === 4);
-        const customStatusText = customStatus ? customStatus.state : "No custom status"; // Get state instead of name
+        const customStatusText = customStatus ? customStatus.state : "No custom status";
+        const customEmote = customStatus?.emoji;
 
         return {
             statusCode: 200,
@@ -41,7 +42,17 @@ exports.handler = async function(event, context) {
                 username: userData.username,
                 avatar: userData.displayAvatarURL({ dynamic: true }),
                 banner: userData.banner ? `https://cdn.discordapp.com/banners/${USER_ID}/${userData.banner}?size=2048` : null,
-                customStatus: customStatusText
+                customStatus: customStatusText,
+                customEmote: customEmote
+                    ? {
+                        id: customEmote.id,
+                        name: customEmote.name,
+                        animated: customEmote.animated,
+                        url: customEmote.id
+                            ? `https://cdn.discordapp.com/emojis/${customEmote.id}.webp`
+                            : customEmote.url
+                    }
+                    : null
             })
         };
     } catch (error) {
