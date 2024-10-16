@@ -40,7 +40,7 @@ exports.handler = async function(event, context) {
             statusCode: 200,
             body: JSON.stringify({
                 username: userData.username,
-                avatar: userData.displayAvatarURL({ dynamic: true }),
+                avatar: `https://cdn.discordapp.com/avatars/${USER_ID}/${userData.avatar}.${userData.avatar.startsWith('a_') ? 'gif' : 'webp'}`,
                 banner: userData.banner ? `https://cdn.discordapp.com/banners/${USER_ID}/${userData.banner}?size=2048` : null,
                 customStatus: customStatusText,
                 customEmote: customEmote
