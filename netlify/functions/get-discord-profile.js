@@ -49,7 +49,7 @@ exports.handler = async function(event, context) {
                         name: customEmote.name,
                         animated: customEmote.animated,
                         url: customEmote.id
-                            ? `https://cdn.discordapp.com/emojis/${customEmote.id}.webp`
+                            ? `https://cdn.discordapp.com/emojis/${customEmote.id}.${customEmote.animated ? 'gif' : 'webp'}`
                             : customEmote.url
                     }
                     : null
