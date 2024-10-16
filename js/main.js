@@ -105,11 +105,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Discord Profile Update Function
     function updateDiscordProfile() {
         console.log("Fetching Discord profile...");
         fetch('/.netlify/functions/get-discord-profile')
             .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 console.log("Response received from API:", response);
                 return response.json();
             })
@@ -120,25 +122,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     console.warn("No avatar found in data.");
                 }
-
+    
                 if (data.username) {
                     document.getElementById('discordUsername').textContent = data.username;
                 } else {
                     console.warn("No username found in data.");
                 }
-
+    
                 if (data.discriminator) {
                     document.getElementById('discordTag').textContent = `#${data.discriminator}`;
                 } else {
                     console.warn("No discriminator found in data.");
                 }
-
+    
                 if (data.customStatus) {
                     document.getElementById('discordStatus').textContent = data.customStatus;
                 } else {
                     console.warn("No custom status found in data.");
                 }
-
+    
                 if (data.banner) {
                     document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
                 } else {
@@ -148,5 +150,5 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => {
                 console.error('Error fetching Discord profile:', error);
             });
-        }
+    }
 })
