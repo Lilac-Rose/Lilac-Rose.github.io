@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function updateDiscordProfile() {
         console.log("Fetching Discord profile...");
         fetch('/.netlify/functions/get-discord-profile')
             .then(response => {
@@ -148,7 +147,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => {
-                console.error('Error fetching Discord profile:', error);
+               console.error('Error fetching Discord profile:', error);
             });
-    }
 })
