@@ -2,11 +2,19 @@ const { Client, GatewayIntentBits } = require('discord.js');
 
 const client = new Client({ 
     intents: [ 
-        GatewayIntentBits.Guilds, 
-        GatewayIntentBits.GuildPresences, 
-        GatewayIntentBits.GuildMembers, 
-        GatewayIntentBits.Presence, 
-        GatewayIntentBits.Activities 
+        1, // Guilds
+        2, // GuildMembers
+        4, // GuildBans
+        8, // GuildEmojis
+        16, // GuildIntegrations
+        32, // GuildWebhooks
+        64, // GuildInvites
+        128, // GuildVoiceStates
+        256, // GuildPresences
+        512, // GuildMessages
+        1024, // GuildMessageReactions
+        2048, // GuildMessageTyping
+        4096 // DirectMessages
     ] 
 });
 
