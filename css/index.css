@@ -263,7 +263,7 @@ body {
 
 .contact-container {
   max-width: 100%;
- padding: 10opx
+  padding: 10opx
 }
 
 .contact-container h1 {
@@ -280,6 +280,7 @@ body {
   gap: 20px;
   max-width: 100%;
   margin: 0 auto;
+  margin-bottom:  20px;
 }
 
 .contact-card {
@@ -321,7 +322,7 @@ body {
 
 .access-code-container {
   max-width: 400px;
-  margin: 80px auto;
+  margin: 40px auto;
   padding: 30px;
   background-color: var(--secondary-bg);
   border-radius: 15px;
