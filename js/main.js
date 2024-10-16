@@ -105,21 +105,57 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Discord Profile Update Function
-    function updateDiscordProfile() {
-        fetch('/.netlify/functions/get-discord-profile')
-            .then(response => response.json())
-            .then(data => {
+// Discord Profile Update Function
+function updateDiscordProfile() {
+    console.log("Fetching Discord profile...");
+    fetch('/.netlify/functions/get-discord-profile')
+        .then(response => {
+            console.log("Response received from API:", response);
+            return response.json();
+        })
+        .then(data => {
+            console.log("Parsed data from API:", data);
+            
+            if (data.avatar) {
                 document.getElementById('discordAvatar').src = data.avatar;
-                document.getElementById('discordUsername').textContent = data.username;
-                document.getElementById('discordTag').textContent = `#${data.discriminator}`;
-                document.getElementById('discordStatus').textContent = `Status: ${data.status}`;
-                document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
-            })
-            .catch(error => console.error('Error fetching Discord profile:', error));
-    }
+                console.log("Discord avatar updated:", data.avatar);
+            } else {
+                console.warn("No avatar found in data.");
+            }
 
-    // Initial update and set interval
-    updateDiscordProfile();
-    setInterval(updateDiscordProfile, 5 * 60 * 1000);
-});
+            if (data.username) {
+                document.getElementById('discordUsername').textContent = data.username;
+                console.log("Discord username updated:", data.username);
+            } else {
+                console.warn("No username found in data.");
+            }
+
+            if (data.discriminator) {
+                document.getElementById('discordTag').textContent = `#${data.discriminator}`;
+                console.log("Discord discriminator updated:", data.discriminator);
+            } else {
+                console.warn("No discriminator found in data.");
+            }
+
+            if (data.status) {
+                document.getElementById('discordStatus').textContent = `Status: ${data.status}`;
+                console.log("Discord status updated:", data.status);
+            } else {
+                console.warn("No status found in data.");
+            }
+
+            if (data.banner) {
+                document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
+                console.log("Discord banner updated:", data.banner);
+            } else {
+                console.warn("No banner found in data.");
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching Discord profile:', error);
+        });
+}
+
+// Initial update and set interval
+updateDiscordProfile();
+setInterval(updateDiscordProfile, 5 * 60 * 1000);

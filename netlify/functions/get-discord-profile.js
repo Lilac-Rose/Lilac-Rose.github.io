@@ -5,7 +5,7 @@ const axios = require('axios');
 exports.handler = async function(event, context) {
     try {
         const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
-        const USER_ID = '252130669919076352'; // Your Discord user ID
+        const USER_ID = '252130669919076352';
 
         const response = await axios.get(`https://discord.com/api/users/${USER_ID}`, {
             headers: {
