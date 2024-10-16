@@ -105,12 +105,15 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             console.log("Parsed data from API:", data);
-            if (data.avatar) {
-                document.getElementById('discordAvatar').src = data.avatar;
-            }
-
+            const avatarElement = document.getElementById('discordAvatar');
             const usernameElement = document.getElementById('discordUsername');
             const statusElement = document.getElementById('discordStatus');
+
+            if (avatarElement) {
+                avatarElement.src = data.avatar;
+            } else {
+                console.warn("Avatar element not found.");
+            }
 
             if (usernameElement) {
                 usernameElement.textContent = data.username;
