@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axiom": "^0.1.6",
+    "axios": "^1.5.0",
     "node-fetch": "^3.3.2"
   }
- }
+}
