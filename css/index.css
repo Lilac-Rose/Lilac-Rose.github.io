@@ -615,8 +615,8 @@ blog-container {
 
 .custom-status {
   font-family: 'Raleway', sans-serif;
-  font-size: 14px;
-  color: var(--accent-red);
+  font-size: 16px;
+  color: var(--text-light);
   text-align: center;
   margin-top: 5px;
 }
