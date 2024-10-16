@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "Love, in all its forms, is the most powerful weapon we have. Because love is a form of hope. And like hope, love abides. In the face of everything - Thirteenth Doctor",
         "We're all stories, in the end. Just make it a good one, eh? - Eleventh Doctor"    
     ];
+    
     var quotesElement = document.getElementById("quotes");
 
     function getRandomQuote() {
@@ -28,14 +29,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.log('quotes element not found');
         }
-    }      
+    }
 
     setRandomQuote();
 
     if (quotesElement) {
-        quotesElement.addEventListener('click', function() {
-            setRandomQuote();
-        });
+        quotesElement.addEventListener('click', setRandomQuote);
     }
 
     // Project Cards Animation
@@ -44,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (projectsContainer) {
         projectsContainer.style.display = 'block';
     }
+
     projectCards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             card.style.backgroundColor = '#1a1a1a';
@@ -77,11 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log("Response from server:", data);
 
                 if (data.accessGranted) {
-                    if (data.redirectTo === 'accessGranted') {
-                        window.location.href = 'VERFALL/ACCESS_GRANTED.html';
-                    } else if (data.redirectTo === 'furPoc') {
-                        window.location.href = 'FURPOC/message.html';
-                    }
+                    window.location.href = data.redirectTo === 'accessGranted' ? 'VERFALL/ACCESS_GRANTED.html' : 'FURPOC/message.html';
                 } else {
                     accessCodeMessage.textContent = 'Invalid access code. Please try again.';
                     accessCodeMessage.style.color = 'red';
@@ -105,48 +101,49 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-        console.log("Fetching Discord profile...");
-        fetch('/.netlify/functions/get-discord-profile')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                console.log("Response received from API:", response);
-                return response.json();
-            })
-            .then(data => {
-                console.log("Parsed data from API:", data);
-                if (data.avatar) {
-                    document.getElementById('discordAvatar').src = data.avatar;
-                } else {
-                    console.warn("No avatar found in data.");
-                }
-    
-                if (data.username) {
-                    document.getElementById('discordUsername').textContent = data.username;
-                } else {
-                    console.warn("No username found in data.");
-                }
-    
-                if (data.discriminator) {
-                    document.getElementById('discordTag').textContent = `#${data.discriminator}`;
-                } else {
-                    console.warn("No discriminator found in data.");
-                }
-    
-                if (data.customStatus) {
-                    document.getElementById('discordStatus').textContent = data.customStatus;
-                } else {
-                    console.warn("No custom status found in data.");
-                }
-    
-                if (data.banner) {
-                    document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
-                } else {
-                    console.warn("No banner found in data.");
-                }
-            })
-            .catch(error => {
-               console.error('Error fetching Discord profile:', error);
-            });
-})
+    // Fetch Discord Profile
+    console.log("Fetching Discord profile...");
+    fetch('/.netlify/functions/get-discord-profile')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            console.log("Response received from API:", response);
+            return response.json();
+        })
+        .then(data => {
+            console.log("Parsed data from API:", data);
+            if (data.avatar) {
+                document.getElementById('discordAvatar').src = data.avatar;
+            } else {
+                console.warn("No avatar found in data.");
+            }
+
+            if (data.username) {
+                document.getElementById('discordUsername').textContent = data.username;
+            } else {
+                console.warn("No username found in data.");
+            }
+
+            if (data.discriminator) {
+                document.getElementById('discordTag').textContent = `#${data.discriminator}`;
+            } else {
+                console.warn("No discriminator found in data.");
+            }
+
+            if (data.customStatus) {
+                document.getElementById('discordStatus').textContent = data.customStatus;
+            } else {
+                console.warn("No custom status found in data.");
+            }
+
+            if (data.banner) {
+                document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
+            } else {
+                console.warn("No banner found in data.");
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching Discord profile:', error);
+        });
+});
