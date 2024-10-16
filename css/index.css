@@ -630,7 +630,10 @@ blog-container {
   margin-left: 8px;
 }
 
-.custom-emote img {
-  width: 20px;
-  height: 20px;
+
+.custom-emote-img {
+  vertical-align: middle;
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
 }
