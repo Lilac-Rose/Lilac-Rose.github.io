@@ -574,33 +574,49 @@ blog-container {
 
 .discord-banner {
   width: 100%;
-  height: 120px;
+  height: 150px;
   background-size: cover;
-  background-position: top center;
+  background-position: center center;
   border-radius: 15px 15px 0 0;
+  filter: brightness(0.7);
 }
 
 .discord-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
-  width: 100%;
-  padding: 10px;
-  z-index: 2;
 }
 
-.discord-background {
-  position: absolute;
-  top: 0; 
-  left: 0; 
-  right: 0; 
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 15px;
-  z-index: 1;
+.discord-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 0 10px rgba(204, 0, 0, 0.3);
+  margin-bottom: 10px;
 }
 
-.discord-username, .discord-status {
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  position: relative;
-  z-index: 3;
+.discord-username {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  font-size: 24px;
+  color: var(--accent-gold);
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.discord-status {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  color: var(--text-light);
+  text-align: center;
+}
+
+.custom-status {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  color: var(--accent-red);
+  text-align: center;
+  margin-top: 5px;
 }
