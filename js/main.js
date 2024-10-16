@@ -67,23 +67,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (submitAccessCode) {
         submitAccessCode.addEventListener('click', async function() {
-            const enteredCode = accessCodeInput.value.trim(); // Get the user input directly
-            console.log("Entered Code:", enteredCode); // Debug log to check what's being sent
+            const enteredCode = accessCodeInput.value.trim();
+            console.log("Entered Code:", enteredCode);
 
-            // Call the Netlify function to verify the access code
             try {
                 const response = await fetch(`/.netlify/functions/check-password?password=${encodeURIComponent(enteredCode)}`);
                 const data = await response.json();
 
-                console.log("Response from server:", data); // Debug log to check the response
+                console.log("Response from server:", data);
 
                 if (data.accessGranted) {
-                    // Redirect to ACCESS_GRANTED page if the first password is correct
                     if (data.redirectTo === 'accessGranted') {
                         window.location.href = 'VERFALL/ACCESS_GRANTED.html';
-                    } 
-                    // Redirect to FURPOC message if second password is correct
-                    else if (data.redirectTo === 'furPoc') {
+                    } else if (data.redirectTo === 'furPoc') {
                         window.location.href = 'FURPOC/message.html';
                     }
                 } else {
@@ -99,29 +95,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Change input type to text on focus
-    accessCodeInput.addEventListener('focus', () => {
-        accessCodeInput.type = 'text'; // Show as text to avoid autofill
-    });
+    if (accessCodeInput) {
+        accessCodeInput.addEventListener('focus', () => {
+            accessCodeInput.type = 'text';
+        });
 
-    // Keep it as text for user visibility
-    accessCodeInput.addEventListener('blur', () => {
-        accessCodeInput.type = 'text'; 
-    });
-})
+        accessCodeInput.addEventListener('blur', () => {
+            accessCodeInput.type = 'text'; 
+        });
+    }
 
-function updateDiscordProfile() {
-    fetch('/.netlify/functions/get-discord-profile')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('discordAvatar').src = data.avatar;
-            document.getElementById('discordUsername').textContent = data.username;
-            document.getElementById('discordTag').textContent = `#${data.discriminator}`;
-            document.getElementById('discordStatus').textContent = `Status: ${data.status}`;
-            document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
-        })
-        .catch(error => console.error('Error fetching Discord profile:', error));
-}
+    // Discord Profile Update Function
+    function updateDiscordProfile() {
+        fetch('/.netlify/functions/get-discord-profile')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('discordAvatar').src = data.avatar;
+                document.getElementById('discordUsername').textContent = data.username;
+                document.getElementById('discordTag').textContent = `#${data.discriminator}`;
+                document.getElementById('discordStatus').textContent = `Status: ${data.status}`;
+                document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
+            })
+            .catch(error => console.error('Error fetching Discord profile:', error));
+    }
 
-// Update Discord profile information every 5 minutes
-updateDiscordProfile();
-setInterval(updateDiscordProfile, 5 * 60 * 1000);
+    // Initial update and set interval
+    updateDiscordProfile();
+    setInterval(updateDiscordProfile, 5 * 60 * 1000);
+});
