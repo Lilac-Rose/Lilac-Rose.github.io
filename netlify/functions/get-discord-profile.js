@@ -19,7 +19,10 @@ exports.handler = async function(event, context) {
         const member = await guild.members.fetch(USER_ID);
 
         const userData = member.user;
-        const customStatus = member.presence?.activities.find(activity => activity.type === 4)?.name || "No custom status";
+
+        // Find custom status activity
+        const customStatus = member.presence?.activities.find(activity => activity.type === 4);
+        const customStatusText = customStatus ? customStatus.name : "No custom status"; // Set default if not found
 
         return {
             statusCode: 200,
@@ -27,7 +30,7 @@ exports.handler = async function(event, context) {
                 username: userData.username,
                 avatar: userData.displayAvatarURL({ dynamic: true }),
                 banner: userData.banner ? `https://cdn.discordapp.com/banners/${USER_ID}/${userData.banner}?size=2048` : null,
-                customStatus: customStatus
+                customStatus: customStatusText
             })
         };
     } catch (error) {
