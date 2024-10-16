@@ -17,10 +17,11 @@
   z-index: 9999;
 }
 
-.vertical-line {
-  width: 5px;
+.horizontal-line {
+  height: 5px;
   background-color: var(--accent-gold);
-  height: 100%;
+  width: 100%;
+  z-index: 1000;
 }
 
 body {
