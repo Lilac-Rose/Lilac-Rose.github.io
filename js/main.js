@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('hello world!');
 
-    // Quotes Logic
     var quotes = [
         "Whole worlds pivot on acts of imagination. - Thirteenth Doctor",
         "Letting it get to you. You know what that's called? Being alive. Best thing there is. Being alive right now is all that counts. - Eleventh Doctor",
@@ -26,8 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (quotesElement) {
             var quote = getRandomQuote();
             quotesElement.innerHTML = quote;
-        } else {
-            console.log('quotes element not found');
         }
     }
 
@@ -37,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
         quotesElement.addEventListener('click', setRandomQuote);
     }
 
-    // Project Cards Animation
     const projectCards = document.querySelectorAll('.project-card');
     const projectsContainer = document.getElementById('projectsContainer');
     if (projectsContainer) {
@@ -60,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Access Code Functionality
     const accessCodeInput = document.getElementById('accessCodeInput');
     const submitAccessCode = document.getElementById('submitAccessCode');
     const accessCodeMessage = document.getElementById('accessCodeMessage');
@@ -90,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Change input type to text on focus
     if (accessCodeInput) {
         accessCodeInput.addEventListener('focus', () => {
             accessCodeInput.type = 'text';
@@ -101,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Fetch Discord Profile
     console.log("Fetching Discord profile...");
     fetch('/.netlify/functions/get-discord-profile')
         .then(response => {
@@ -115,20 +108,21 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("Parsed data from API:", data);
             if (data.avatar) {
                 document.getElementById('discordAvatar').src = data.avatar;
-            } else {
-                console.warn("No avatar found in data.");
             }
 
-            if (data.username) {
-                document.getElementById('discordUsername').textContent = data.username;
+            const usernameElement = document.getElementById('discordUsername');
+            const statusElement = document.getElementById('discordStatus');
+
+            if (usernameElement) {
+                usernameElement.textContent = data.username;
             } else {
-                console.warn("No username found in data.");
+                console.warn("Username element not found.");
             }
 
-            if (data.customStatus) {
-                document.getElementById('discordStatus').textContent = data.customStatus;
+            if (statusElement) {
+                statusElement.textContent = data.customStatus;
             } else {
-                console.warn("No custom status found in data.");
+                console.warn("Status element not found.");
             }
 
             if (data.banner) {
