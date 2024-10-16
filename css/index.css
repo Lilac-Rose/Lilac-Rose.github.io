@@ -564,7 +564,8 @@ blog-container {
   padding: 20px;
   box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
   display: inline-block;
-  width: 100%; /* Make it responsive */
+  width: 100%; /* Adjust width as necessary */
+  overflow: hidden; /* Prevent overflow */
 }
 
 .discord-banner {
@@ -578,7 +579,8 @@ blog-container {
 .discord-info-container {
   display: flex;
   align-items: center;
-  margin-top: -60px; /* Adjust to overlap with banner */
+  margin-top: -60px; /* Overlap banner with avatar */
+  padding: 10px; /* Add padding for spacing */
 }
 
 .discord-avatar {
