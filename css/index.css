@@ -576,8 +576,8 @@ blog-container {
   width: 100%;
   height: 120px;
   background-size: cover;
-  background-position: center;
-  border-radius: 15px 15px 0 0;
+  background-position: top center;
+  border-radius: 15px 15px 0 0; 
 }
 
 .discord-info-container {

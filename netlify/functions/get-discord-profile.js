@@ -20,8 +20,8 @@ exports.handler = async function(event, context) {
             }
         });
 
-        const activities = presenceResponse.data.activities || [];
-        const customStatus = activities.length > 0 && activities[0].type === 4 ? activities[0].name : "No custom status";
+        const member = presenceResponse.data;
+        const customStatus = member.status || "No custom status"; 
 
         return {
             statusCode: 200,
