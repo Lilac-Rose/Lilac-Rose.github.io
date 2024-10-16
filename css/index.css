@@ -561,11 +561,12 @@ blog-container {
 .discord-profile {
   background-color: var(--secondary-bg);
   border-radius: 15px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
   display: inline-block;
-  width: 100%; /* Adjust if necessary */
-  overflow: hidden; /* Prevent overflow */
+  width: 100%;
+  max-width: 600px;
+  overflow: hidden;
 }
 
 .discord-banner {
@@ -579,7 +580,8 @@ blog-container {
 .discord-info-container {
   display: flex;
   align-items: center;
-  margin-top: -60px; /* Overlap banner with avatar */
+  margin-top: -60px;
+  padding: 10px;
 }
 
 .discord-avatar {
@@ -590,19 +592,20 @@ blog-container {
 }
 
 .discord-info {
-  margin-left: 20px; /* Space between avatar and text */
+  margin-left: 20px;
 }
 
 .discord-info h3 {
   font-family: 'Raleway', sans-serif;
-  font-size: 1.5vw;
+  font-size: 1.5rem;
   color: var(--text-light);
   margin: 0;
 }
 
 .discord-info p {
   font-family: 'Raleway', sans-serif;
-  font-size: 1vw;
+  font-size: 1rem;
   color: var(--accent-gold);
-  margin: 5px 0;
+  margin: 0;
+  padding: 2px 0;
 }
