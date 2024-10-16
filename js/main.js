@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('hello world!');
+    console.log('DOM fully loaded');
 
     var quotes = [
         "Whole worlds pivot on acts of imagination. - Thirteenth Doctor",
@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            console.log("Response received from API:", response);
             return response.json();
         })
         .then(data => {
