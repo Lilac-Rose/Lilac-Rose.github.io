@@ -53,18 +53,16 @@
         </div>
     </div>
 
-    <div class="discord-profile">
-        <div class="discord-banner" style="background-image: url('https://cdn.discordapp.com/banners/USER_ID/BANNER_HASH');"></div>
+    <div id="discordProfileContainer" class="discord-profile">
+        <div class="discord-banner" id="discordBanner" style="background-image: url('https://cdn.discordapp.com/banners/USER_ID/BANNER_HASH');"></div>
         <div class="discord-info">
-          <img class="discord-avatar" src="https://cdn.discordapp.com/avatars/USER_ID/AVATAR_HASH.webp" />
-          <div class="discord-username">USERNAME</div>
-          <div class="discord-status">Status</div>
-          <div class="custom-status">Custom Status</div>
+          <img class="discord-avatar" id="discordAvatar" src="https://cdn.discordapp.com/avatars/USER_ID/AVATAR_HASH.webp" />
+          <div class="discord-username" id="discordUsername">USERNAME</div>
+          <div class="discord-status" id="discordStatus">Status</div>
+          <div class="custom-status" id="customStatus">Custom Status</div>
         </div>
-      </div>
+    </div>
     
-    
-
     <div class="friends-container">
         <div class="friends-text">Friends</div>
         <div class="friends-images">
@@ -107,6 +105,7 @@
     </div>
 
     <main id="projectsContainer" class="projects-container">
+        <h1>Projects</h1>
         <article class="project-card">
             <h2 class="project-title">
                 <a href="https://lilacrose.dev">This Website</a>
@@ -134,7 +133,7 @@
                 </div>    
             </div>
         </article>
-
+    
         <article class="project-card">
             <h2 class="project-title">
                 <a href="">Resident Valley</a>
@@ -148,7 +147,7 @@
                 </div>    
             </div>
         </article>
-    </main> 
+    </main>
 
     <div class="footer">
         <a href="https://lilacrose.dev" target="_blank" rel="noopener noreferrer">
