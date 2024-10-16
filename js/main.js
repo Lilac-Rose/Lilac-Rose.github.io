@@ -73,23 +73,22 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   
-    // Discord profile functionality
     fetch('/.netlify/functions/get-discord-profile')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Parsed data from API:', data);
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Parsed data from API:', data);
   
-        const avatarElement = document.getElementById('discordAvatar');
-        const usernameElement = document.getElementById('discordUsername');
-        const statusElement = document.getElementById('discordStatus');
+      const avatarElement = document.getElementById('discordAvatar');
+      const usernameElement = document.getElementById('discordUsername');
+      const statusElement = document.getElementById('discordStatus');
+      const bannerElement = document.getElementById('discordBanner');
+      const customStatusElement = document.getElementById('customStatus');
   
-        avatarElement?.src = data.avatar;
-        usernameElement?.textContent = data.username;
-        statusElement?.textContent = data.customStatus;
-  
-        if (data.banner) {
-          document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
-        }
-      })
-      .catch((error) => console.error('Error fetching Discord profile:', error));
+      avatarElement.src = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.webp`;
+      usernameElement.textContent = data.username;
+      statusElement.textContent = data.status;
+      bannerElement.style.backgroundImage = `url(https://cdn.discordapp.com/banners/${data.id}/${data.banner})`;
+      customStatusElement.textContent = data.customStatus;
+    })
+    .catch((error) => console.error('Error fetching Discord profile:', error));
   });
