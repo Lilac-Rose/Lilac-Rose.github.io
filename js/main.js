@@ -108,3 +108,20 @@ document.addEventListener('DOMContentLoaded', function() {
         accessCodeInput.type = 'text'; 
     });
 })
+
+function updateDiscordProfile() {
+    fetch('/.netlify/functions/get-discord-profile')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('discordAvatar').src = data.avatar;
+            document.getElementById('discordUsername').textContent = data.username;
+            document.getElementById('discordTag').textContent = `#${data.discriminator}`;
+            document.getElementById('discordStatus').textContent = `Status: ${data.status}`;
+            document.getElementById('discordBanner').style.backgroundImage = `url(${data.banner})`;
+        })
+        .catch(error => console.error('Error fetching Discord profile:', error));
+}
+
+// Update Discord profile information every 5 minutes
+updateDiscordProfile();
+setInterval(updateDiscordProfile, 5 * 60 * 1000);
