@@ -577,38 +577,30 @@ blog-container {
   height: 120px;
   background-size: cover;
   background-position: top center;
-  border-radius: 15px 15px 0 0; 
-}
-
-.discord-info-container {
-  display: flex;
-  align-items: center;
-  margin-top: -60px;
-  padding: 10px;
-}
-
-.discord-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 4px solid var(--secondary-bg);
+  border-radius: 15px 15px 0 0;
 }
 
 .discord-info {
-  margin-left: 20px;
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  z-index: 2;
 }
 
-.discord-info h3 {
-  font-family: 'Raleway', sans-serif;
-  font-size: 1.5rem;
-  color: var(--text-light);
-  margin: 0;
+.discord-background {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  z-index: 1;
 }
 
-.discord-info p {
-  font-family: 'Raleway', sans-serif;
-  font-size: 1rem;
-  color: var(--accent-gold);
-  margin: 0;
-  padding: 2px 0;
+.discord-username, .discord-status {
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  position: relative;
+  z-index: 3;
 }

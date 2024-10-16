@@ -6,6 +6,7 @@ exports.handler = async function(event, context) {
         const USER_ID = '252130669919076352'; // Your Discord user ID
         const GUILD_ID = process.env.GUILD_ID; // Use environment variable for Guild ID
 
+        // Fetch user data
         const userResponse = await axios.get(`https://discord.com/api/v10/users/${USER_ID}`, {
             headers: {
                 'Authorization': `Bot ${DISCORD_BOT_TOKEN}`
@@ -14,19 +15,23 @@ exports.handler = async function(event, context) {
 
         const userData = userResponse.data;
 
+        // Fetch presence data
         const presenceResponse = await axios.get(`https://discord.com/api/v10/guilds/${GUILD_ID}/members/${USER_ID}`, {
             headers: {
                 'Authorization': `Bot ${DISCORD_BOT_TOKEN}`
             }
         });
 
+        // Log presence response data
         console.log("Presence response data:", presenceResponse.data);
 
         const member = presenceResponse.data; // This contains the member's info
         const activities = member.activities || []; // Default to an empty array if undefined
+        
+        // Check if there are any activities and retrieve the custom status
         const customStatus = activities.length > 0 && activities[0].type === 4 
             ? activities[0].name 
-            : member.raw_status || member.status || "No custom status"; // Fallback to raw_status or status
+            : "No custom status"; // Fallback for custom status
 
         return {
             statusCode: 200,
