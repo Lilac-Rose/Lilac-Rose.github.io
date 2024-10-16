@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "Love, in all its forms, is the most powerful weapon we have. Because love is a form of hope. And like hope, love abides. In the face of everything - Thirteenth Doctor",
         "We're all stories, in the end. Just make it a good one, eh? - Eleventh Doctor"    
     ];
-    
+
     var quotesElement = document.getElementById("quotes");
 
     function getRandomQuote() {
@@ -123,12 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('discordUsername').textContent = data.username;
             } else {
                 console.warn("No username found in data.");
-            }
-
-            if (data.discriminator) {
-                document.getElementById('discordTag').textContent = `#${data.discriminator}`;
-            } else {
-                console.warn("No discriminator found in data.");
             }
 
             if (data.customStatus) {
