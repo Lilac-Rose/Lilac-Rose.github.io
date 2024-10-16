@@ -14,10 +14,6 @@
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
-    </style>
     <link rel="stylesheet" href="css/index.css">
     <title>Lilac Aria Rose</title>  
     <link rel="icon" type="image/x-icon" href="images/icon.png">       
@@ -35,11 +31,19 @@
 
     <div class="main-container">
         <div class="content">
-            <div class="image-container">
-                <img src="images/me.png" alt="Me" class="image">
+            <div class="sidebar">
+                <h2>Sections</h2>
+                <a href="#about">About Me</a>
+                <a href="#discordProfile">Discord Profile</a>
+                <a href="#friends">Friends</a>
+                <a href="#contact">Contact</a>
+                <a href="#accessCode">Access Code</a>
+                <a href="#projects">Projects</a>
             </div>
+
             <div class="text-container">
-                <div class="text">
+                <div class="text" id="about">
+                    <h1>About Me</h1>
                     Hi! I'm Lilac Aria Rose, a 20 year old currently studying Game Design and Development. 
                     <br><br>
                     I am also Falke Unit F23
@@ -53,7 +57,7 @@
         </div>
     </div>
 
-    <div id="discordProfileContainer" class="discord-profile">
+    <div id="discordProfileContainer" class="discord-profile" id="discordProfile">
         <div class="discord-banner" id="discordBanner"></div>
         <div class="discord-info">
           <img class="discord-avatar" id="discordAvatar" />
@@ -66,7 +70,7 @@
         </div>
       </div>
     
-    <div class="friends-container">
+    <div class="friends-container" id="friends">
         <div class="friends-text">Friends</div>
         <div class="friends-images">
             <a href="https://skyla.dev" target="_blank" rel="noopener noreferrer">
@@ -75,7 +79,7 @@
         </div>
     </div>
 
-    <main id="contactContainer" class="contact-container">
+    <main id="contactContainer" class="contact-container" id="contact">
         <h1>Get in Touch</h1>
         <div class="contact-grid">
             <div class="contact-card">
@@ -97,17 +101,17 @@
         </div>
     </main>
 
-    <div id="accessCodeContainer" class="access-code-container" role="main">
+    <div id="accessCodeContainer" class="access-code-container" role="main" id="accessCode">
         <h1>Enter Access Code</h1>
         <p class="access-code-subtext">Are you sure you're meant to see this?</p>
         <div class="access-code-form">
-        <input type="text" id="accessCodeInput" placeholder="Enter access code" autocomplete="off">
-        <button id="submitAccessCode">Submit</button>
+            <input type="text" id="accessCodeInput" placeholder="Enter access code" autocomplete="off">
+            <button id="submitAccessCode">Submit</button>
         </div>
         <div id="accessCodeMessage" class="access-code-message"></div>
     </div>
 
-    <main id="projectsContainer" class="projects-container">
+    <main id="projectsContainer" class="projects-container" id="projects">
         <h1>Projects</h1>
         <article class="project-card">
             <h2 class="project-title">

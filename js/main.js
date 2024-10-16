@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded');
-  
+
     var quotes = [
         "Whole worlds pivot on acts of imagination. - Thirteenth Doctor",
         "Letting it get to you. You know what that's called? Being alive. Best thing there is. Being alive right now is all that counts. - Eleventh Doctor",
@@ -13,66 +13,73 @@ document.addEventListener('DOMContentLoaded', function() {
         "Love, in all its forms, is the most powerful weapon we have. Because love is a form of hope. And like hope, love abides. In the face of everything - Thirteenth Doctor",
         "We're all stories, in the end. Just make it a good one, eh? - Eleventh Doctor"
     ];
-  
+
     const quotesElement = document.getElementById('quotes');
-  
+
     function getRandomQuote() {
-      return quotes[Math.floor(Math.random() * quotes.length)];
+        return quotes[Math.floor(Math.random() * quotes.length)];
     }
-  
+
     function setRandomQuote() {
-      if (quotesElement) {
-        quotesElement.innerHTML = getRandomQuote();
-      }
+        if (quotesElement) {
+            quotesElement.innerHTML = getRandomQuote();
+        }
     }
-  
+
     setRandomQuote();
-  
+
     quotesElement?.addEventListener('click', setRandomQuote);
-  
+
     // Project cards functionality
     const projectCards = document.querySelectorAll('.project-card');
-  
+
     projectCards.forEach((card) => {
-      card.addEventListener('mouseenter', () => {
-        card.style.backgroundColor = '#1a1a1a';
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.backgroundColor = '#1a1a1a';
-      });
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-      });
+        card.addEventListener('mouseenter', () => {
+            card.style.transition = 'transform 0.2s';
+            card.style.transform = 'scale(1.1)'; // Enlarge on hover
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'scale(1)'; // Reset size on leave
+        });
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Calculate tilt angle
+            const tiltX = (y / rect.height - 0.5) * 20; // Max tilt of 20 degrees
+            const tiltY = -(x / rect.width - 0.5) * 20; // Max tilt of 20 degrees
+            card.style.transform = `scale(1.1) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        });
     });
-  
+
     // Access code functionality
     const accessCodeInput = document.getElementById('accessCodeInput');
     const submitAccessCode = document.getElementById('submitAccessCode');
     const accessCodeMessage = document.getElementById('accessCodeMessage');
-  
+
     submitAccessCode?.addEventListener('click', async function() {
-      try {
-        const enteredCode = accessCodeInput.value.trim();
-        const response = await fetch(`/.netlify/functions/check-password?password=${encodeURIComponent(enteredCode)}`);
-        const data = await response.json();
-  
-        if (data.accessGranted) {
-          window.location.href = data.redirectTo === 'accessGranted' ? 'VERFALL/ACCESS_GRANTED.html' : 'FURPOC/message.html';
-        } else {
-          accessCodeMessage.textContent = 'Invalid access code. Please try again.';
-          accessCodeMessage.style.color = 'red';
+        try {
+            const enteredCode = accessCodeInput.value.trim();
+            const response = await fetch(`/.netlify/functions/check-password?password=${encodeURIComponent(enteredCode)}`);
+            const data = await response.json();
+
+            if (data.accessGranted) {
+                window.location.href = data.redirectTo === 'accessGranted' ? 'VERFALL/ACCESS_GRANTED.html' : 'FURPOC/message.html';
+            } else {
+                accessCodeMessage.textContent = 'Invalid access code. Please try again.';
+                accessCodeMessage.style.color = 'red';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            accessCodeMessage.textContent = 'An error occurred. Please try again later.';
+            accessCodeMessage.style.color = 'red';
         }
-      } catch (error) {
-        console.error('Error:', error);
-        accessCodeMessage.textContent = 'An error occurred. Please try again later.';
-        accessCodeMessage.style.color = 'red';
-      }
     });
-  
+
+    // Fetch Discord profile
     fetch('/.netlify/functions/get-discord-profile')
     .then((response) => response.json())
     .then((data) => {

@@ -643,3 +643,39 @@ blog-container {
   image-rendering: -moz-crisp-edges;
   image-rendering: pixelated;
 }
+
+.sidebar {
+  width: 200px; /* Set the width of the sidebar */
+  background-color: var(--secondary-bg);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3);
+  color: var(--text-light);
+  margin-right: 20px; /* Add space between the sidebar and main content */
+}
+
+.sidebar a {
+  color: var(--text-light);
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: var(--accent-red);
+}
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column; /* Stack sidebar and content vertically */
+  }
+
+  .sidebar {
+    width: 100%; /* Sidebar takes full width */
+    margin-right: 0; /* Remove right margin */
+    margin-bottom: 20px; /* Add space below the sidebar */
+  }
+}
