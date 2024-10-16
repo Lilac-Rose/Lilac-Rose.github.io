@@ -18,7 +18,7 @@
 }
 
 .horizontal-line {
-  height: 5px;
+  height: 2px;
   background-color: var(--accent-gold);
   width: 100%;
   z-index: 1000;
@@ -115,6 +115,7 @@ body {
   max-width: 800px;
   overflow: hidden;
   margin: 20px auto 0;
+  margin-bottom: 10px;
 }
 
 .discord-banner {
@@ -230,7 +231,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
 }
 
@@ -239,8 +240,8 @@ body {
   font-size: 36px;
   color: var(--accent-gold);
   text-align: center;
-  margin-bottom: 40px;
-  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .friends-images {
@@ -262,8 +263,7 @@ body {
 
 .contact-container {
   max-width: 100%;
-  padding: 0 20px;
-  margin: 80px auto 100px;
+ padding: 10opx
 }
 
 .contact-container h1 {
