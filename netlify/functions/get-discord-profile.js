@@ -4,7 +4,7 @@ exports.handler = async function(event, context) {
     try {
         const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
         const USER_ID = '252130669919076352'; // Your Discord user ID
-        const GUILD_ID = '139677590393716737'; // Replace with your Guild ID
+        const GUILD_ID = process.env.GUILD_ID;
 
         const userResponse = await axios.get(`https://discord.com/api/v10/users/${USER_ID}`, {
             headers: {
