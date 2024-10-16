@@ -637,3 +637,9 @@ blog-container {
   width: 24px;
   height: 24px;
 }
+
+#discordAvatar,
+#discordBanner {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+}
