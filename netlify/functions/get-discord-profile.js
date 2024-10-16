@@ -3,7 +3,9 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({ 
     intents: [ 
         GatewayIntentBits.Guilds, 
-        GatewayIntentBits.GuildPresences 
+        GatewayIntentBits.GuildPresences, 
+        GatewayIntentBits.Presence, 
+        GatewayIntentBits.Activities 
     ] 
 });
 
@@ -22,7 +24,7 @@ exports.handler = async function(event, context) {
 
         // Find custom status activity
         const customStatus = member.presence?.activities.find(activity => activity.type === 4);
-        const customStatusText = customStatus ? customStatus.name : "No custom status"; // Set default if not found
+        const customStatusText = customStatus ? customStatus.state : "No custom status"; // Get state instead of name
 
         return {
             statusCode: 200,
