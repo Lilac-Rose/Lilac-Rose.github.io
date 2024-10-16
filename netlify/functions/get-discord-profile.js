@@ -20,8 +20,13 @@ exports.handler = async function(event, context) {
             }
         });
 
-        const member = presenceResponse.data;
-        const customStatus = member.status; 
+        console.log("Presence response data:", presenceResponse.data);
+
+        const member = presenceResponse.data; // This contains the member's info
+        const activities = member.activities || []; // Default to an empty array if undefined
+        const customStatus = activities.length > 0 && activities[0].type === 4 
+            ? activities[0].name 
+            : member.raw_status || member.status || "No custom status"; // Fallback to raw_status or status
 
         return {
             statusCode: 200,
