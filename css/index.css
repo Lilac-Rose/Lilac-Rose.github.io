@@ -17,6 +17,12 @@
   z-index: 9999;
 }
 
+.vertical-line {
+  width: 2px;
+  background-color: var(--accent-gold);
+  height: 100%;
+}
+
 body {
   background-color: var(--main-bg);
   height: 100%;
