@@ -21,7 +21,7 @@ exports.handler = async function(event, context) {
         });
 
         const member = presenceResponse.data;
-        const customStatus = member.status || "No custom status"; 
+        const customStatus = member.status; 
 
         return {
             statusCode: 200,
