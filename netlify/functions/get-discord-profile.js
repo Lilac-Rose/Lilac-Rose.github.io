@@ -1,4 +1,11 @@
-const axios = require('axios');
+const { Client, GatewayIntentBits } = require('discord.js');
+
+const client = new Client({ 
+    intents: [ 
+        GatewayIntentBits.Guilds, 
+        GatewayIntentBits.GuildPresences 
+    ] 
+});
 
 exports.handler = async function(event, context) {
     try {
@@ -6,38 +13,19 @@ exports.handler = async function(event, context) {
         const USER_ID = '252130669919076352'; // Your Discord user ID
         const GUILD_ID = process.env.GUILD_ID; // Use environment variable for Guild ID
 
-        // Fetch user data
-        const userResponse = await axios.get(`https://discord.com/api/v10/users/${USER_ID}`, {
-            headers: {
-                'Authorization': `Bot ${DISCORD_BOT_TOKEN}`
-            }
-        });
+        await client.login(DISCORD_BOT_TOKEN);
 
-        const userData = userResponse.data;
+        const guild = await client.guilds.fetch(GUILD_ID);
+        const member = await guild.members.fetch(USER_ID);
 
-        // Fetch presence data
-        const presenceResponse = await axios.get(`https://discord.com/api/v10/guilds/${GUILD_ID}/members/${USER_ID}`, {
-            headers: {
-                'Authorization': `Bot ${DISCORD_BOT_TOKEN}`
-            }
-        });
-
-        // Log presence response data
-        console.log("Presence response data:", presenceResponse.data);
-
-        const member = presenceResponse.data; // This contains the member's info
-        const activities = member.activities || []; // Default to an empty array if undefined
-        
-        // Check if there are any activities and retrieve the custom status
-        const customStatus = activities.length > 0 && activities[0].type === 4 
-            ? activities[0].name 
-            : "No custom status"; // Fallback for custom status
+        const userData = member.user;
+        const customStatus = member.presence?.activities.find(activity => activity.type === 4)?.name || "No custom status";
 
         return {
             statusCode: 200,
             body: JSON.stringify({
                 username: userData.username,
-                avatar: `https://cdn.discordapp.com/avatars/${USER_ID}/${userData.avatar}.png`,
+                avatar: userData.displayAvatarURL({ dynamic: true }),
                 banner: userData.banner ? `https://cdn.discordapp.com/banners/${USER_ID}/${userData.banner}?size=2048` : null,
                 customStatus: customStatus
             })
@@ -48,5 +36,7 @@ exports.handler = async function(event, context) {
             statusCode: 500,
             body: JSON.stringify({ error: 'Failed to fetch Discord profile', details: error.message })
         };
+    } finally {
+        client.destroy();
     }
 };
