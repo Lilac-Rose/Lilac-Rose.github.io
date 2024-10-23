@@ -8,42 +8,34 @@ class Perlin {
         }
         this.p = [...this.permutation, ...this.permutation];
     }
-
     fade(t) {
         return t * t * t * (t * (t * 6 - 15) + 10);
     }
-
     lerp(t, a, b) {
         return a + t * (b - a);
     }
-
     grad(hash, x, y, z) {
         const h = hash & 15;
         const u = h < 8 ? x : y;
         const v = h < 4 ? y : h === 12 || h === 14 ? x : z;
         return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
     }
-
     noise(x, y, z) {
         const X = Math.floor(x) & 255;
         const Y = Math.floor(y) & 255;
         const Z = Math.floor(z) & 255;
-
         x -= Math.floor(x);
         y -= Math.floor(y);
         z -= Math.floor(z);
-
         const u = this.fade(x);
         const v = this.fade(y);
         const w = this.fade(z);
-
         const A = this.p[X] + Y;
         const AA = this.p[A] + Z;
         const AB = this.p[A + 1] + Z;
         const B = this.p[X + 1] + Y;
         const BA = this.p[B] + Z;
         const BB = this.p[B + 1] + Z;
-
         return this.lerp(w,
             this.lerp(v,
                 this.lerp(u,
@@ -79,41 +71,34 @@ function initNoiseBackground() {
     canvas.style.height = '100%';
     canvas.style.zIndex = '-1';
     document.body.prepend(canvas);
-
     const ctx = canvas.getContext('2d');
     const perlin = new Perlin();
     let time = 0;
-
     function resize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resize);
     resize();
-
+    
     // Animation loop
     function animate() {
         const imageData = ctx.createImageData(canvas.width, canvas.height);
         const data = imageData.data;
-
         for (let x = 0; x < canvas.width; x++) {
             for (let y = 0; y < canvas.height; y++) {
                 const value = perlin.noise(x / 100, y / 100, time / 20) * 0.5 + 0.5;
                 const index = (x + y * canvas.width) * 4;
-
-                // Create a gradient between dark red (#250a0a) and black
-                data[index] = value * 37;     // R: 37 is from #250a0a
-                data[index + 1] = value * 10;  // G: 10 is from #250a0a
-                data[index + 2] = value * 10;  // B: 10 is from #250a0a
-                data[index + 3] = 255;         // Alpha
+                data[index] = value * 97;     
+                data[index + 1] = value * 10;  
+                data[index + 2] = value * 10;  
+                data[index + 3] = 255;         
             }
         }
-
         ctx.putImageData(imageData, 0, 0);
         time += 0.01;
         requestAnimationFrame(animate);
     }
-
     animate();
 }
 
