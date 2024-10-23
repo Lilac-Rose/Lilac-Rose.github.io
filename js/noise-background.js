@@ -89,7 +89,7 @@ function initNoiseBackground() {
             for (let y = 0; y < canvas.height; y++) {
                 const value = perlin.noise(x / 100, y / 100, time / 20) * 0.5 + 0.5;
                 const index = (x + y * canvas.width) * 4;
-                data[index] = value * 97;     
+                data[index] = value * 79;     
                 data[index + 1] = value * 10;  
                 data[index + 2] = value * 10;  
                 data[index + 3] = 255;         
