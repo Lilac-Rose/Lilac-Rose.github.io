@@ -96,7 +96,7 @@ function initNoiseBackground() {
             }
         }
         ctx.putImageData(imageData, 0, 0);
-        time += 0.01;
+        time += 0.02;
         requestAnimationFrame(animate);
     }
     animate();
