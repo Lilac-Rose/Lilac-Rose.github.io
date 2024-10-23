@@ -26,7 +26,8 @@
 }
 
 body {
-  background: linear-gradient(to bottom right, var(--main-bg), var(--black));  height: 100%;
+  background: transparent;
+  height: 100%;
   margin: 0;
   display: block;
   font-family: 'Raleway', sans-serif;
