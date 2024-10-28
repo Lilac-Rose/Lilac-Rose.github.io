@@ -14,10 +14,10 @@
   top: 0;
   width: 250px;
   height: 100%;
-  background-color: var(--secondary-bg);
+  background-color: rgba(36, 36, 36, 0.95);
   color: var(--text-light);
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-  padding-top: 60px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+  padding-top: 70px;
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 10;
@@ -32,37 +32,43 @@
   border: none;
   border-radius: 0 5px 5px 0;
   padding: 10px 15px;
+  font-size: 18px;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sidebar-toggle:hover {
+  background-color: var(--accent-red);
 }
 
 .sidebar-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 15px;
 }
 
 .sidebar-content h2 {
   font-family: 'Edu AU VIC WA NT Hand', cursive;
   margin-bottom: 20px;
+  color: var(--accent-gold);
 }
 
 .sidebar-content a {
   color: var(--text-light);
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 12px 20px;
   width: 100%;
   text-align: center;
   border-radius: 5px;
   margin-bottom: 10px;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
 .sidebar-content a:hover {
-  background-color: var(--accent-red);
-}
-
-.sidebar-open {
-  transform: translateX(0);
+  background-color: var(--accent-gold);
+  color: var(--text-dark);
 }
 
 #cursorCanvas {
