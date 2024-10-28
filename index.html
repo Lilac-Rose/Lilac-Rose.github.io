@@ -24,6 +24,7 @@
 </head>
 <body>
     
+    <!-- Sidebar Structure -->
     <div id="sidebar" class="sidebar">
         <button id="sidebarToggle" class="sidebar-toggle">☰</button>
         <div class="sidebar-content">
@@ -31,7 +32,6 @@
             <a href="#about">About Me</a>
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
-            <!-- Additional Links Can Be Added Here -->
         </div>
     </div>
 
@@ -65,7 +65,8 @@
 
     <div class="horizontal-line"></div>
 
-    <div class="main-container">
+    <!-- About Me Section -->
+    <div id="about" class="main-container">
         <div class="about-me-text">
             About Me!
         </div>
@@ -98,7 +99,8 @@
 
     <div class="horizontal-line"></div>
 
-    <main id="contactContainer" class="contact-container">
+    <!-- Contact Section -->
+    <main id="contact" class="contact-container">
         <h1>Get in Touch</h1>
         <div class="contact-grid">
             <div class="contact-card">
@@ -126,15 +128,16 @@
         <h1>Enter Access Code</h1>
         <p class="access-code-subtext">Are you sure you're meant to see this?</p>
         <div class="access-code-form">
-        <input type="text" id="accessCodeInput" placeholder="Enter access code" autocomplete="off">
-        <button id="submitAccessCode">Submit</button>
+            <input type="text" id="accessCodeInput" placeholder="Enter access code" autocomplete="off">
+            <button id="submitAccessCode">Submit</button>
         </div>
         <div id="accessCodeMessage" class="access-code-message"></div>
     </div>
 
     <div class="horizontal-line"></div>
 
-    <main id="projectsContainer" class="projects-container">
+    <!-- Projects Section -->
+    <main id="projects" class="projects-container">
         <h1>Projects</h1>
         <article class="project-card">
             <h2 class="project-title">
