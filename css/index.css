@@ -8,6 +8,63 @@
   --black: #000000;
 }
 
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background-color: var(--secondary-bg);
+  color: var(--text-light);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  padding-top: 60px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 10;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  right: -40px;
+  background-color: var(--accent-gold);
+  color: var(--text-dark);
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-content h2 {
+  font-family: 'Edu AU VIC WA NT Hand', cursive;
+  margin-bottom: 20px;
+}
+
+.sidebar-content a {
+  color: var(--text-light);
+  text-decoration: none;
+  padding: 10px 20px;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-content a:hover {
+  background-color: var(--accent-red);
+}
+
+.sidebar-open {
+  transform: translateX(0);
+}
+
 #cursorCanvas {
   position: fixed;
   top: 0;

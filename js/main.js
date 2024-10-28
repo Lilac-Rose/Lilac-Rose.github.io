@@ -98,4 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
         customEmoteElement.remove();
     })
     .catch((error) => console.error('Error fetching Discord profile:', error));
+    
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('sidebar-open');
+  });
 });
+
