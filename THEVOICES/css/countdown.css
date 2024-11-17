@@ -1,0 +1,52 @@
+body {
+    background-color: #1b1b1b;
+    color: #d3d3d3;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#countdown-container {
+    text-align: center;
+    color: #ff0000; /* Red text for intensity */
+    text-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000, 0 0 45px #ff0000;
+}
+
+#countdown {
+    font-size: 4rem;
+    margin-top: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 30px #ff0000, 0 0 60px #ff0000, 0 0 90px #ff0000;
+}
+
+h1 {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000;
+    color: #ff3300; /* Darker red for the title for more contrast */
+}
+
+#countdown span {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ff0000; /* Bright red for urgency */
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+#countdown-container {
+    padding: 20px;
+    border: 5px solid #ff0000; /* Red border for emphasis */
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background for readability */
+    box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000; /* Glowing red border */
+}
