@@ -89,7 +89,14 @@ function loadFractal(type) {
 
     // Create new p5 instance for the selected fractal
     if (fractalFunctions[type]) {
-        window.p5Instance = new p5(fractalFunctions[type], 'p5-container');
+        try {
+            window.p5Instance = new p5(fractalFunctions[type], 'p5-container');
+            console.log(`Successfully created p5 instance for ${type}`);
+        } catch (error) {
+            console.error(`Error creating p5 instance: ${error}`);
+        }
+    } else {
+        console.error(`No fractal function found for: ${type}`);
     }
 
     // Update active button
@@ -106,16 +113,19 @@ function loadFractal(type) {
     }
 }
 
-// Clear Canvas Helper
 function clearCanvas() {
+    console.log('Clearing canvas...');
     if (window.p5Instance) {
+        console.log('Removing existing p5 instance');
         window.p5Instance.remove();
         window.p5Instance = null;
     }
     const container = document.getElementById('p5-container');
     while (container.firstChild) {
+        console.log('Removing child from container');
         container.removeChild(container.firstChild);
     }
+    console.log('Canvas cleared');
 }
 
 // Initialize when DOM is loaded
@@ -125,7 +135,7 @@ document.addEventListener('DOMContentLoaded', init);
 function setupMandelbrot() {
     return (p) => {
         p.setup = () => {
-            p.createCanvas(400, 400);
+            p.createCanvas(800, 800);
             p.pixelDensity(1);
         };
 
