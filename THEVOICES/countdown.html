@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown to The Game</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#660000">
+    <title>Countdown - Whispers in the Void</title>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Whispers in the Void">
+    <meta property="og:description" content="The echoes of a forgotten game. 12/1/2024. Await the shadows...">
+    <meta property="og:site_name" content="lilacrose.dev">
+    <meta property="og:url" content="http://lilacrose.dev/whispersinthevoid">
+    <meta property="og:image" content="images/icon.png">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 4c-6.627 0-12 6-12 6s5.373 6 12 6 12-6 12-6-5.373-6-12-6zm0 10c-4.418 0-8-4-8-4s3.582-4 8-4 8 4 8 4-3.582 4-8 4z'/%3E%3C/svg%3E">
+
     <link rel="stylesheet" href="css/countdown.css">
 </head>
 <body>
-    <div id="countdown-container">
-        <h1>The Game Begins In</h1>
-        <div id="countdown">
-            <span id="days">00</span> days 
-            <span id="hours">00</span> hours 
-            <span id="minutes">00</span> minutes 
-            <span id="seconds">00</span> seconds
-        </div>
+    <div class="countdown-container">
+        <h1 class="title">The Game is Coming...</h1>
+        <div id="timer" class="timer"></div>
+        <p class="message">Await the whispers. 12/1/2024.</p>
+        <div class="eye-symbol">👁</div>
     </div>
 
     <script src="js/countdown.js"></script>

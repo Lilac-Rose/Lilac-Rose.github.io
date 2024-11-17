@@ -1,52 +1,68 @@
+/* General Body Styling */
 body {
-    background-color: #1b1b1b;
-    color: #d3d3d3;
     font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    background-color: #660000;
+    color: #fff;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
     overflow: hidden;
-}
-
-#countdown-container {
     text-align: center;
-    color: #ff0000; /* Red text for intensity */
-    text-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000, 0 0 45px #ff0000;
 }
 
-#countdown {
-    font-size: 4rem;
-    margin-top: 20px;
-    font-weight: bold;
-    text-shadow: 0 0 30px #ff0000, 0 0 60px #ff0000, 0 0 90px #ff0000;
-}
-
-h1 {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    font-weight: bold;
-    text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000;
-    color: #ff3300; /* Darker red for the title for more contrast */
-}
-
-#countdown span {
-    font-size: 4rem;
-    font-weight: bold;
-    color: #ff0000; /* Bright red for urgency */
-    animation: pulse 1.5s infinite alternate;
-}
-
-@keyframes pulse {
-    0% { opacity: 0.7; }
-    100% { opacity: 1; }
-}
-
-#countdown-container {
+.countdown-container {
+    width: 100%;
+    max-width: 500px;
     padding: 20px;
-    border: 5px solid #ff0000; /* Red border for emphasis */
+    background-color: rgba(0, 0, 0, 0.8);
     border-radius: 15px;
-    background-color: rgba(0, 0, 0, 0.7); /* Dark background for readability */
-    box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000; /* Glowing red border */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+h1.title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.timer {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff0000; /* Bright red for the timer */
+    margin-bottom: 20px;
+}
+
+.message {
+    font-size: 1.2rem;
+    font-weight: lighter;
+    color: #ccc;
+}
+
+.eye-symbol {
+    font-size: 3rem;
+    margin-top: 20px;
+    color: #ff0000; /* Red color for the eye symbol */
+}
+
+/* For small devices */
+@media (max-width: 600px) {
+    h1.title {
+        font-size: 1.5rem;
+    }
+
+    .timer {
+        font-size: 2.5rem;
+    }
+
+    .message {
+        font-size: 1rem;
+    }
+
+    .eye-symbol {
+        font-size: 2.5rem;
+    }
 }
