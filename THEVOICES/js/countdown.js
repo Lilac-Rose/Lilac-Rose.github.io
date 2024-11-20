@@ -18,10 +18,13 @@ const updateCountdown = () => {
     // Output the result in the timer element
     timerElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-    // If the countdown is over, display a message
+    // If the countdown is over, redirect to the hub page (Phase 1)
     if (distance < 0) {
         clearInterval(x);
         timerElement.innerHTML = "The Game Has Begun!";
+
+        // Redirect to hub page (Phase 1)
+        window.location.href = 'hub.html';  // Change 'hub.html' to the actual path if needed
     }
 };
 
