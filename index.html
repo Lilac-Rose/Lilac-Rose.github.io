@@ -14,27 +14,29 @@
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="css/index.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+        
+        .clue {
+            display: none;
+            color: #ff0000; /* Red to make it stand out */
+            font-weight: bold;
+        }
+
+        .hidden-clue {
+            display: none;
+        }
+
+        .topnav a.active {
+            font-weight: bold;
+        }
     </style>
-    <link rel="stylesheet" href="css/index.css">
     <title>Lilac Aria Rose</title>  
     <link rel="icon" type="image/x-icon" href="images/icon.png">       
 </head>
 <body>
-    
-    <!-- Sidebar Structure -->
-    <div id="sidebar" class="sidebar">
-        <button id="sidebarToggle" class="sidebar-toggle">☰</button>
-        <div class="sidebar-content">
-            <h2>Navigation</h2>
-            <a href="#about">About Me</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </div>
-
     <canvas id="cursorCanvas"></canvas>
 
     <div class="topnav">
@@ -182,14 +184,8 @@
         </article>
     </main>
 
-    <div class="footer">
-        <a href="https://lilacrose.dev" target="_blank" rel="noopener noreferrer">
-            <img src="images/lilac88x31.png" alt="Lilac" loading="lazy" style="image-rendering: pixelated">
-        </a>  
-    </div>
+    <div class="horizontal-line"></div>
 
-    <script src="js/main.js"></script>
-    <script src="js/oneko.js"></script>
-    <script src="js/noise-background.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>
