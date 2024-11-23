@@ -10,16 +10,6 @@
   --scan-line: rgba(255, 255, 255, 0.03);
 }
 
-@keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
-}
-
-@keyframes terminal-flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.95; }
-}
-
 /* Base Styles */
 * {
   box-sizing: border-box;
@@ -118,13 +108,14 @@ body {
 }
 
 .discord-banner {
-  width: calc(100% + 40px); /* Extend beyond padding */
+  width: calc(100% + 40px);
   height: 200px;
   border: 1px solid var(--terminal-green);
-  margin: -20px -20px 20px -20px; /* Negative margin to counter parent padding */
+  margin: -20px -20px 20px -20px;
   object-fit: cover;
   box-sizing: border-box;
   display: block;
+  background-size: auto;
 }
 
 .discord-info {
