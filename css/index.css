@@ -82,6 +82,10 @@ body {
   align-items: center;
 }
 
+.discord-profile-text {
+  margin-top: 40px;
+}
+
 /* Discord Profile */
 .discord-profile {
   background-color: var(--secondary-bg);
@@ -331,6 +335,11 @@ body {
   max-width: 800px;
   margin: 40px auto;
   text-align: center;
+}
+
+.access-code-subtext {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #accessCodeInput {
