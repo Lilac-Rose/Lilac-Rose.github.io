@@ -31,6 +31,7 @@
 body {
   background: var(--main-bg);
   margin: 0;
+  padding: 0;
   font-family: 'Share Tech Mono', monospace;
   color: var(--text-primary);
   position: relative;
@@ -79,6 +80,7 @@ body::after {
   z-index: 1001;
 }
 
+/* Navigation */
 .topnav {
   background-color: var(--secondary-bg);
   border-bottom: 1px solid var(--terminal-green);
@@ -89,8 +91,7 @@ body::after {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: static; /* Changed from fixed to static */
-  z-index: 1002;
+  margin: 0; /* Ensure no margin */
 }
 
 .topnav a {
@@ -134,34 +135,34 @@ body::after {
   background-color: var(--secondary-bg);
   border: 1px solid var(--terminal-green);
   box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
-  width: 100%;
+  width: calc(100% - 40px); /* Account for padding */
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
   position: relative;
-  box-sizing: border-box; /* Add this to include padding in width calculation */
+  box-sizing: border-box;
 }
 
 .discord-profile::before {
   content: "> FKLR_UNIT_PROFILE";
   position: absolute;
-  top: -20px; /* Move the text above the container */
+  top: -20px;
   left: 0;
   color: var(--terminal-green);
   font-size: 12px;
   opacity: 0.7;
-  background-color: var(--main-bg); /* Match the background */
-  padding: 0 10px; /* Add some padding around the text */
+  background-color: var(--main-bg);
+  padding: 0 10px;
 }
 
 .discord-banner {
-  width: 100%;
+  width: calc(100% + 40px); /* Extend beyond padding */
   height: 200px;
   border: 1px solid var(--terminal-green);
-  margin-bottom: 20px;
+  margin: -20px -20px 20px -20px; /* Negative margin to counter parent padding */
   object-fit: cover;
-  box-sizing: border-box; /* Include border in width/height calculation */
-  display: block; /* Prevent any unexpected spacing */
+  box-sizing: border-box;
+  display: block;
 }
 
 .discord-info {
@@ -176,7 +177,7 @@ body::after {
   border-radius: 50%;
   margin: 0 auto 20px;
   display: block;
-  box-sizing: border-box; /* Include border in width/height calculation */
+  box-sizing: border-box;
 }
 
 .discord-username {
