@@ -144,7 +144,18 @@ body {
   letter-spacing: 2px;
 }
 
-/* Projects Section */
+.discord-status {
+  text-align: center;
+}
+
+.about {
+  font-size: 36px;
+}
+
+.text-container {
+  text-align: center
+}
+
 .projects-container {
   width: 100%;
   max-width: 1000px;
