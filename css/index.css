@@ -154,10 +154,12 @@ body {
 
 .main-container {
   font-size: 36px;
+  color: var(--terminal-green);
 }
 
 .text-container {
   font-size: 24px;
+  text-align: center;
 }
 
 .projects-container {
@@ -210,6 +212,15 @@ body {
   margin-bottom: 15px;
   text-transform: uppercase;
   letter-spacing: 2px;
+}
+
+.friends-text {
+  color: var(--terminal-green);
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
 }
 
 .friends-container {
