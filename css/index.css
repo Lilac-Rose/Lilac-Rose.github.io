@@ -1,601 +1,245 @@
 :root {
-  --main-bg: #101010; /* Very dark gray, almost black */
-  --secondary-bg: #1e1e1e; /* Slightly lighter gray */
-  --accent-red: #8b0000; /* Muted, deep red */
-  --accent-gray: #303030; /* Dark neutral gray */
-  --text-light: #e0e0e0; /* Soft white */
-  --text-dark: #101010; /* Black for strong contrast */
-  --border-color: #404040; /* For gridlines and highlights */
-  --glow-red: rgba(139, 0, 0, 0.8); /* Glow effect for red highlights */
+  --main-bg: #0a0f14;
+  --secondary-bg: #141920;
+  --terminal-green: #00ff95;
+  --warning-red: #ff2a3c;
+  --inactive-gray: #465766;
+  --text-primary: #e6edf3;
+  --text-secondary: #768390;
+  --interface-lines: rgba(0, 255, 149, 0.15);
+  --scan-line: rgba(255, 255, 255, 0.03);
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes terminal-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
 }
 
 body {
   background: var(--main-bg);
-  color: var(--text-light);
-  font-family: 'Orbitron', sans-serif; /* Retro-futuristic font */
   margin: 0;
-  display: block;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--text-primary);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    var(--scan-line) 0px,
+    var(--scan-line) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 255, 149, 0.03) 50%,
+    transparent 100%
+  );
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 1001;
 }
 
 .topnav {
   background-color: var(--secondary-bg);
+  border-bottom: 1px solid var(--terminal-green);
   height: 60px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  border-bottom: 2px solid var(--border-color);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
+  animation: terminal-flicker 2s infinite;
 }
 
 .topnav a {
-  color: var(--text-light);
-  text-decoration: none;
-  font-size: 14px;
-  padding: 10px 15px;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--terminal-green);
+  border: 1px solid var(--terminal-green);
+  background: rgba(0, 255, 149, 0.05);
   text-transform: uppercase;
-  border: 1px solid transparent;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
 }
 
 .topnav a:hover {
-  background-color: var(--accent-red);
-  border-color: var(--glow-red);
+  background-color: var(--terminal-green);
+  color: var(--main-bg);
+  text-shadow: 0 0 5px var(--terminal-green);
 }
 
-#quotes {
-  text-align: center;
-  color: var(--text-light);
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin: 20px auto;
-  padding: 10px;
-  border: 1px dashed var(--border-color);
-  max-width: 800px;
-}
-
-#quotes:hover {
-  color: var(--accent-red);
-  text-decoration: none;
-  border-color: var(--glow-red);
+.topnav a.active {
+  background-color: var(--terminal-green);
+  color: var(--main-bg);
+  border: 1px solid var(--terminal-green);
 }
 
 .discord-profile {
-  background: var(--secondary-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 20px;
-  max-width: 600px;
-  margin: 20px auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-}
-
-.discord-banner {
-  height: 200px;
-  background-color: var(--accent-gray);
-  border-bottom: 1px solid var(--border-color);
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--terminal-green);
+  box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
 }
 
 .discord-avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 3px solid var(--accent-red);
-  margin-top: -75px;
-  box-shadow: 0 4px 8px var(--glow-red);
+  border: 2px solid var(--terminal-green);
+  box-shadow: 0 0 15px rgba(0, 255, 149, 0.2);
 }
 
 .discord-username {
-  font-size: 24px;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--terminal-green);
   text-transform: uppercase;
-  color: var(--accent-red);
-  margin: 10px 0;
-  text-shadow: 0 0 5px var(--glow-red);
-}
-
-.discord-status, .custom-status {
-  font-size: 16px;
-  color: var(--text-light);
-  background: var(--accent-gray);
-  padding: 5px 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-}
-
-.custom-status-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.custom-emote-img {
-  width: 20px;
-  height: 20px;
-  filter: grayscale(1);
-  margin-left: 8px;
-}
-
-#cursorCanvas {
-  background: none;
-  z-index: 10000;
-}
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-
-.about-me-text {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  font-size: 36px;
-  color: var(--accent-gold);
-  text-align: center;
-  margin-bottom: 40px;
-  margin-top: 40px;
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.text-container {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: center;
-}
-
-.text {
-  font-size: 1.75vw;
-  color: var(--accent-gold);
-}
-
-.additional-text {
-  font-size: 1vw;
-  color: var(--accent-red);
-  margin-top: 10px;
-}
-
-.friends-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-  width: 100%;
-}
-
-.friends-text {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  font-size: 36px;
-  color: var(--accent-gold);
-  text-align: center;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-.friends-images {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.friends-images a {
-  display: block;
-  margin: 5px;
-}
-
-.friends-images img {
-  width: 88px;
-  height: 31px;
-  image-rendering: pixelated;
-}
-
-.contact-container {
-  max-width: 100%;
-  padding: 10opx
-}
-
-.contact-container h1 {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  font-size: 36px;
-  color: var(--accent-gold);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  max-width: 100%;
-  margin: 0 auto;
-  margin-bottom:  30px;
-}
-
-.contact-card {
-  background-color: var(--secondary-bg);
-  border-radius: 15px;
-  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 150px;
-}
-
-.contact-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(204, 0, 0, 0.4), 0 16px 32px rgba(204, 0, 0, 0.4);
-}
-
-.contact-card h2 {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  font-size: 24px;
-  color: var(--accent-gold);
-  margin: 0 0 10px 0;
-}
-
-.contact-card a {
-  font-family: 'Raleway', sans-serif;
-  font-size: 18px;
-  color: var(--text-light);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.contact-card a:hover {
-  color: var(--accent-red);
-}
-
-.access-code-container {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: var(--secondary-bg);
-  border-radius: 15px;
-  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
-}
-
-.access-code-container h1 {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  font-size: 28px;
-  color: var(--accent-gold);
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.access-code-subtext {
-  font-family: 'Raleway', sans-serif;
-  font-size: 14px;
-  color: var(--text-light);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.access-code-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#accessCodeInput {
-  font-family: 'Raleway', sans-serif;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 2px solid var(--accent-red);
-  border-radius: 5px;
-  background-color: var(--main-bg);
-  color: var(--text-light);
-  font-size: 16px;
-}
-
-#submitAccessCode {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  padding: 10px 20px;
-  background-color: var(--accent-red);
-  color: var(--text-light);
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-#submitAccessCode:hover {
-  background-color: var(--accent-gold);
-  color: var(--text-dark);
-}
-
-#accessCodeMessage {
-  margin-top: 15px;
-  text-align: center;
-  font-size: 14px;
-}
-
-
-.projects-container {
-  max-width: 100%; 
-  margin: 80px auto 100px;
-}
-
-.projects-container h1 {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  font-size: 36px;
-  color: var(--accent-gold);
-  text-align: center;
-  margin-bottom: 40px;
-  margin-top: 40px;
+  letter-spacing: 2px;
 }
 
 .project-card {
   background-color: var(--secondary-bg);
-  border-radius: 15px;
-  margin-bottom: 5px;
-  padding: 20px;
-  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3), 0 8px 16px rgba(204, 0, 0, 0.3);
+  border: 1px solid var(--terminal-green);
+  box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
   transition: all 0.3s ease;
-  transform-origin: center;
-  transform: scale(0.9);
 }
 
-.project-card:hover {
-  transform: scale(0.99);   
-  box-shadow: 0 12px 24px rgba(204, 0, 0, 0.4), 0 16px 32px rgba(204, 0, 0, 0.4);
-}
-
-.project-title {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  font-size: 24px;
-  margin-bottom: 15px;
-  transition: font-size 0.3s ease;
+.project-card::before {
+  content: "> FKLR_UNIT_DATA";
+  color: var(--terminal-green);
+  font-size: 12px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  opacity: 0.5;
 }
 
 .project-title a {
-  color: var(--accent-gold);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.project-title a:hover {
-  color: var(--accent-red);
-}
-
-.project-card:hover .project-title {
-  font-size: 28px;
-}
-
-.project-content {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  gap: 20px;
+  color: var(--terminal-green);
+  font-family: 'Share Tech Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .project-description {
-  flex: 1;
-  font-family: 'Raleway', sans-serif;
-  font-size: 18px;
-  color: var(--text-light);
+  color: var(--text-secondary);
+  font-family: 'Share Tech Mono', monospace;
   line-height: 1.6;
-  margin-bottom: 15px;
-  transition: font-size 0.3s ease;
 }
 
-.project-content a {
-  flex-shrink: 0; 
-  display: block;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  position: relative;
-  z-index: 1;
+.contact-card {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--terminal-green);
+  box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
 }
 
-.project-image {
-  max-width: 250px;
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: all 0.3s ease;
+.contact-card h2 {
+  color: var(--terminal-green);
+  font-family: 'Share Tech Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-.project-card:hover .project-content a {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 20px rgba(204, 0, 0, 0.4);
+.access-code-container {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--terminal-green);
+  box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
 }
 
-.project-card:hover .project-image {
-  transform: scale(1.05);
+#accessCodeInput {
+  background-color: var(--main-bg);
+  border: 1px solid var(--terminal-green);
+  color: var(--terminal-green);
+  font-family: 'Share Tech Mono', monospace;
 }
 
-.project-content a::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.project-card:hover .project-content a::after {
-  opacity: 1;
-}
-
-.project-card:hover .project-description {
-  font-size: 24px; 
-}
-
-@media (max-width: 768px) {
-  .project-content {
-      flex-direction: column-reverse;
-  }
-
-  .project-content a {
-      width: 100%;
-  }
-
-  .project-image {
-      max-width: 100%;
-  }
-
-  .project-description {
-    text-align: center;
-  }
-
-  .project-card:hover .project-description {
-    font-size: 20px;
-  }
-} 
-
-blog-container {
-  max-width: 100%;
-  margin: 40px auto 100px;
-  padding: 0 20px;
-}
-
-
-.blog-main-title {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  font-size: 48px;
-  color: var(--accent-gold);
-  text-align: center;
-  margin-bottom: 40px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-  padding-top:50px;
+#submitAccessCode {
+  background-color: var(--terminal-green);
+  color: var(--main-bg);
+  font-family: 'Share Tech Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .blog-post {
-  background-color: var(--main-bg);
-  border-radius: 15px;
-  margin-bottom: 40px;
-  padding: 30px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-}
-
-.blog-post:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.4);
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--terminal-green);
+  box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
 }
 
 .blog-title {
-  font-family: 'Edu AU VIC WA NT Hand', cursive;
-  font-size: 32px;
-  color: var(--accent-gold);
-  margin-bottom: 15px;
-}
-
-.blog-date {
-  font-size: 14px;
-  color: #a0a0a0;
-  margin-bottom: 20px;
-}
-
-.blog-content {
-  font-size: 18px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.blog-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.read-more {
-  display: inline-block;
-  background-color: var(--main-bg);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.read-more:hover {
-  background-color: #db5ff7;
-  color: black;
-}
-
-#image-container {
-  margin: 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  border-radius: 10px;
-}
-
-#fetchedImage {
-  max-width: 100%;
-  height: auto;
-  margin-top: 10px;
-}
-
-#imageTitle, #imageDate, #imageExplanation {
-  color: #f2f2f2;
-  font-family: 'Raleway', sans-serif;
-  margin: 10px 0;
-  transition: font-size 0.3s ease;
-}
-
-#imageTitle {
-  font-size: 32px;
-}
-
-#imageDate {
-  font-size: 24px;
-}
-
-#imageExplanation {
-  font-size: 20px;
-  text-align: center;
-  max-width: 100%;
-  margin: 10px auto;
-  padding-bottom: 40px;
+  color: var(--terminal-green);
+  font-family: 'Share Tech Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
   background-color: var(--secondary-bg);
-  color: var(--text-light);
-  text-align: center;
-  padding: 10px 0;
-  box-shadow: 0 -4px 8px rgba(204, 0, 0, 0.3);
-  border-radius: 15px 15px 0 0;
+  border-top: 1px solid var(--terminal-green);
+  font-family: 'Share Tech Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-.footer a {
-  color: var(--text-light);
-  text-decoration: none;
+/* Additional SIGNALIS-inspired elements */
+
+.horizontal-line {
+  height: 1px;
+  background-color: var(--terminal-green);
+  box-shadow: 0 0 10px var(--terminal-green);
 }
 
-.footer a:hover {
-  text-decoration: underline;
-  color: var(--accent-gold);
+/* Error state styling */
+.error {
+  color: var(--warning-red);
+  text-shadow: 0 0 5px var(--warning-red);
+}
+
+/* Terminal-style loading animation */
+@keyframes loading {
+  0% { content: "_"; }
+  33% { content: "__"; }
+  66% { content: "___"; }
+  100% { content: "_"; }
+}
+
+.loading::after {
+  content: "_";
+  animation: loading 1.5s infinite;
+}
+
+/* Interface grid lines */
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(to right, var(--interface-lines) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--interface-lines) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: -1;
 }
