@@ -1,13 +1,11 @@
 :root {
   --main-bg: #0a0f14;
   --secondary-bg: #141920;
-  --terminal-green: #00ff95;
+  --terminal-color: #00ff95;
   --warning-red: #ff2a3c;
   --inactive-gray: #465766;
   --text-primary: #e6edf3;
   --text-secondary: #768390;
-  --interface-lines: rgba(0, 255, 149, 0.15);
-  --scan-line: rgba(255, 255, 255, 0.03);
 }
 
 /* Base Styles */
@@ -35,7 +33,7 @@ body {
 /* Navigation */
 .topnav {
   background-color: var(--secondary-bg);
-  border-bottom: 1px solid var(--terminal-green);
+  border-bottom: 1px solid var(--terminal-color);
   height: 60px;
   box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
   animation: terminal-flicker 2s infinite;
@@ -48,8 +46,8 @@ body {
 
 .topnav a {
   font-family: 'Share Tech Mono', monospace;
-  color: var(--terminal-green);
-  border: 1px solid var(--terminal-green);
+  color: var(--terminal-color);
+  border: 1px solid var(--terminal-color);
   background: rgba(0, 255, 149, 0.05);
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -61,13 +59,13 @@ body {
 }
 
 .topnav a:hover {
-  background-color: var(--terminal-green);
+  background-color: var(--terminal-color);
   color: var(--main-bg);
-  text-shadow: 0 0 5px var(--terminal-green);
+  text-shadow: 0 0 5px var(--terminal-color);
 }
 
 .topnav a.active {
-  background-color: var(--terminal-green);
+  background-color: var(--terminal-color);
   color: var(--main-bg);
 }
 
@@ -87,9 +85,9 @@ body {
 /* Discord Profile */
 .discord-profile {
   background-color: var(--secondary-bg);
-  border: 1px solid var(--terminal-green);
+  border: 1px solid var(--terminal-color);
   box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
-  width: calc(100% - 40px); /* Account for padding */
+  width: calc(100% - 40px);
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
@@ -97,22 +95,10 @@ body {
   box-sizing: border-box;
 }
 
-.discord-profile::before {
-  content: "> FKLR_UNIT_PROFILE";
-  position: absolute;
-  top: -20px;
-  left: 0;
-  color: var(--terminal-green);
-  font-size: 12px;
-  opacity: 0.7;
-  background-color: var(--main-bg);
-  padding: 0 10px;
-}
-
 .discord-banner {
   width: calc(100% + 40px);
   height: 200px;
-  border: 1px solid var(--terminal-green);
+  border: 1px solid var(--terminal-color);
   margin: -20px -20px 20px -20px;
   object-fit: cover;
   box-sizing: border-box;
@@ -130,7 +116,7 @@ body {
 .discord-avatar {
   width: 120px;
   height: 120px;
-  border: 2px solid var(--terminal-green);
+  border: 2px solid var(--terminal-color);
   border-radius: 50%;
   margin: 0 auto 20px;
   display: block;
@@ -138,7 +124,7 @@ body {
 }
 
 .discord-username {
-  color: var(--terminal-green);
+  color: var(--terminal-color);
   text-align: center;
   font-size: 24px;
   margin-bottom: 10px;
@@ -152,7 +138,7 @@ body {
 
 .main-container {
   font-size: 36px;
-  color: var(--terminal-green);
+  color: var(--terminal-color);
 }
 
 .text-container {
@@ -168,7 +154,7 @@ body {
 }
 
 .projects-container h1 {
-  color: var(--terminal-green);
+  color: var(--terminal-color);
   text-align: center;
   font-size: 28px;
   margin-bottom: 30px;
@@ -178,7 +164,7 @@ body {
 
 .project-card {
   background-color: var(--secondary-bg);
-  border: 1px solid var(--terminal-green);
+  border: 1px solid var(--terminal-color);
   margin-bottom: 20px;
   padding: 20px;
   position: relative;
@@ -194,7 +180,7 @@ body {
   width: 150px;
   height: 150px;
   object-fit: cover;
-  border: 1px solid var(--terminal-green);
+  border: 1px solid var(--terminal-color);
 }
 
 .project-description {
@@ -205,15 +191,15 @@ body {
 }
 
 .project-title {
-  color: var(--terminal-green);
-  font-size: 20px;
+  color: var(--terminal-color);
+  font-size: 32px;
   margin-bottom: 15px;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
 .friends-text {
-  color: var(--terminal-green);
+  color: var(--terminal-color);
   text-align: center;
   font-size: 28px;
   margin-bottom: 10px;
@@ -239,7 +225,7 @@ body {
 }
 
 .contact-container h1 {
-  color: var(--terminal-green);
+  color: var(--terminal-color);
   text-align: center;
   font-size: 28px;
   margin-bottom: 30px;
@@ -255,7 +241,7 @@ body {
 
 .contact-card {
   background-color: var(--secondary-bg);
-  border: 1px solid var(--terminal-green);
+  border: 1px solid var(--terminal-color);
   padding: 20px;
   text-align: center;
   transition: all 0.3s ease;
@@ -266,7 +252,7 @@ body {
 }
 
 .contact-card h2 {
-  color: var(--terminal-green);
+  color: var(--terminal-color);
   font-size: 18px;
   margin-bottom: 10px;
   text-transform: uppercase;
@@ -280,7 +266,7 @@ body {
 }
 
 .contact-card a:hover {
-  color: var(--terminal-green);
+  color: var(--terminal-color);
 }
 
 /* Blog Posts */
@@ -293,13 +279,13 @@ body {
 
 .blog-post {
   background-color: var(--secondary-bg);
-  border: 1px solid var(--terminal-green);
+  border: 1px solid var(--terminal-color);
   margin-bottom: 30px;
   padding: 20px;
 }
 
 .blog-title {
-  color: var(--terminal-green);
+  color: var(--terminal-color);
   font-size: 24px;
   margin-bottom: 10px;
   text-transform: uppercase;
@@ -320,31 +306,31 @@ body {
 /* Footer */
 .footer {
   background-color: var(--secondary-bg);
-  border-top: 1px solid var(--terminal-green);
+  border-top: 1px solid var(--terminal-color);
   width: 100%;
   padding: 15px;
   text-align: center;
   position: fixed;
   bottom: 0;
-  color: var(--terminal-green);
+  color: var(--terminal-color);
   font-size: 14px;
   letter-spacing: 2px;
   z-index: 1002;
 }
 
 .footer a {
-  color: var(--terminal-green);
+  color: var(--terminal-color);
   text-decoration: none;
 }
 
 .footer a:hover {
-  text-shadow: 0 0 5px var(--terminal-green);
+  text-shadow: 0 0 5px var(--terminal-color);
 }
 
 /* Access Code Form */
 .access-code-container {
   background-color: var(--secondary-bg);
-  border: 1px solid var(--terminal-green);
+  border: 1px solid var(--terminal-color);
   padding: 30px;
   max-width: 800px;
   margin: 40px auto;
@@ -361,15 +347,15 @@ body {
   padding: 10px;
   margin-bottom: 15px;
   background-color: var(--main-bg);
-  border: 1px solid var(--terminal-green);
-  color: var(--terminal-green);
+  border: 1px solid var(--terminal-color);
+  color: var(--terminal-color);
   font-family: 'Share Tech Mono', monospace;
 }
 
 #submitAccessCode {
   background-color: transparent;
-  border: 1px solid var(--terminal-green);
-  color: var(--terminal-green);
+  border: 1px solid var(--terminal-color);
+  color: var(--terminal-color);
   padding: 10px 20px;
   cursor: pointer;
   font-family: 'Share Tech Mono', monospace;
@@ -378,7 +364,7 @@ body {
 }
 
 #submitAccessCode:hover {
-  background-color: var(--terminal-green);
+  background-color: var(--terminal-color);
   color: var(--main-bg);
 }
 
@@ -407,10 +393,10 @@ body {
 /* Additional SIGNALIS-inspired elements */
 .horizontal-line {
   height: 1px;
-  background-color: var(--terminal-green);
+  background-color: var(--terminal-color);
   width: 100%;
   margin: 20px 0;
-  box-shadow: 0 0 10px var(--terminal-green);
+  box-shadow: 0 0 10px var(--terminal-color);
 }
 
 /* Grid overlay */
