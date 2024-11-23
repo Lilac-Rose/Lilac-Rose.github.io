@@ -152,12 +152,12 @@ body {
   text-align: center;
 }
 
-.about {
+.main-container {
   font-size: 36px;
 }
 
 .text-container {
-  text-align: center
+  font-size: 24px;
 }
 
 .projects-container {
@@ -214,6 +214,11 @@ body {
 
 .friends-container {
   margin: auto;
+}
+
+.friends-images {
+  margin:auto;
+  text-align: center;
 }
 
 /* Contact Cards */
