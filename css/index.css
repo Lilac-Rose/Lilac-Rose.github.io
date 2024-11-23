@@ -390,19 +390,6 @@ body {
   box-shadow: 0 0 10px var(--terminal-green);
 }
 
-/* Loading animation */
-@keyframes loading {
-  0% { content: "_"; }
-  33% { content: "__"; }
-  66% { content: "___"; }
-  100% { content: "_"; }
-}
-
-.loading::after {
-  content: "_";
-  animation: loading 1.5s infinite;
-}
-
 /* Grid overlay */
 .grid-overlay {
   position: fixed;
