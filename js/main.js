@@ -99,3 +99,36 @@ document.addEventListener('DOMContentLoaded', function() {
   })
   .catch((error) => console.error('Error fetching Discord profile:', error));
 })
+
+async function fetchMusicStatus() {
+  try {
+    const response = await fetch('/.netlify/functions/youtube-music-status');
+    const data = await response.json();
+
+    if (data.isPlaying) {
+      // Update the track information
+      document.getElementById('track-title').textContent = data.track.title;
+      document.getElementById('track-artist').textContent = data.track.artists;
+      document.getElementById('track-thumbnail').src = data.track.thumbnail;
+
+      // Update progress bar
+      const progressElement = document.getElementById('progress');
+      const progress = (data.track.currentTime / data.track.duration) * 100;
+      progressElement.style.width = `${progress}%`;
+
+      // Update every second
+      setTimeout(fetchMusicStatus, 1000);
+    } else {
+      // Show no song is playing
+      document.getElementById('track-title').textContent = 'No song playing';
+      document.getElementById('track-artist').textContent = '';
+      document.getElementById('track-thumbnail').src = '';
+      document.getElementById('progress').style.width = '0%';
+    }
+  } catch (error) {
+    console.error('Error fetching YouTube music status:', error);
+  }
+}
+
+// Run the function on page load
+fetchMusicStatus();
