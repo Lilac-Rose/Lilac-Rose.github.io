@@ -7,6 +7,11 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
+console.log("CLIENT_ID:", process.env.CLIENT_ID);
+console.log("CLIENT_SECRET:", process.env.CLIENT_SECRET);
+console.log("REFRESH_TOKEN:", process.env.REFRESH_TOKEN);  // Log the refresh token to make sure it's available
+
+
 async function getAccessToken() {
     try {
         const response = await axios.post("https://oauth2.googleapis.com/token", {
