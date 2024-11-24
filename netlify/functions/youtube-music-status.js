@@ -3,9 +3,9 @@ const serverless = require('serverless-http');
 const axios = require('axios');
 const app = express();
 
-const CLIENT_ID = "";
-const CLIENT_SECRET = "";
-const REFRESH_TOKEN = "";
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 async function getAccessToken() {
     const response = await axios.post("https://oauth2.googleapis.com/token", {
