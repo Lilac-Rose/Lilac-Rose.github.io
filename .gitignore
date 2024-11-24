@@ -7,3 +7,5 @@ Gemfile.lock
 
 # Local Netlify folder
 .netlify
+
+.env
