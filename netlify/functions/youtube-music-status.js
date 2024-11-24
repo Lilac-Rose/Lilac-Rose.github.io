@@ -8,16 +8,21 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 async function getAccessToken() {
-    const response = await axios.post("https://oauth2.googleapis.com/token", {
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
-        refresh_token: REFRESH_TOKEN,
-        grant_type: "refresh_token"
-    });
-    return response.data.access_token;
+    try {
+        const response = await axios.post("https://oauth2.googleapis.com/token", {
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            refresh_token: REFRESH_TOKEN,
+            grant_type: "refresh_token"
+        });
+        return response.data.access_token;
+    } catch (error) {
+        console.error("Error fetching access token:", error.response?.data || error.message);
+        throw new Error("Failed to fetch access token");
+    }
 }
 
-app.get('/.netlify/functions/youtube-music-status', async (req, res) =>{
+app.get('/.netlify/functions/youtube-music-status', async (req, res) => {
     try {
         const accessToken = await getAccessToken();
         const response = await axios.get('https://youtube.googleapis.com/youtube/v3/videos', {
@@ -31,10 +36,12 @@ app.get('/.netlify/functions/youtube-music-status', async (req, res) =>{
             }
         });
 
+        console.log("YouTube API Response:", response.data);
+
         const currentTrack = response.data.items[0] || null;
 
-        if(!currentTrack) {
-            return res.json({isPlaying : false});
+        if (!currentTrack) {
+            return res.json({ isPlaying: false });
         }
 
         const duration = parseDuration(currentTrack.contentDetails.duration);
@@ -44,15 +51,15 @@ app.get('/.netlify/functions/youtube-music-status', async (req, res) =>{
             isPlaying: true,
             track: {
                 title: currentTrack.snippet.title,
-                arists: currentTrack.snippet.channelTitle,
+                artists: currentTrack.snippet.channelTitle,
                 thumbnail: currentTrack.snippet.thumbnails.default.url,
                 duration: duration,
                 currentTime: currentTime
             }
         });
     } catch (error) {
-        console.error('Error fetching Youtube Music status:', error);
-        res.status(500).json({error: "Failed to fetch current track"});
+        console.error("Error fetching YouTube Music status:", error.response?.data || error.message);
+        res.status(500).json({ error: "Failed to fetch current track" });
     }
 });
 
@@ -63,11 +70,11 @@ function parseDuration(duration) {
     const minutes = (match[2] || '').replace('M', '') || 0;
     const seconds = (match[3] || '').replace('S', '') || 0;
 
-    return(parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseInt(seconds);
+    return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseInt(seconds);
 }
 
 function estimateCurrentTime(startTime) {
-    const start = new DataTransfer(startTime).getTime();
+    const start = new Date(startTime).getTime();
     const now = Date.now();
     const elapsed = (now - start) / 1000;
     return elapsed;
