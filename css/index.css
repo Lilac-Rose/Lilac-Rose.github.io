@@ -15,22 +15,44 @@
   padding: 0;
 }
 
-/* Body Styles */
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background: url("../images/background.png") no-repeat center top,
+              var(--main-bg, #0a0f14);
+  background-size: 100% 100vh;  /* This will make it fit both width and height */
+}
+
+.blur-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  backdrop-filter: blur(20px);  /* Using backdrop-filter instead of filter */
+  z-index: -1;
+}
+
 body {
-  background: var(--main-bg), url("../images/background.png") no-repeat center center;
-  background-size: cover;
-  background-attachment: scroll;
-  backdrop-filter: blur(20px);
   margin: 0;
   padding: 0;
   font-family: 'Share Tech Mono', monospace;
-  color: var(--text-primary);
+  color: var(--text-primary, #fff);
   position: relative;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+}
+
+.main-container, .discord-profile, .friends-container, .contact-container, .projects-container {
+  position: relative;
+  z-index: 1;
 }
 
 /* Navigation */
