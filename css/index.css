@@ -443,47 +443,57 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #f9f9f9;
-  border-radius: 10px;
-  padding: 10px;
-  max-width: 400px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: var(--secondary-bg); /* Using secondary background color */
+  color: var(--text-primary); /* Using primary text color */
+  border-radius: 12px;
+  padding: 15px;
+  max-width: 450px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.music-status:hover {
+  background: var(--main-bg); /* Lighter background on hover using main-bg */
 }
 
 .thumbnail img {
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
   object-fit: cover;
+  border: 2px solid var(--terminal-color); /* Using terminal color for the border */
 }
 
 .info {
   flex-grow: 1;
+  text-align: left;
 }
 
 #track-title {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
+  line-height: 1.3;
+  color: var(--terminal-color); /* Using terminal color for title */
 }
 
 #track-artist {
   margin: 0;
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 1rem;
+  color: var(--text-secondary); /* Using secondary text color for artist */
 }
 
 .progress-bar {
-  background: #ddd;
+  background: var(--inactive); /* Using inactive color for progress bar background */
   border-radius: 5px;
   overflow: hidden;
-  height: 6px;
+  height: 8px;
   width: 100%;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 #progress {
-  background: #ff4757;
+  background: var(--terminal-color); /* Using terminal color for progress */
   height: 100%;
-  transition: width 0.3s;
+  transition: width 0.3s ease;
 }
