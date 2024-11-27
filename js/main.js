@@ -102,11 +102,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function getCurrentlyPlaying() {
   try {
+    console.log('Calling Netlify function to get token...');
     const response = await fetch('/.netlify/functions/lastfm-callback');
+    console.log('Received response from Netlify function:', response);
     const token = await response.json();
+    console.log('Received token from Netlify function:', token);
     const lastFmResponse = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=lilacrose&api_key=${process.env.LAST_FM_API_KEY}&format=json&token=${token}`);
+    console.log('Received response from Last.fm API:', lastFmResponse);
     const data = await lastFmResponse.json();
+    console.log('Received data from Last.fm API:', data);
     const parsedData = parseLastFmData(data);
+    console.log('Parsed data:', parsedData);
     document.getElementById('song-name').textContent = parsedData.song;
     document.getElementById('artist-name').textContent = parsedData.artist;
     document.getElementById('duration').textContent = `Played for ${parsedData.duration} seconds`;
