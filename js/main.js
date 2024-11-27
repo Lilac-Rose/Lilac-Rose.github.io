@@ -99,3 +99,24 @@ document.addEventListener('DOMContentLoaded', function() {
   })
   .catch((error) => console.error('Error fetching Discord profile:', error));
 })
+
+async function getCurrentlyPlaying() {
+  try {
+    const response = await fetch('/.netlify/functions/lastfm-callback');
+    const token = await response.json();
+    const lastFmResponse = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=lilacrose&api_key=${process.env.LAST_FM_API_KEY}&format=json&token=${token}`);
+    const data = await lastFmResponse.json();
+    const parsedData = parseLastFmData(data);
+    document.getElementById('song-name').textContent = parsedData.song;
+    document.getElementById('artist-name').textContent = parsedData.artist;
+    document.getElementById('duration').textContent = `Played for ${parsedData.duration} seconds`;
+    document.getElementById('album-cover').src = parsedData.image;
+  } catch (error) {
+    console.error('Error:', error);
+    document.getElementById('song-info').textContent = 'Error retrieving song information';
+  }
+}
+
+setInterval(getCurrentlyPlaying, 5000); // Refresh every 5 seconds
+
+getCurrentlyPlaying(); // Initial load
