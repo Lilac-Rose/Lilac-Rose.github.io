@@ -3,3 +3,8 @@
 
 [build.environment]
   NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/oauth/callback"
+  to = "/oauth/callback.html"
+  status = 200
