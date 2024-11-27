@@ -32,12 +32,17 @@
     </div> 
     -->
 
-    <div id="song-info">
-        <h2>Currently Listening to:</h2>
-        <img id="album-cover" src="" alt="Album Cover">
-        <h3 id="song-name"></h3>
-        <p id="artist-name"></p>
-        <p id="duration"></p>
+    <div id="song-info" class="music-player-card">
+        <h2 class="section-title">Currently Listening to:</h2>
+        <div class="track-container">
+          <img id="album-cover" src="/path/to/default-album.jpg" alt="Album Cover" class="album-artwork">
+          <div class="track-details">
+            <h3 id="song-name" class="track-title">Loading track...</h3>
+            <p id="artist-name" class="track-artist"></p>
+            <p id="duration" class="track-duration"></p>
+            <div id="playback-status" class="playback-indicator"></div>
+          </div>
+        </div>
       </div>
 
     <div id="discordProfileTextContainer" class="discord-profile-text"></div>
