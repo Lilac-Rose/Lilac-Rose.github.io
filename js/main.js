@@ -102,27 +102,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function getCurrentlyPlaying() {
   try {
-    console.log('Calling Netlify function to get token...');
+    // Fetch from Netlify function that directly retrieves Last.fm data
     const response = await fetch('/.netlify/functions/lastfm-callback');
-    console.log('Received response from Netlify function:', response);
-    const token = await response.json();
-    console.log('Received token from Netlify function:', token);
-    const lastFmResponse = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=lilacrose&api_key=${process.env.LAST_FM_API_KEY}&format=json&token=${token}`);
-    console.log('Received response from Last.fm API:', lastFmResponse);
-    const data = await lastFmResponse.json();
-    console.log('Received data from Last.fm API:', data);
-    const parsedData = parseLastFmData(data);
-    console.log('Parsed data:', parsedData);
-    document.getElementById('song-name').textContent = parsedData.song;
-    document.getElementById('artist-name').textContent = parsedData.artist;
-    document.getElementById('duration').textContent = `Played for ${parsedData.duration} seconds`;
-    document.getElementById('album-cover').src = parsedData.image;
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch track information');
+    }
+    
+    const trackData = await response.json();
+    
+    // Update DOM elements
+    const songNameEl = document.getElementById('song-name');
+    const artistNameEl = document.getElementById('artist-name');
+    const albumCoverEl = document.getElementById('album-cover');
+    const songInfoEl = document.getElementById('song-info');
+    
+    // Check if a track is currently playing
+    if (trackData.name) {
+      songNameEl.textContent = trackData.name;
+      artistNameEl.textContent = trackData.artist;
+      albumCoverEl.src = trackData.image || 'path/to/default/image.jpg';
+      
+      // Optional: Add now playing indicator
+      songInfoEl.textContent = trackData.nowPlaying 
+        ? 'Now Playing' 
+        : 'Recently Played';
+    } else {
+      // Handle no track scenario
+      songNameEl.textContent = 'No track playing';
+      artistNameEl.textContent = '';
+      albumCoverEl.src = 'path/to/default/image.jpg';
+      songInfoEl.textContent = 'No recent tracks';
+    }
   } catch (error) {
-    console.error('Error:', error);
-    document.getElementById('song-info').textContent = 'Error retrieving song information';
+    console.error('Error retrieving song information:', error);
+    
+    // Error handling in UI
+    document.getElementById('song-name').textContent = 'Error';
+    document.getElementById('artist-name').textContent = 'Unable to fetch track';
+    document.getElementById('song-info').textContent = error.message;
   }
 }
 
-setInterval(getCurrentlyPlaying, 5000); // Refresh every 5 seconds
-
+// Set up periodic refresh
+const trackRefreshInterval = setInterval(getCurrentlyPlaying, 30000); // Every 30 seconds
 getCurrentlyPlaying(); // Initial load
+
+// Optional: Clean up interval if needed
+function stopTrackRefresh() {
+  clearInterval(trackRefreshInterval);
+}

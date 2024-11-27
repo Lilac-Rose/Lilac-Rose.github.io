@@ -55,38 +55,68 @@ body {
   z-index: 1;
 }
 
-#song-info {
+.music-player-card {
+  max-width: 400px;
   background-color: var(--secondary-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  border: 1px solid var(--inactive);
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-#song-info h2 {
-  font-weight: bold;
-  margin-bottom: 10px;
+  margin: 0 auto;
+  text-align: center;
   color: var(--text-primary);
 }
 
-#song-info img {
-  width: 100px;
-  height: 100px;
-  margin: 10px;
-  border-radius: 10px;
-  border: 1px solid var(--inactive);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.section-title {
+  color: var(--terminal-color);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
 }
 
-#song-info h3 {
-  font-weight: bold;
-  margin-bottom: 5px;
+.track-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.album-artwork {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--inactive);
+}
+
+.track-details {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.track-title {
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
   color: var(--text-primary);
 }
 
-#song-info p {
-  margin-bottom: 10px;
+.track-artist {
+  margin: 0 0 10px 0;
   color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.track-duration {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin: 0 0 5px 0;
+}
+
+.playback-indicator {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  background-color: var(--terminal-color);
+  color: var(--main-bg);
 }
 
 /* Navigation */
