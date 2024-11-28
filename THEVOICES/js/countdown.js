@@ -1,6 +1,6 @@
 // Set the date we're counting down to (12:00 PM EST on Dec 1, 2024)
 // EST is UTC - 5, so we'll set it to 5:00 PM UTC (12:00 PM EST)
-const countdownDate = new Date("Dec 1, 2024 17:00:00 GMT"); // 5 PM UTC
+const countdownDate = new Date("Dec 7, 2024 17:00:00 GMT"); // 5 PM UTC
 
 // Update the countdown every 1 second
 const timerElement = document.getElementById("timer");
