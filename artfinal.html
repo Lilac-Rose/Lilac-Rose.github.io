@@ -24,26 +24,29 @@
 <body>
     <div id="unityContainer"></div>
     <script>
-        const buildUrl = "ArtFinalWebGL";
+        const buildUrl = "ArtFinalWebGL"; // Folder containing the Unity build files
         const config = {
             dataUrl: buildUrl + "/ArtFinalWebGL.data.gz",
             frameworkUrl: buildUrl + "/ArtFinalWebGL.framework.js.gz",
             codeUrl: buildUrl + "/ArtFinalWebGL.wasm.gz",
             streamingAssetsUrl: buildUrl + "/StreamingAssets",
-            companyName: "YourCompany",
-            productName: "ArtFinalWebGL",
+            companyName: "YourCompany", // Replace with your company name
+            productName: "ArtFinalWebGL", // Replace with your project's name
             productVersion: "1.0.0",
-            compressed: true
+            compressed: true,
+            decomposePackageUrl: false // Set this if Unity's decomposed package is not used
         };
 
         const container = document.querySelector("#unityContainer");
 
         const script = document.createElement("script");
-        script.src = buildUrl + "/ArtFinalWebGL.loader.js";
+        script.src = `${buildUrl}/ArtFinalWebGL.loader.js`;
         script.onload = () => {
-            createUnityInstance(container, config).catch((err) => {
-                console.error(err);
-            });
+            createUnityInstance(container, config)
+                .then(() => console.log("Unity loaded successfully"))
+                .catch((err) => {
+                    console.error("Failed to load Unity:", err);
+                });
         };
         document.body.appendChild(script);
     </script>
