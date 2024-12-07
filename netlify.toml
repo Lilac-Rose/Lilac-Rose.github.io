@@ -8,3 +8,10 @@
   from = "/oauth/callback"
   to = "/oauth/callback.html"
   status = 200
+
+  [[headers]]
+  for = "/ArtFinalWebGL/Build/*.gz"
+  [headers.values]
+    Content-Encoding = "gzip"
+    Cache-Control = "public, max-age=31536000"
+    Content-Type = "application/octet-stream"
