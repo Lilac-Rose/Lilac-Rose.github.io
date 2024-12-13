@@ -4,12 +4,10 @@ function checkKeys() {
     const key3 = document.getElementById('key3').value.trim();
     const key4 = document.getElementById('key4').value.trim();
 
-    // Replace these with the correct keys from your Unity games
     const correctKeys = ['key1Value', 'key2Value', 'key3Value', 'key4Value'];
 
     if (key1 === correctKeys[0] && key2 === correctKeys[1] && key3 === correctKeys[2] && key4 === correctKeys[3]) {
         document.getElementById('feedback-message').innerText = 'Success! All keys are correct.';
-        // Add logic to proceed to the next phase or display more content
     } else {
         document.getElementById('feedback-message').innerText = 'Incorrect keys. Please try again.';
     }
