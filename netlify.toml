@@ -1,4 +1,6 @@
 [build]
+  command = "npm run build"
+  publish = "dist"
   functions = "netlify/functions"
 
 [build.environment]
@@ -9,7 +11,7 @@
   to = "/oauth/callback.html"
   status = 200
 
-  [[headers]]
+[[headers]]
   for = "/ArtFinalWebGL/Build/*.gz"
   [headers.values]
     Content-Encoding = "gzip"
