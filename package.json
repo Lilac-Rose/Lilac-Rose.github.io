@@ -15,6 +15,7 @@
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "firebase": "^11.1.0",
     "googleapis": "^144.0.0",
     "node-fetch": "^3.3.2",
     "serverless-http": "^3.2.0"
