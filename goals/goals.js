@@ -14,7 +14,6 @@ const gameBackgrounds = {
   "Celeste": "../images/celeste-background.jpg"
 };
 
-// Track totals across all games
 let totalStats = {
   completed: 0,
   total: 0
