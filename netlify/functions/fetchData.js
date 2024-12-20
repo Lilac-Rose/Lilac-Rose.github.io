@@ -14,17 +14,27 @@ exports.handler = async (event) => {
   
   try {
     const data = await new Promise((resolve, reject) => {
-      https.get(csvUrl, (res) => {
-        if (res.statusCode !== 200) {
-          reject(new Error(`Google Sheets returned status ${res.statusCode}`));
-          return;
-        }
+      const makeRequest = (url) => {
+        https.get(url, (res) => {
+          // Handle redirects
+          if (res.statusCode === 301 || res.statusCode === 302 || res.statusCode === 307) {
+            makeRequest(res.headers.location);
+            return;
+          }
 
-        let data = '';
-        res.on('data', (chunk) => data += chunk);
-        res.on('end', () => resolve(data));
-        res.on('error', reject);
-      }).on('error', reject);
+          if (res.statusCode !== 200) {
+            reject(new Error(`Google Sheets returned status ${res.statusCode}`));
+            return;
+          }
+
+          let data = '';
+          res.on('data', (chunk) => data += chunk);
+          res.on('end', () => resolve(data));
+          res.on('error', reject);
+        }).on('error', reject);
+      };
+
+      makeRequest(csvUrl);
     });
 
     return {
