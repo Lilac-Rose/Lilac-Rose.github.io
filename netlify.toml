@@ -4,13 +4,11 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# Function routing
 [[redirects]]
   from = "/.netlify/functions/*"
   to = "/.netlify/functions/:splat"
   status = 200
 
-# Static assets in goals directory
 [[redirects]]
   from = "/goals/*"
   to = "/goals/:splat"
@@ -21,7 +19,6 @@
   to = "/oauth/callback.html"
   status = 200
 
-# Catch-all should be last
 [[redirects]]
   from = "/*"
   to = "/index.html"
