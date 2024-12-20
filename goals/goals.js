@@ -3,8 +3,17 @@ const SHEET_NAME = "Sheet1";
 
 const games = {
   "Celeste": {
-    "Any%": "A1:F20",
+    "Any%": "A6:F9",
+    "ARB": "A12:F14",
+    "TE": "A17:F19",
+    "100%": "A22:F25"
   }
+};
+
+// Track totals across all games
+let totalStats = {
+  completed: 0,
+  total: 0
 };
 
 async function fetchAndFormatData(sheetId, sheetName, range) {
@@ -53,6 +62,16 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
   }
 }
 
+function createProgressBar(completed, total) {
+  const percentage = (completed / total) * 100;
+  return `
+    <div class="progress-container">
+      <div class="progress-bar" style="width: ${percentage}%"></div>
+      <div class="progress-text">${completed}/${total} (${percentage.toFixed(1)}%)</div>
+    </div>
+  `;
+}
+
 function showError(message) {
   const container = document.getElementById("categories");
   const existingError = container.querySelector('.error-message');
@@ -87,12 +106,40 @@ async function renderDataForCategory(gameName, categoryName, range) {
     return;
   }
 
+  const categoryStats = {
+    completed: formattedData.filter(item => item.completed).length,
+    total: formattedData.length
+  };
+
+  // Update game totals
+  const gameStatsDiv = gameSection.querySelector('.game-stats');
+  const currentGameStats = JSON.parse(gameStatsDiv.dataset.stats);
+  currentGameStats.completed += categoryStats.completed;
+  currentGameStats.total += categoryStats.total;
+  gameStatsDiv.dataset.stats = JSON.stringify(currentGameStats);
+  gameStatsDiv.innerHTML = createProgressBar(currentGameStats.completed, currentGameStats.total);
+
+  // Update overall totals
+  totalStats.completed += categoryStats.completed;
+  totalStats.total += categoryStats.total;
+  updateOverallStats();
+
   const categorySection = document.createElement("div");
   categorySection.classList.add("category-section");
 
+  const categoryHeader = document.createElement("div");
+  categoryHeader.classList.add("category-header");
+  
   const categoryTitle = document.createElement("h3");
   categoryTitle.textContent = categoryName;
-  categorySection.appendChild(categoryTitle);
+  categoryHeader.appendChild(categoryTitle);
+
+  const categoryProgress = document.createElement("div");
+  categoryProgress.classList.add("category-stats");
+  categoryProgress.innerHTML = createProgressBar(categoryStats.completed, categoryStats.total);
+  categoryHeader.appendChild(categoryProgress);
+
+  categorySection.appendChild(categoryHeader);
 
   const table = document.createElement("table");
   const tableHeader = document.createElement("thead");
@@ -127,6 +174,11 @@ async function renderDataForCategory(gameName, categoryName, range) {
   gameSection.appendChild(categorySection);
 }
 
+function updateOverallStats() {
+  const overallStats = document.getElementById("overall-stats");
+  overallStats.innerHTML = createProgressBar(totalStats.completed, totalStats.total);
+}
+
 async function renderDataForGame(gameName, categories) {
   console.log('Rendering game:', gameName);
   const container = document.getElementById("categories");
@@ -135,10 +187,20 @@ async function renderDataForGame(gameName, categories) {
   gameSection.classList.add("game-section");
   gameSection.setAttribute("data-game", gameName);
 
+  const gameHeader = document.createElement("div");
+  gameHeader.classList.add("game-header");
+
   const gameTitle = document.createElement("h2");
   gameTitle.textContent = gameName;
-  gameSection.appendChild(gameTitle);
+  gameHeader.appendChild(gameTitle);
 
+  const gameStats = document.createElement("div");
+  gameStats.classList.add("game-stats");
+  gameStats.dataset.stats = JSON.stringify({ completed: 0, total: 0 });
+  gameStats.innerHTML = createProgressBar(0, 0);
+  gameHeader.appendChild(gameStats);
+
+  gameSection.appendChild(gameHeader);
   container.appendChild(gameSection);
 
   for (const [categoryName, range] of Object.entries(categories)) {
@@ -150,6 +212,24 @@ async function renderAllGames() {
   console.log('Starting renderAllGames');
   const container = document.getElementById("categories");
   container.innerHTML = "";
+
+  // Create overall stats container
+  const overallStatsContainer = document.createElement("div");
+  overallStatsContainer.classList.add("overall-stats-container");
+  
+  const overallTitle = document.createElement("h2");
+  overallTitle.textContent = "Overall Progress";
+  overallStatsContainer.appendChild(overallTitle);
+
+  const overallStats = document.createElement("div");
+  overallStats.id = "overall-stats";
+  overallStats.innerHTML = createProgressBar(0, 0);
+  overallStatsContainer.appendChild(overallStats);
+
+  container.appendChild(overallStatsContainer);
+
+  // Reset totals
+  totalStats = { completed: 0, total: 0 };
 
   for (const [gameName, categories] of Object.entries(games)) {
     await renderDataForGame(gameName, categories);
