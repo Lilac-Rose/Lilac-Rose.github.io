@@ -9,10 +9,16 @@
     --error-color: #ff4444;
   }
   
+  html {
+    background-color: var(--main-bg);
+    min-height: 100%;
+  }
+  
   body {
     margin: 0;
     padding: 0;
     font-family: 'Share Tech Mono', monospace;
+    background-color: var(--main-bg);
     color: var(--text-primary);
     position: relative;
     overflow-x: hidden;
@@ -153,7 +159,6 @@
     margin-top: 30px;
   }
   
-  /* Grid overlay */
   .grid-overlay {
     position: fixed;
     top: 0;
@@ -168,50 +173,6 @@
     z-index: -1;
   }
   
-  @media (max-width: 768px) {
-    #categories {
-      padding: 15px;
-      margin-top: 20px;
-    }
-  
-    .game-section h2 {
-      font-size: 24px;
-    }
-  
-    .category-section h3 {
-      font-size: 20px;
-    }
-  
-    th, td {
-      font-size: 14px;
-      padding: 8px;
-    }
-  
-    .goal {
-      padding: 12px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .game-section {
-      padding: 15px;
-    }
-  
-    .category-section {
-      padding: 15px;
-    }
-  
-    th, td {
-      padding: 6px;
-      font-size: 12px;
-    }
-  
-    .goal {
-      font-size: 14px;
-      padding: 10px;
-    }
-  }
-
   .overall-stats-container {
     background-color: var(--secondary-bg);
     border: 1px solid var(--terminal-color);
@@ -261,7 +222,30 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   }
   
+  /* Media Queries */
   @media (max-width: 768px) {
+    #categories {
+      padding: 15px;
+      margin-top: 20px;
+    }
+  
+    .game-section h2 {
+      font-size: 24px;
+    }
+  
+    .category-section h3 {
+      font-size: 20px;
+    }
+  
+    th, td {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .goal {
+      padding: 12px;
+    }
+  
     .game-header, .category-header {
       flex-direction: column;
       align-items: flex-start;
@@ -270,5 +254,25 @@
   
     .game-stats, .category-stats {
       width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .game-section {
+      padding: 15px;
+    }
+  
+    .category-section {
+      padding: 15px;
+    }
+  
+    th, td {
+      padding: 6px;
+      font-size: 12px;
+    }
+  
+    .goal {
+      font-size: 14px;
+      padding: 10px;
     }
   }
