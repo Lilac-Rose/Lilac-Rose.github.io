@@ -1,10 +1,10 @@
-const SHEET_ID = "your-sheet-id"; // Replace with your Google Sheet ID
-const SHEET_NAME = "Sheet1"; // Replace with your Google Sheet Name
+const SHEET_ID = "16lWlwHzF9l86O_PM5I-IxQGSnl1OiH6zFj5Vn-QW5Ow"; 
+const SHEET_NAME = "goals";
 
 // Define games with categories and their ranges
 const games = {
-  "Game 1": {
-    "Category A": "A1:E5", // Adjust range based on your sheet
+  "Celeste": {
+    "Any%": "A6:H9",
     "Category B": "A6:E10",
   },
   "Game 2": {
