@@ -9,9 +9,10 @@ exports.handler = async (event) => {
   }
 
   try {
-    const rows = csvData.split("\n").map((row) => 
-      row.split(",").map(cell => cell.trim())
-    );
+    const rows = csvData
+      .split("\n")
+      .map(row => row.split(",").map(cell => cell.trim()))
+      .filter(row => row.some(cell => cell.length > 0));
 
     if (rows.length === 0) {
       return {
@@ -20,18 +21,23 @@ exports.handler = async (event) => {
       };
     }
 
-    const dataRows = rows.length > 1 ? rows.slice(1) : rows;
+    const formattedData = rows
+      .filter(cells => cells[0] && cells[0].trim())
+      .map((cells) => {
+        const completedValue = cells[1]?.trim().toUpperCase();
+        const completed = completedValue === "TRUE";
 
-    const formattedData = dataRows
-      .filter(cells => cells.length >= 4 && cells[0] && cells[0].trim())
-      .map((cells) => ({
-        goal: cells[0]?.trim() || '',
-        completed: (cells[1]?.trim().toLowerCase() === 'true' || cells[1]?.trim().toLowerCase() === 'yes'),
-        timeTaken: cells[2] ? parseFloat(cells[2]) || 0 : 0,
-        enjoyment: cells[3] ? parseInt(cells[3]) || 0 : 0,
-        notes: cells[4]?.trim() || '',
-        completionDate: cells[5]?.trim() || ''
-      }));
+        return {
+          goal: cells[0]?.trim() || '',
+          completed: completed,
+          timeTaken: cells[2] ? parseFloat(cells[2]) : null,
+          enjoyment: cells[3] ? parseInt(cells[3]) : null,
+          notes: cells[4]?.trim() || '',
+          completionDate: cells[5]?.trim() || ''
+        };
+      });
+
+    console.log('Formatted data:', formattedData);
 
     return {
       statusCode: 200,

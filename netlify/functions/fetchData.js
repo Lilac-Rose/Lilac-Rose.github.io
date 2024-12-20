@@ -10,15 +10,16 @@ exports.handler = async (event) => {
     };
   }
 
-  const sheetName = 'Sheet1'; 
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&range=${encodeURIComponent(sheetName + '!' + (range || 'A:F'))}`;
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&range=${encodeURIComponent(range)}`;
+  
+  console.log('Fetching from URL:', csvUrl);
   
   try {
     const data = await new Promise((resolve, reject) => {
       const makeRequest = (url) => {
         https.get(url, (res) => {
-          // Handle redirects
           if (res.statusCode === 301 || res.statusCode === 302 || res.statusCode === 307) {
+            console.log('Redirecting to:', res.headers.location);
             makeRequest(res.headers.location);
             return;
           }
@@ -30,7 +31,10 @@ exports.handler = async (event) => {
 
           let data = '';
           res.on('data', (chunk) => data += chunk);
-          res.on('end', () => resolve(data));
+          res.on('end', () => {
+            console.log('Received data length:', data.length);
+            resolve(data)
+          });
           res.on('error', reject);
         }).on('error', reject);
       };
@@ -38,8 +42,10 @@ exports.handler = async (event) => {
       makeRequest(csvUrl);
     });
 
-    const rows = data.split('\n').filter(row => row.trim());
-    if (rows.length <= 1) {
+    console.log('Raw CSV data:', data);
+
+    if (!data || data.trim() === '') {
+      console.log('No data received for range:', range);
       return {
         statusCode: 200,
         headers: {
