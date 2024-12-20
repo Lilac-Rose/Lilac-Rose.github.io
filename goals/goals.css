@@ -1,0 +1,170 @@
+/* Root Variables for Colors */
+:root {
+    --main-bg: #0a0f14;
+    --secondary-bg: #0f1a1f;
+    --terminal-color: #0098CD;
+    --warning: #ff9e00;
+    --inactive: #465766;
+    --text-primary: #e6edf3;
+    --text-secondary: #768390;
+  }
+  
+  /* General Body and Layout */
+  body {
+    background-color: var(--main-bg);
+    color: var(--text-primary);
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  /* Container for Categories */
+  #categories {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    margin-top: 30px;
+  }
+  
+  /* Game Section Styling */
+  .game-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .game-section h2 {
+    color: var(--terminal-color);
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    text-transform: uppercase;
+  }
+  
+  /* Category Section Styling */
+  .category-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: var(--main-bg);
+    border-radius: 5px;
+  }
+  
+  .category-section h3 {
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+  
+  /* Table Styling for Goals */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  table, th, td {
+    border: 1px solid var(--inactive);
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: var(--secondary-bg);
+    color: var(--terminal-color);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  td {
+    background-color: var(--main-bg);
+    color: var(--text-primary);
+  }
+  
+  td:nth-child(2),
+  td:nth-child(3),
+  td:nth-child(4) {
+    text-align: center;
+  }
+  
+  /* Additional Styling for Specific Goal Cells */
+  .goal {
+    background-color: var(--main-bg);
+    padding: 10px;
+    border: 1px solid var(--inactive);
+    border-radius: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .goal strong {
+    color: var(--text-primary);
+  }
+  
+  .goal em {
+    color: var(--warning);
+  }
+  
+  /* Hover and Focus Effects for Interactivity */
+  table tbody tr:hover {
+    background-color: var(--secondary-bg);
+    cursor: pointer;
+  }
+  
+  /* Add spacing between sections */
+  .game-section + .game-section {
+    margin-top: 20px;
+  }
+  
+  /* Responsive Design for Smaller Screens */
+  @media (max-width: 768px) {
+    #categories {
+      padding: 15px;
+      margin-top: 20px;
+    }
+  
+    .game-section h2 {
+      font-size: 1.2em;
+    }
+  
+    .category-section h3 {
+      font-size: 1em;
+    }
+  
+    th, td {
+      font-size: 0.9em;
+      padding: 6px;
+    }
+  
+    table {
+      font-size: 0.9em;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .game-section {
+      padding: 10px;
+    }
+  
+    .category-section {
+      padding: 8px;
+    }
+  
+    th, td {
+      padding: 5px;
+    }
+  
+    .goal {
+      font-size: 0.9em;
+      padding: 8px;
+    }
+  }
+  
