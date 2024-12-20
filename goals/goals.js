@@ -8,42 +8,68 @@ const games = {
 };
 
 async function fetchAndFormatData(sheetId, sheetName, range) {
-  try {
-    const fetchResponse = await fetch(
-      `/.netlify/functions/fetchData?sheetId=${sheetId}&sheetName=${sheetName}&range=${range}`
-    );
-
-    if (!fetchResponse.ok) {
-      throw new Error("Error fetching data");
+    try {
+      const functionUrl = `/.netlify/functions/fetchData?sheetId=${sheetId}&sheetName=${sheetName}&range=${range}`;
+      console.log('Fetching data from:', functionUrl);
+  
+      const fetchResponse = await fetch(functionUrl);
+      
+      if (!fetchResponse.ok) {
+        const errorText = await fetchResponse.text();
+        console.error('Fetch response not OK:', fetchResponse.status, errorText);
+        throw new Error(`HTTP error! status: ${fetchResponse.status}`);
+      }
+  
+      const fetchData = await fetchResponse.json();
+      console.log('Fetch response data:', fetchData);
+  
+      if (!fetchData.data) {
+        console.error('No data in fetch response:', fetchData);
+        throw new Error('No data received from spreadsheet');
+      }
+  
+      const formatResponse = await fetch(`/.netlify/functions/formatData`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ csvData: fetchData.data }),
+      });
+  
+      if (!formatResponse.ok) {
+        const errorText = await formatResponse.text();
+        console.error('Format response not OK:', formatResponse.status, errorText);
+        throw new Error(`Format error! status: ${formatResponse.status}`);
+      }
+  
+      const { formattedData } = await formatResponse.json();
+      console.log('Formatted data:', formattedData);
+      return formattedData;
+    } catch (error) {
+      console.error('Detailed error:', error);
+      showError(`${error.message} (Check console for details)`);
+      return null;
     }
-
-    const { data: csvData } = await fetchResponse.json();
-
-    const formatResponse = await fetch(`/.netlify/functions/formatData`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ csvData }),
-    });
-
-    if (!formatResponse.ok) {
-      throw new Error("Error formatting data");
-    }
-
-    const { formattedData } = await formatResponse.json();
-    return formattedData;
-  } catch (error) {
-    console.error("Failed to fetch or format data:", error);
-    showError(error.message);
   }
-}
-
-function showError(message) {
-  const container = document.getElementById("categories");
-  const errorDiv = document.createElement("div");
-  errorDiv.classList.add("error-message");
-  errorDiv.textContent = `Error: ${message}`;
-  container.appendChild(errorDiv);
-}
+  
+  function showError(message) {
+    const container = document.getElementById("categories");
+    const existingError = container.querySelector('.error-message');
+    if (existingError) {
+      existingError.remove();
+    }
+    
+    const errorDiv = document.createElement("div");
+    errorDiv.classList.add("error-message");
+    errorDiv.textContent = `Error: ${message}`;
+    container.insertBefore(errorDiv, container.firstChild);
+  }
+  
+  function showLoading(gameSection) {
+    const loadingDiv = document.createElement("div");
+    loadingDiv.classList.add("loading");
+    loadingDiv.textContent = "Loading...";
+    gameSection.appendChild(loadingDiv);
+    return loadingDiv;
+  }
 
 function showLoading(gameSection) {
   const loadingDiv = document.createElement("div");
