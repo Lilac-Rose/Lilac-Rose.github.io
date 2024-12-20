@@ -19,6 +19,21 @@ let totalStats = {
   total: 0
 };
 
+function toggleCollapse(element) {
+  element.classList.toggle('collapsed');
+  
+  if (element.classList.contains('game-section')) {
+    const categories = element.querySelectorAll('.category-section');
+    categories.forEach(category => {
+      if (element.classList.contains('collapsed')) {
+        category.classList.add('collapsed');
+      } else {
+        category.classList.remove('collapsed');
+      }
+    });
+  }
+}
+
 async function fetchAndFormatData(sheetId, sheetName, range) {
   try {
     console.log('Starting fetchAndFormatData for range:', range);
@@ -51,7 +66,7 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
         csvData: fetchData.data,
-        range: range // Pass the range to the format function
+        range: range
       })
     });
 
@@ -99,7 +114,7 @@ function showLoading(gameSection) {
   return loadingDiv;
 }
 
-async function renderDataForCategory(gameName, categoryName, range) {
+async function renderDataForCategory(gameName, categoryName, range, parentElement) {
   console.log('Rendering category:', categoryName, 'for game:', gameName, 'with range:', range);
   const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
   const loadingDiv = showLoading(gameSection);
@@ -134,8 +149,13 @@ async function renderDataForCategory(gameName, categoryName, range) {
   categorySection.classList.add("category-section");
 
   const categoryHeader = document.createElement("div");
-  categoryHeader.classList.add("category-header");
-  
+  categoryHeader.classList.add("category-header", "collapsible-header");
+  categoryHeader.addEventListener('click', (e) => {
+    if (!e.target.closest('.category-stats')) {
+      toggleCollapse(categorySection);
+    }
+  });
+
   const categoryTitle = document.createElement("h3");
   categoryTitle.textContent = categoryName;
   categoryHeader.appendChild(categoryTitle);
@@ -146,6 +166,10 @@ async function renderDataForCategory(gameName, categoryName, range) {
   categoryHeader.appendChild(categoryProgress);
 
   categorySection.appendChild(categoryHeader);
+
+  const categoryContent = document.createElement("div");
+  categoryContent.classList.add("collapsible-content");
+  categorySection.appendChild(categoryContent);
 
   const table = document.createElement("table");
   const tableHeader = document.createElement("thead");
@@ -176,8 +200,8 @@ async function renderDataForCategory(gameName, categoryName, range) {
   });
 
   table.appendChild(tableBody);
-  categorySection.appendChild(table);
-  gameSection.appendChild(categorySection);
+  categoryContent.appendChild(table);
+  parentElement.appendChild(categorySection);
 }
 
 function updateOverallStats() {
@@ -201,7 +225,12 @@ async function renderDataForGame(gameName, categories) {
   }
 
   const gameHeader = document.createElement("div");
-  gameHeader.classList.add("game-header");
+  gameHeader.classList.add("game-header", "collapsible-header");
+  gameHeader.addEventListener('click', (e) => {
+    if (!e.target.closest('.game-stats')) {
+      toggleCollapse(gameSection);
+    }
+  });
 
   const gameTitle = document.createElement("h2");
   gameTitle.textContent = gameName;
@@ -214,10 +243,15 @@ async function renderDataForGame(gameName, categories) {
   gameHeader.appendChild(gameStats);
 
   gameSection.appendChild(gameHeader);
+  
+  const gameContent = document.createElement("div");
+  gameContent.classList.add("collapsible-content");
+  gameSection.appendChild(gameContent);
+  
   container.appendChild(gameSection);
 
   for (const [categoryName, range] of Object.entries(categories)) {
-    await renderDataForCategory(gameName, categoryName, range);
+    await renderDataForCategory(gameName, categoryName, range, gameContent);
   }
 }
 

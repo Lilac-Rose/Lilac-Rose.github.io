@@ -310,3 +310,47 @@
       padding: 10px;
     }
   }
+
+  .collapsible-header {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+  
+  .collapsible-header::after {
+    content: '−';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: var(--terminal-color);
+    transition: transform 0.3s ease;
+  }
+  
+  .collapsed .collapsible-header::after {
+    content: '+';
+  }
+  
+  .collapsible-content {
+    transition: max-height 0.3s ease-out;
+    overflow: hidden;
+    max-height: 2000px;
+  }
+  
+  .collapsed .collapsible-content {
+    max-height: 0;
+  }
+  
+  .game-header, .category-header {
+    position: relative;
+    padding-right: 40px;
+  }
+  
+  .game-section, .category-section {
+    transition: margin 0.3s ease;
+  }
+  
+  .collapsed.category-section {
+    margin-bottom: 10px;
+  }
