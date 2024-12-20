@@ -5,8 +5,8 @@
   NODE_VERSION = "18"
 
 [[redirects]]
-  from = "/.netlify/functions/*"
-  to = "/.netlify/functions/:splat"
+  from = "/netlify/functions/*"
+  to = "/netlify/functions/:splat"
   status = 200
 
 [[redirects]]
