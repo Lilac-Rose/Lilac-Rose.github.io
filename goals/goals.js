@@ -247,3 +247,44 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM loaded, starting render');
   renderAllGames();
 });
+
+const gameBackgrounds = {
+  "Celeste": "../images/celeste-background.jpg"
+};
+
+async function renderDataForGame(gameName, categories) {
+  console.log('Rendering game:', gameName);
+  const container = document.getElementById("categories");
+
+  const gameSection = document.createElement("div");
+  gameSection.classList.add("game-section");
+  gameSection.setAttribute("data-game", gameName);
+
+  // Add the background image container
+  if (gameBackgrounds[gameName]) {
+    const bgDiv = document.createElement("div");
+    bgDiv.classList.add("game-section-bg");
+    bgDiv.style.backgroundImage = `url(${gameBackgrounds[gameName]})`;
+    gameSection.appendChild(bgDiv);
+  }
+
+  const gameHeader = document.createElement("div");
+  gameHeader.classList.add("game-header");
+
+  const gameTitle = document.createElement("h2");
+  gameTitle.textContent = gameName;
+  gameHeader.appendChild(gameTitle);
+
+  const gameStats = document.createElement("div");
+  gameStats.classList.add("game-stats");
+  gameStats.dataset.stats = JSON.stringify({ completed: 0, total: 0 });
+  gameStats.innerHTML = createProgressBar(0, 0);
+  gameHeader.appendChild(gameStats);
+
+  gameSection.appendChild(gameHeader);
+  container.appendChild(gameSection);
+
+  for (const [categoryName, range] of Object.entries(categories)) {
+    await renderDataForCategory(gameName, categoryName, range);
+  }
+}
