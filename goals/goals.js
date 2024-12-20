@@ -1,16 +1,10 @@
 const SHEET_ID = "16lWlwHzF9l86O_PM5I-IxQGSnl1OiH6zFj5Vn-QW5Ow"; 
 const SHEET_NAME = "goals";
 
-// Define games with categories and their ranges
 const games = {
   "Celeste": {
-    "Any%": "A6:H9",
-    "Category B": "A6:E10",
-  },
-  "Game 2": {
-    "Category X": "F1:J5",
-    "Category Y": "F6:J10",
-  },
+    "Any%": "A5:H9",
+  }
 };
 
 async function fetchAndFormatData(sheetId, sheetName, range) {
@@ -38,18 +32,36 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
     const { formattedData } = await formatResponse.json();
     return formattedData;
   } catch (error) {
-    console.error(error);
+    console.error("Failed to fetch or format data:", error);
+    showError(error.message);
   }
 }
 
+function showError(message) {
+  const container = document.getElementById("categories");
+  const errorDiv = document.createElement("div");
+  errorDiv.classList.add("error-message");
+  errorDiv.textContent = `Error: ${message}`;
+  container.appendChild(errorDiv);
+}
+
+function showLoading(gameSection) {
+  const loadingDiv = document.createElement("div");
+  loadingDiv.classList.add("loading");
+  loadingDiv.textContent = "Loading...";
+  gameSection.appendChild(loadingDiv);
+  return loadingDiv;
+}
+
 async function renderDataForCategory(gameName, categoryName, range) {
+  const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
+  const loadingDiv = showLoading(gameSection);
+
   const formattedData = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
+  loadingDiv.remove();
 
   if (!formattedData) return;
 
-  const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
-
-  // Create a section for the category
   const categorySection = document.createElement("div");
   categorySection.classList.add("category-section");
 
@@ -57,7 +69,6 @@ async function renderDataForCategory(gameName, categoryName, range) {
   categoryTitle.textContent = categoryName;
   categorySection.appendChild(categoryTitle);
 
-  // Create a table to display goals
   const table = document.createElement("table");
   const tableHeader = document.createElement("thead");
   tableHeader.innerHTML = `
@@ -73,14 +84,12 @@ async function renderDataForCategory(gameName, categoryName, range) {
   const tableBody = document.createElement("tbody");
   formattedData.forEach(({ goal, completed, timeTaken, enjoyment }) => {
     const row = document.createElement("tr");
-
     row.innerHTML = `
       <td>${goal}</td>
-      <td>${completed ? "True" : "False"}</td>
-      <td>${timeTaken}</td>
-      <td>${enjoyment}</td>
+      <td>${completed ? "✓" : "✗"}</td>
+      <td>${timeTaken?.toFixed(1) || '-'}</td>
+      <td>${enjoyment || '-'}</td>
     `;
-    
     tableBody.appendChild(row);
   });
 
@@ -92,7 +101,6 @@ async function renderDataForCategory(gameName, categoryName, range) {
 async function renderDataForGame(gameName, categories) {
   const container = document.getElementById("categories");
 
-  // Create a section for the game
   const gameSection = document.createElement("div");
   gameSection.classList.add("game-section");
   gameSection.setAttribute("data-game", gameName);
@@ -103,7 +111,6 @@ async function renderDataForGame(gameName, categories) {
 
   container.appendChild(gameSection);
 
-  // Render each category
   for (const [categoryName, range] of Object.entries(categories)) {
     await renderDataForCategory(gameName, categoryName, range);
   }
@@ -111,12 +118,11 @@ async function renderDataForGame(gameName, categories) {
 
 async function renderAllGames() {
   const container = document.getElementById("categories");
-  container.innerHTML = ""; // Clear previous content
+  container.innerHTML = "";
 
   for (const [gameName, categories] of Object.entries(games)) {
     await renderDataForGame(gameName, categories);
   }
 }
 
-// Call the function to render all games
 renderAllGames();
