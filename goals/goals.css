@@ -121,13 +121,25 @@
     border-collapse: collapse;
     margin-top: 20px;
     border: 1px solid var(--terminal-color);
+    table-layout: fixed;
   }
   
   th, td {
     padding: 12px;
     text-align: left;
     border: 1px solid var(--terminal-color);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    vertical-align: top;
   }
+
+  /* Column width distribution */
+  th:nth-child(1), td:nth-child(1) { width: 20%; } /* Goal */
+  th:nth-child(2), td:nth-child(2) { width: 10%; } /* Completed */
+  th:nth-child(3), td:nth-child(3) { width: 10%; } /* Time */
+  th:nth-child(4), td:nth-child(4) { width: 10%; } /* Enjoyment */
+  th:nth-child(5), td:nth-child(5) { width: 35%; } /* Notes */
+  th:nth-child(6), td:nth-child(6) { width: 15%; } /* Completion Date */
   
   th {
     background-color: rgba(15, 26, 31, 0.9);
