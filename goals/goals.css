@@ -45,6 +45,29 @@
     padding: 20px;
     border-radius: 0;
     position: relative;
+    overflow: hidden;
+  }
+  
+  .game-section-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px) brightness(0.3);
+    z-index: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .game-section > *:not(.game-section-bg) {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .game-section:hover .game-section-bg {
+    filter: blur(6px) brightness(0.4);
   }
   
   .game-section h2 {
@@ -74,7 +97,7 @@
   }
   
   .category-section {
-    background-color: var(--secondary-bg);
+    background-color: rgba(15, 26, 31, 0.9);
     border: 1px solid var(--terminal-color);
     margin-bottom: 20px;
     padding: 20px;
@@ -107,7 +130,7 @@
   }
   
   th {
-    background-color: var(--secondary-bg);
+    background-color: rgba(15, 26, 31, 0.9);
     color: var(--terminal-color);
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -115,7 +138,7 @@
   }
   
   td {
-    background-color: var(--main-bg);
+    background-color: rgba(10, 15, 20, 0.9);
     color: var(--text-primary);
     transition: all 0.3s ease;
   }
@@ -127,7 +150,7 @@
   }
   
   .goal {
-    background-color: var(--secondary-bg);
+    background-color: rgba(15, 26, 31, 0.9);
     border: 1px solid var(--terminal-color);
     padding: 15px;
     margin-bottom: 10px;
@@ -150,7 +173,7 @@
   }
   
   table tbody tr:hover {
-    background-color: var(--secondary-bg);
+    background-color: rgba(15, 26, 31, 0.9);
     cursor: pointer;
     box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
   }
@@ -198,7 +221,7 @@
   }
   
   .progress-container {
-    background-color: var(--main-bg);
+    background-color: rgba(10, 15, 20, 0.9);
     border: 1px solid var(--terminal-color);
     height: 24px;
     position: relative;
@@ -222,7 +245,6 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   }
   
-  /* Media Queries */
   @media (max-width: 768px) {
     #categories {
       padding: 15px;
