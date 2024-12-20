@@ -13,15 +13,18 @@ exports.handler = async (event) => {
       row.split(",").map(cell => cell.trim())
     );
 
-    const dataRows = rows[0][0].toLowerCase().includes('goal') ? rows.slice(1) : rows;
+    // Skip the header row
+    const dataRows = rows.slice(1);
 
     const formattedData = dataRows
-      .filter(cells => cells.length >= 4 && cells[0])
+      .filter(cells => cells.length >= 4 && cells[0] && cells[0].trim())
       .map((cells) => ({
-        goal: cells[0],
-        completed: cells[1]?.toLowerCase() === 'true',
-        timeTaken: parseFloat(cells[2]) || 0,
-        enjoyment: parseInt(cells[3]) || 0
+        goal: cells[0]?.trim() || '',
+        completed: (cells[1]?.trim().toLowerCase() === 'true' || cells[1]?.trim().toLowerCase() === 'yes'),
+        timeTaken: cells[2] ? parseFloat(cells[2]) || 0 : 0,
+        enjoyment: cells[3] ? parseInt(cells[3]) || 0 : 0,
+        notes: cells[4]?.trim() || '',
+        completionDate: cells[5]?.trim() || ''
       }));
 
     return {
@@ -29,6 +32,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ formattedData }),
     };
   } catch (error) {
+    console.error('Format error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message }),

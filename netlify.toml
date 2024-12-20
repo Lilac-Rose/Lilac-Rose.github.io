@@ -15,11 +15,6 @@
   to = "/index.html"
   status = 200
 
-[[redirects]]
-  from = "/goals/*"
-  to = "/goals/goals.html"
-  status = 200
-
 [[headers]]
   for = "/ArtFinalWebGL/Build/*.gz"
   [headers.values]

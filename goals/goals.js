@@ -1,75 +1,72 @@
 const SHEET_ID = "16lWlwHzF9l86O_PM5I-IxQGSnl1OiH6zFj5Vn-QW5Ow"; 
-const SHEET_NAME = "goals";
+const SHEET_NAME = "Sheet1";
 
 const games = {
   "Celeste": {
-    "Any%": "A5:H9",
+    "Any%": "A1:F20", // Updated to include all columns through F
   }
 };
 
 async function fetchAndFormatData(sheetId, sheetName, range) {
+  try {
+    const functionUrl = `/.netlify/functions/fetchData?sheetId=${sheetId}&sheetName=${sheetName}&range=${range}`;
+    console.log('Fetching from:', functionUrl);
+
+    const fetchResponse = await fetch(functionUrl);
+    const responseText = await fetchResponse.text();
+    console.log('Raw response:', responseText);
+
+    let fetchData;
     try {
-      const functionUrl = `/.netlify/functions/fetchData?sheetId=${sheetId}&sheetName=${sheetName}&range=${range}`;
-      console.log('Fetching data from:', functionUrl);
-  
-      const fetchResponse = await fetch(functionUrl);
-      
-      if (!fetchResponse.ok) {
-        const errorText = await fetchResponse.text();
-        console.error('Fetch response not OK:', fetchResponse.status, errorText);
-        throw new Error(`HTTP error! status: ${fetchResponse.status}`);
-      }
-  
-      const fetchData = await fetchResponse.json();
-      console.log('Fetch response data:', fetchData);
-  
-      if (!fetchData.data) {
-        console.error('No data in fetch response:', fetchData);
-        throw new Error('No data received from spreadsheet');
-      }
-  
-      const formatResponse = await fetch(`/.netlify/functions/formatData`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ csvData: fetchData.data }),
-      });
-  
-      if (!formatResponse.ok) {
-        const errorText = await formatResponse.text();
-        console.error('Format response not OK:', formatResponse.status, errorText);
-        throw new Error(`Format error! status: ${formatResponse.status}`);
-      }
-  
-      const { formattedData } = await formatResponse.json();
-      console.log('Formatted data:', formattedData);
-      return formattedData;
-    } catch (error) {
-      console.error('Detailed error:', error);
-      showError(`${error.message} (Check console for details)`);
-      return null;
+      fetchData = JSON.parse(responseText);
+    } catch (e) {
+      console.error('Failed to parse response:', responseText);
+      throw new Error('Invalid response format from server');
     }
-  }
-  
-  function showError(message) {
-    const container = document.getElementById("categories");
-    const existingError = container.querySelector('.error-message');
-    if (existingError) {
-      existingError.remove();
+
+    if (!fetchResponse.ok) {
+      throw new Error(fetchData.error || 'Failed to fetch data');
     }
-    
-    const errorDiv = document.createElement("div");
-    errorDiv.classList.add("error-message");
-    errorDiv.textContent = `Error: ${message}`;
-    container.insertBefore(errorDiv, container.firstChild);
+
+    if (!fetchData.data) {
+      throw new Error('No data received from spreadsheet');
+    }
+
+    const formatResponse = await fetch(`/.netlify/functions/formatData`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ csvData: fetchData.data }),
+    });
+
+    if (!formatResponse.ok) {
+      const formatError = await formatResponse.text();
+      console.error('Format error:', formatError);
+      throw new Error('Failed to format data');
+    }
+
+    const formatResult = await formatResponse.json();
+    console.log('Formatted data:', formatResult);
+    return formatResult.formattedData;
+
+  } catch (error) {
+    console.error('Detailed error:', error);
+    showError(`${error.message} (Check console for details)`);
+    return null;
+  }
+}
+
+function showError(message) {
+  const container = document.getElementById("categories");
+  const existingError = container.querySelector('.error-message');
+  if (existingError) {
+    existingError.remove();
   }
   
-  function showLoading(gameSection) {
-    const loadingDiv = document.createElement("div");
-    loadingDiv.classList.add("loading");
-    loadingDiv.textContent = "Loading...";
-    gameSection.appendChild(loadingDiv);
-    return loadingDiv;
-  }
+  const errorDiv = document.createElement("div");
+  errorDiv.classList.add("error-message");
+  errorDiv.textContent = `Error: ${message}`;
+  container.insertBefore(errorDiv, container.firstChild);
+}
 
 function showLoading(gameSection) {
   const loadingDiv = document.createElement("div");
@@ -101,20 +98,24 @@ async function renderDataForCategory(gameName, categoryName, range) {
     <tr>
       <th>Goal</th>
       <th>Completed</th>
-      <th>Time Taken (Hours)</th>
-      <th>Enjoyment (0-10)</th>
+      <th>Time (Hours)</th>
+      <th>Enjoyment</th>
+      <th>Notes</th>
+      <th>Completion Date</th>
     </tr>
   `;
   table.appendChild(tableHeader);
 
   const tableBody = document.createElement("tbody");
-  formattedData.forEach(({ goal, completed, timeTaken, enjoyment }) => {
+  formattedData.forEach(({ goal, completed, timeTaken, enjoyment, notes, completionDate }) => {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${goal}</td>
       <td>${completed ? "✓" : "✗"}</td>
       <td>${timeTaken?.toFixed(1) || '-'}</td>
       <td>${enjoyment || '-'}</td>
+      <td>${notes || '-'}</td>
+      <td>${completionDate || '-'}</td>
     `;
     tableBody.appendChild(row);
   });
