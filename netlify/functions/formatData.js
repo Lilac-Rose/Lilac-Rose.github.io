@@ -3,8 +3,8 @@ exports.handler = async (event) => {
 
   if (!csvData) {
     return {
-      statusCode: 400,
-      body: JSON.stringify({ error: "Missing CSV data" }),
+      statusCode: 200,
+      body: JSON.stringify({ formattedData: [] }),
     };
   }
 
@@ -13,8 +13,14 @@ exports.handler = async (event) => {
       row.split(",").map(cell => cell.trim())
     );
 
-    // Skip the header row
-    const dataRows = rows.slice(1);
+    if (rows.length === 0) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ formattedData: [] }),
+      };
+    }
+
+    const dataRows = rows.length > 1 ? rows.slice(1) : rows;
 
     const formattedData = dataRows
       .filter(cells => cells.length >= 4 && cells[0] && cells[0].trim())

@@ -18,8 +18,8 @@ let totalStats = {
 
 async function fetchAndFormatData(sheetId, sheetName, range) {
   try {
-    console.log('Starting fetchAndFormatData');
-    const functionUrl = `/.netlify/functions/fetchData?sheetId=${sheetId}`;
+    console.log('Starting fetchAndFormatData for range:', range);
+    const functionUrl = `/.netlify/functions/fetchData?sheetId=${sheetId}&range=${range}`;
     console.log('Fetching from:', functionUrl);
 
     const fetchResponse = await fetch(functionUrl);
@@ -46,12 +46,15 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
     const formatResponse = await fetch('/.netlify/functions/formatData', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ csvData: fetchData.data })
+      body: JSON.stringify({ 
+        csvData: fetchData.data,
+        range: range // Pass the range to the format function
+      })
     });
 
     console.log('Format response status:', formatResponse.status);
     const formatResult = await formatResponse.json();
-    console.log('Formatted data:', formatResult);
+    console.log('Formatted data for range', range, ':', formatResult);
 
     return formatResult.formattedData;
 
@@ -94,7 +97,7 @@ function showLoading(gameSection) {
 }
 
 async function renderDataForCategory(gameName, categoryName, range) {
-  console.log('Rendering category:', categoryName, 'for game:', gameName);
+  console.log('Rendering category:', categoryName, 'for game:', gameName, 'with range:', range);
   const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
   const loadingDiv = showLoading(gameSection);
 
@@ -105,6 +108,8 @@ async function renderDataForCategory(gameName, categoryName, range) {
     console.error('No formatted data received');
     return;
   }
+
+  console.log('Received data for category', categoryName, ':', formattedData);
 
   const categoryStats = {
     completed: formattedData.filter(item => item.completed).length,

@@ -1,7 +1,7 @@
 const https = require('node:https');
 
 exports.handler = async (event) => {
-  const { sheetId } = event.queryStringParameters;
+  const { sheetId, range } = event.queryStringParameters;
   
   if (!sheetId) {
     return {
@@ -9,8 +9,9 @@ exports.handler = async (event) => {
       body: JSON.stringify({ error: "Missing sheetId parameter" })
     };
   }
-  
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+
+  const sheetName = 'Sheet1'; 
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&range=${encodeURIComponent(sheetName + '!' + (range || 'A:F'))}`;
   
   try {
     const data = await new Promise((resolve, reject) => {
@@ -36,6 +37,18 @@ exports.handler = async (event) => {
 
       makeRequest(csvUrl);
     });
+
+    const rows = data.split('\n').filter(row => row.trim());
+    if (rows.length <= 1) {
+      return {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({ data: '' })
+      };
+    }
 
     return {
       statusCode: 200,
