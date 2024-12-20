@@ -10,6 +10,10 @@ const games = {
   }
 };
 
+const gameBackgrounds = {
+  "Celeste": "../images/celeste-background.jpg"
+};
+
 // Track totals across all games
 let totalStats = {
   completed: 0,
@@ -116,7 +120,6 @@ async function renderDataForCategory(gameName, categoryName, range) {
     total: formattedData.length
   };
 
-  // Update game totals
   const gameStatsDiv = gameSection.querySelector('.game-stats');
   const currentGameStats = JSON.parse(gameStatsDiv.dataset.stats);
   currentGameStats.completed += categoryStats.completed;
@@ -124,7 +127,6 @@ async function renderDataForCategory(gameName, categoryName, range) {
   gameStatsDiv.dataset.stats = JSON.stringify(currentGameStats);
   gameStatsDiv.innerHTML = createProgressBar(currentGameStats.completed, currentGameStats.total);
 
-  // Update overall totals
   totalStats.completed += categoryStats.completed;
   totalStats.total += categoryStats.total;
   updateOverallStats();
@@ -192,75 +194,6 @@ async function renderDataForGame(gameName, categories) {
   gameSection.classList.add("game-section");
   gameSection.setAttribute("data-game", gameName);
 
-  const gameHeader = document.createElement("div");
-  gameHeader.classList.add("game-header");
-
-  const gameTitle = document.createElement("h2");
-  gameTitle.textContent = gameName;
-  gameHeader.appendChild(gameTitle);
-
-  const gameStats = document.createElement("div");
-  gameStats.classList.add("game-stats");
-  gameStats.dataset.stats = JSON.stringify({ completed: 0, total: 0 });
-  gameStats.innerHTML = createProgressBar(0, 0);
-  gameHeader.appendChild(gameStats);
-
-  gameSection.appendChild(gameHeader);
-  container.appendChild(gameSection);
-
-  for (const [categoryName, range] of Object.entries(categories)) {
-    await renderDataForCategory(gameName, categoryName, range);
-  }
-}
-
-async function renderAllGames() {
-  console.log('Starting renderAllGames');
-  const container = document.getElementById("categories");
-  container.innerHTML = "";
-
-  // Create overall stats container
-  const overallStatsContainer = document.createElement("div");
-  overallStatsContainer.classList.add("overall-stats-container");
-  
-  const overallTitle = document.createElement("h2");
-  overallTitle.textContent = "Overall Progress";
-  overallStatsContainer.appendChild(overallTitle);
-
-  const overallStats = document.createElement("div");
-  overallStats.id = "overall-stats";
-  overallStats.innerHTML = createProgressBar(0, 0);
-  overallStatsContainer.appendChild(overallStats);
-
-  container.appendChild(overallStatsContainer);
-
-  // Reset totals
-  totalStats = { completed: 0, total: 0 };
-
-  for (const [gameName, categories] of Object.entries(games)) {
-    await renderDataForGame(gameName, categories);
-  }
-}
-
-console.log('Script loaded');
-
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM loaded, starting render');
-  renderAllGames();
-});
-
-const gameBackgrounds = {
-  "Celeste": "../images/celeste-background.jpg"
-};
-
-async function renderDataForGame(gameName, categories) {
-  console.log('Rendering game:', gameName);
-  const container = document.getElementById("categories");
-
-  const gameSection = document.createElement("div");
-  gameSection.classList.add("game-section");
-  gameSection.setAttribute("data-game", gameName);
-
-  // Add the background image container
   if (gameBackgrounds[gameName]) {
     const bgDiv = document.createElement("div");
     bgDiv.classList.add("game-section-bg");
@@ -288,3 +221,36 @@ async function renderDataForGame(gameName, categories) {
     await renderDataForCategory(gameName, categoryName, range);
   }
 }
+
+async function renderAllGames() {
+  console.log('Starting renderAllGames');
+  const container = document.getElementById("categories");
+  container.innerHTML = "";
+
+  const overallStatsContainer = document.createElement("div");
+  overallStatsContainer.classList.add("overall-stats-container");
+  
+  const overallTitle = document.createElement("h2");
+  overallTitle.textContent = "Overall Progress";
+  overallStatsContainer.appendChild(overallTitle);
+
+  const overallStats = document.createElement("div");
+  overallStats.id = "overall-stats";
+  overallStats.innerHTML = createProgressBar(0, 0);
+  overallStatsContainer.appendChild(overallStats);
+
+  container.appendChild(overallStatsContainer);
+
+  totalStats = { completed: 0, total: 0 };
+
+  for (const [gameName, categories] of Object.entries(games)) {
+    await renderDataForGame(gameName, categories);
+  }
+}
+
+console.log('Script loaded');
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM loaded, starting render');
+  renderAllGames();
+});
