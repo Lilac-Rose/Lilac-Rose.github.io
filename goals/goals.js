@@ -227,6 +227,11 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   parentElement.appendChild(categorySection);
 }
 
+function updateOverallStats() {
+  const overallStats = document.getElementById("overall-stats");
+  overallStats.innerHTML = createProgressBar(totalStats.completed, totalStats.total);
+}
+
 async function renderDataForGame(gameName, gameData) {
   console.log('Rendering game:', gameName);
   const container = document.getElementById("categories");
