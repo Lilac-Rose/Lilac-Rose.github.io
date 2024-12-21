@@ -20,6 +20,20 @@ const games = {
       "TE": "A17:F19",
       "100%": "A22:F25"
     }
+  },
+  "Celeste: Strawberry Jam": {
+    columns: [
+      { header: "Goal", key: "goal", width: "33%" },
+      { header: "Red Berries", key: "arb", width: "33%" },
+      { header: "Golden/Silver", key: "goldsilver", width: "33%" },
+    ],
+    categories: {
+      "Begginner": "H6:J27",
+      "Intermediate": "L6:N24",
+      "Advanced": "L26:N51",
+      "Expert": "P6:R35",
+      "Grandmaster": "P37:R55"
+    }
   }
 };
 
