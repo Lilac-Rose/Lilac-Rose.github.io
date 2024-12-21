@@ -1,5 +1,5 @@
 exports.handler = async (event) => {
-  const { csvData } = JSON.parse(event.body);
+  const { csvData, range } = JSON.parse(event.body);
 
   if (!csvData) {
     return {
@@ -24,18 +24,24 @@ exports.handler = async (event) => {
     const formattedData = rows
       .filter(cells => cells[0] && cells[0].trim())
       .map((cells) => {
-        const completedValue = cells[1]?.trim().toUpperCase();
-        return {
-          goal: cells[0]?.trim() || '',
-          completed: completedValue === "TRUE",
-          displayCompleted: completedValue === "TRUE" ? "✓" : (completedValue === "FALSE" ? "✗" : ""),
-          timeTaken: cells[2] ? parseFloat(cells[2]) : null,
-          enjoyment: cells[3] ? parseInt(cells[3]) : null,
-          notes: cells[4]?.trim() || '',
-          completionDate: cells[5]?.trim() || '',
-          arb: cells[1]?.trim() || '',
-          goldsilver: cells[2]?.trim() || ''
-        };
+        // Check if this is a standard format or berry format based on the range
+        if (range.includes(":F")) {  // Standard format
+          return {
+            goal: cells[0]?.trim() || '',
+            completed: cells[1]?.trim().toUpperCase() === "TRUE",
+            displayCompleted: cells[1]?.trim().toUpperCase() === "TRUE" ? "✓" : "✗",
+            timeTaken: cells[2] ? parseFloat(cells[2]) : null,
+            enjoyment: cells[3] ? parseInt(cells[3]) : null,
+            notes: cells[4]?.trim() || '',
+            completionDate: cells[5]?.trim() || ''
+          };
+        } else {  // Berry format
+          return {
+            goal: cells[0]?.trim() || '',
+            arb: cells[1]?.trim() || '',
+            goldsilver: cells[2]?.trim() || ''
+          };
+        }
       });
 
     console.log('Formatted data:', formattedData);
