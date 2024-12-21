@@ -3,13 +3,17 @@ const SHEET_NAME = "Sheet1";
 
 document.documentElement.style.setProperty('--container-width', '1600px');
 
+function formatCompletionStatus(value) {
+  return value === "TRUE" ? "✓" : "✗";
+}
+
 const games = {
   "Celeste": {
     background: "../images/celeste-background.jpg",
     dataType: "standard",
     columns: [
       { header: "Goal", key: "goal", width: "30%" },
-      { header: "Completed", key: "completed", width: "10%", format: value => value === "TRUE" ? "✓" : "✗" },
+      { header: "Completed", key: "completed", width: "10%", format: formatCompletionStatus },
       { header: "Time (Hours)", key: "timeTaken", width: "10%", format: value => value ? parseFloat(value).toFixed(1) : "-" },
       { header: "Enjoyment", key: "enjoyment", width: "10%" },
       { header: "Notes", key: "notes", width: "25%" },
@@ -20,16 +24,15 @@ const games = {
       "ARB": "A12:F14",
       "TE": "A17:F19",
       "100%": "A22:F25"
-    },
-    completionCheck: item => item.completed === "TRUE"
+    }
   },
   "Celeste: Strawberry Jam": {
     background: "../images/celeste-background.jpg",
     dataType: "berries",
     columns: [
       { header: "Goal", key: "goal", width: "33%" },
-      { header: "Red Berries", key: "arb", width: "33%" },
-      { header: "Golden/Silver", key: "goldsilver", width: "33%" }
+      { header: "Red Berries", key: "arb", width: "33%", format: formatCompletionStatus },
+      { header: "Golden/Silver", key: "goldsilver", width: "33%", format: formatCompletionStatus }
     ],
     categories: {
       "Beginner": "H6:J27",
@@ -37,11 +40,20 @@ const games = {
       "Advanced": "L26:N51",
       "Expert": "P6:R35",
       "Grandmaster": "P37:R55"
-    },
-    completionCheck: item => (item.arb && item.arb !== '-') || (item.goldsilver && item.goldsilver !== '-')
+    }
   }
 };
 
+function checkCompletion(item, gameConfig) {
+  if (gameConfig.dataType === "standard") {
+    return item.completed === "TRUE";
+  } else if (gameConfig.dataType === "berries") {
+    const redBerryValue = item.arb?.trim();
+    const goldenSilverValue = item.goldsilver?.trim();
+    return (redBerryValue === "TRUE") || (goldenSilverValue === "TRUE");
+  }
+  return item.completed === "TRUE";
+}
 
 const gameBackgrounds = {
   "Celeste": "../images/celeste-background.jpg"
@@ -164,7 +176,7 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
 
   const gameConfig = games[gameName];
   const categoryStats = {
-    completed: formattedData.filter(gameConfig.completionCheck).length,
+    completed: formattedData.filter(item => checkCompletion(item, gameConfig)).length,
     total: formattedData.length
   };
 
