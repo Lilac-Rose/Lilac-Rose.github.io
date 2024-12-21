@@ -5,7 +5,6 @@ document.documentElement.style.setProperty('--container-width', '1600px');
 
 const games = {
   "Celeste": {
-    background: "../images/celeste-background.jpg",
     dataType: "standard",
     columns: [
       { header: "Goal", key: "goal", width: "30%" },
@@ -39,6 +38,10 @@ const games = {
     },
     completionCheck: item => (item.arb && item.arb !== '-') || (item.goldsilver && item.goldsilver !== '-')
   }
+};
+
+const gameBackgrounds = {
+  "Celeste": "../images/celeste-background.jpg"
 };
 
 let totalStats = {
