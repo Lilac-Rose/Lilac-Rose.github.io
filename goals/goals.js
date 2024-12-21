@@ -5,10 +5,11 @@ document.documentElement.style.setProperty('--container-width', '1600px');
 
 const games = {
   "Celeste": {
+    background: "../images/celeste-background.jpg",
     dataType: "standard",
     columns: [
       { header: "Goal", key: "goal", width: "30%" },
-      { header: "Completed", key: "completed", width: "10%", format: value => value === true ? "✓" : "✗" },
+      { header: "Completed", key: "completed", width: "10%", format: value => value === "TRUE" ? "✓" : "✗" },
       { header: "Time (Hours)", key: "timeTaken", width: "10%", format: value => value ? parseFloat(value).toFixed(1) : "-" },
       { header: "Enjoyment", key: "enjoyment", width: "10%" },
       { header: "Notes", key: "notes", width: "25%" },
@@ -20,9 +21,10 @@ const games = {
       "TE": "A17:F19",
       "100%": "A22:F25"
     },
-    completionCheck: item => item.completed === true
+    completionCheck: item => item.completed === "TRUE"
   },
   "Celeste: Strawberry Jam": {
+    background: "../images/celeste-background.jpg",
     dataType: "berries",
     columns: [
       { header: "Goal", key: "goal", width: "33%" },
@@ -39,6 +41,7 @@ const games = {
     completionCheck: item => (item.arb && item.arb !== '-') || (item.goldsilver && item.goldsilver !== '-')
   }
 };
+
 
 const gameBackgrounds = {
   "Celeste": "../images/celeste-background.jpg"
@@ -67,7 +70,7 @@ function toggleCollapse(element) {
 async function fetchAndFormatData(sheetId, sheetName, range) {
   try {
     console.log('Starting fetchAndFormatData for range:', range);
-    const functionUrl = `/.netlify/functions/fetchData?sheetId=${sheetId}&range=${range}`;
+    const functionUrl = `/.netlify/functions/fetchData?sheetId=${sheetId}&range=${encodeURIComponent(range)}`;
     console.log('Fetching from:', functionUrl);
 
     const fetchResponse = await fetch(functionUrl);
