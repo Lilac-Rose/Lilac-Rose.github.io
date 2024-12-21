@@ -1,15 +1,16 @@
 const SHEET_ID = "16lWlwHzF9l86O_PM5I-IxQGSnl1OiH6zFj5Vn-QW5Ow"; 
 const SHEET_NAME = "Sheet1";
 
-// Increased max-width from 1200px to 1600px in the CSS
 document.documentElement.style.setProperty('--container-width', '1600px');
 
 const games = {
   "Celeste": {
+    background: "../images/celeste-background.jpg",
+    dataType: "standard",
     columns: [
       { header: "Goal", key: "goal", width: "30%" },
-      { header: "Completed", key: "completed", width: "10%" },
-      { header: "Time (Hours)", key: "timeTaken", width: "10%" },
+      { header: "Completed", key: "completed", width: "10%", format: value => value === true ? "✓" : "✗" },
+      { header: "Time (Hours)", key: "timeTaken", width: "10%", format: value => value ? parseFloat(value).toFixed(1) : "-" },
       { header: "Enjoyment", key: "enjoyment", width: "10%" },
       { header: "Notes", key: "notes", width: "25%" },
       { header: "Completion Date", key: "completionDate", width: "15%" }
@@ -19,26 +20,25 @@ const games = {
       "ARB": "A12:F14",
       "TE": "A17:F19",
       "100%": "A22:F25"
-    }
+    },
+    completionCheck: item => item.completed === true
   },
   "Celeste: Strawberry Jam": {
+    dataType: "berries",
     columns: [
       { header: "Goal", key: "goal", width: "33%" },
       { header: "Red Berries", key: "arb", width: "33%" },
-      { header: "Golden/Silver", key: "goldsilver", width: "33%" },
+      { header: "Golden/Silver", key: "goldsilver", width: "33%" }
     ],
     categories: {
-      "Begginner": "H6:J27",
+      "Beginner": "H6:J27",
       "Intermediate": "L6:N24",
       "Advanced": "L26:N51",
       "Expert": "P6:R35",
       "Grandmaster": "P37:R55"
-    }
+    },
+    completionCheck: item => (item.arb && item.arb !== '-') || (item.goldsilver && item.goldsilver !== '-')
   }
-};
-
-const gameBackgrounds = {
-  "Celeste": "../images/celeste-background.jpg"
 };
 
 let totalStats = {
@@ -156,8 +156,9 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
 
   console.log('Received data for category', categoryName, ':', formattedData);
 
+  const gameConfig = games[gameName];
   const categoryStats = {
-    completed: formattedData.filter(item => item.completed).length,
+    completed: formattedData.filter(gameConfig.completionCheck).length,
     total: formattedData.length
   };
 
@@ -202,8 +203,7 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   const tableHeader = document.createElement("thead");
   const headerRow = document.createElement("tr");
 
-  // Use game-specific column definitions
-  const columns = games[gameName].columns;
+  const columns = gameConfig.columns;
   columns.forEach(column => {
     const th = document.createElement("th");
     th.textContent = column.header;
@@ -221,12 +221,11 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
       const td = document.createElement("td");
       let cellContent = rowData[column.key];
       
-      // Format cell content based on column type
-      if (column.key === 'completed') {
-        cellContent = cellContent ? "✓" : "✗";
-      } else if (column.key === 'timeTaken' && cellContent) {
-        cellContent = parseFloat(cellContent).toFixed(1);
-      } else if (!cellContent || cellContent === '') {
+      if (column.format && cellContent !== undefined) {
+        cellContent = column.format(cellContent);
+      }
+      
+      if (cellContent === undefined || cellContent === '') {
         cellContent = '-';
       }
       
