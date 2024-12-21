@@ -1,4 +1,5 @@
 :root {
+    --container-width: 1600px;
     --main-bg: #0a0f14;
     --secondary-bg: #0f1a1f;
     --terminal-color: #0098CD;
@@ -30,7 +31,7 @@
   
   #categories {
     width: 100%;
-    max-width: 1200px;
+    max-width: var(--container-width);
     padding: 20px;
     margin-top: 30px;
     position: relative;
