@@ -24,8 +24,7 @@ exports.handler = async (event) => {
     const formattedData = rows
       .filter(cells => cells[0] && cells[0].trim())
       .map((cells) => {
-        // Check if this is a standard format or berry format based on the range
-        if (range.includes(":F")) {  // Standard format
+        if (range.includes(":F")) {
           return {
             goal: cells[0]?.trim() || '',
             completed: cells[1]?.trim().toUpperCase() === "TRUE",
