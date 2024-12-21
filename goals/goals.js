@@ -1,12 +1,25 @@
 const SHEET_ID = "16lWlwHzF9l86O_PM5I-IxQGSnl1OiH6zFj5Vn-QW5Ow"; 
 const SHEET_NAME = "Sheet1";
 
+// Increased max-width from 1200px to 1600px in the CSS
+document.documentElement.style.setProperty('--container-width', '1600px');
+
 const games = {
   "Celeste": {
-    "Any%": "A6:F9",
-    "ARB": "A12:F14",
-    "TE": "A17:F19",
-    "100%": "A22:F25"
+    columns: [
+      { header: "Goal", key: "goal", width: "30%" },
+      { header: "Completed", key: "completed", width: "10%" },
+      { header: "Time (Hours)", key: "timeTaken", width: "10%" },
+      { header: "Enjoyment", key: "enjoyment", width: "10%" },
+      { header: "Notes", key: "notes", width: "25%" },
+      { header: "Completion Date", key: "completionDate", width: "15%" }
+    ],
+    categories: {
+      "Any%": "A6:F9",
+      "ARB": "A12:F14",
+      "TE": "A17:F19",
+      "100%": "A22:F25"
+    }
   }
 };
 
@@ -173,29 +186,39 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
 
   const table = document.createElement("table");
   const tableHeader = document.createElement("thead");
-  tableHeader.innerHTML = `
-    <tr>
-      <th>Goal</th>
-      <th>Completed</th>
-      <th>Time (Hours)</th>
-      <th>Enjoyment</th>
-      <th>Notes</th>
-      <th>Completion Date</th>
-    </tr>
-  `;
+  const headerRow = document.createElement("tr");
+
+  // Use game-specific column definitions
+  const columns = games[gameName].columns;
+  columns.forEach(column => {
+    const th = document.createElement("th");
+    th.textContent = column.header;
+    th.style.width = column.width;
+    headerRow.appendChild(th);
+  });
+
+  tableHeader.appendChild(headerRow);
   table.appendChild(tableHeader);
 
   const tableBody = document.createElement("tbody");
-  formattedData.forEach(({ goal, completed, timeTaken, enjoyment, notes, completionDate }) => {
+  formattedData.forEach(rowData => {
     const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${goal}</td>
-      <td>${completed ? "✓" : "✗"}</td>
-      <td>${timeTaken?.toFixed(1) || '-'}</td>
-      <td>${enjoyment || '-'}</td>
-      <td>${notes || '-'}</td>
-      <td>${completionDate || '-'}</td>
-    `;
+    columns.forEach(column => {
+      const td = document.createElement("td");
+      let cellContent = rowData[column.key];
+      
+      // Format cell content based on column type
+      if (column.key === 'completed') {
+        cellContent = cellContent ? "✓" : "✗";
+      } else if (column.key === 'timeTaken' && cellContent) {
+        cellContent = parseFloat(cellContent).toFixed(1);
+      } else if (!cellContent || cellContent === '') {
+        cellContent = '-';
+      }
+      
+      td.textContent = cellContent;
+      row.appendChild(td);
+    });
     tableBody.appendChild(row);
   });
 
@@ -204,12 +227,7 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   parentElement.appendChild(categorySection);
 }
 
-function updateOverallStats() {
-  const overallStats = document.getElementById("overall-stats");
-  overallStats.innerHTML = createProgressBar(totalStats.completed, totalStats.total);
-}
-
-async function renderDataForGame(gameName, categories) {
+async function renderDataForGame(gameName, gameData) {
   console.log('Rendering game:', gameName);
   const container = document.getElementById("categories");
 
@@ -250,7 +268,7 @@ async function renderDataForGame(gameName, categories) {
   
   container.appendChild(gameSection);
 
-  for (const [categoryName, range] of Object.entries(categories)) {
+  for (const [categoryName, range] of Object.entries(gameData.categories)) {
     await renderDataForCategory(gameName, categoryName, range, gameContent);
   }
 }
@@ -276,8 +294,8 @@ async function renderAllGames() {
 
   totalStats = { completed: 0, total: 0 };
 
-  for (const [gameName, categories] of Object.entries(games)) {
-    await renderDataForGame(gameName, categories);
+  for (const [gameName, gameData] of Object.entries(games)) {
+    await renderDataForGame(gameName, gameData);
   }
 }
 

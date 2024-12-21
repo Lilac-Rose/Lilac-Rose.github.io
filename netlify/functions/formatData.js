@@ -23,19 +23,16 @@ exports.handler = async (event) => {
 
     const formattedData = rows
       .filter(cells => cells[0] && cells[0].trim())
-      .map((cells) => {
-        const completedValue = cells[1]?.trim().toUpperCase();
-        const completed = completedValue === "TRUE";
-
-        return {
-          goal: cells[0]?.trim() || '',
-          completed: completed,
-          timeTaken: cells[2] ? parseFloat(cells[2]) : null,
-          enjoyment: cells[3] ? parseInt(cells[3]) : null,
-          notes: cells[4]?.trim() || '',
-          completionDate: cells[5]?.trim() || ''
-        };
-      });
+      .map((cells) => ({
+        goal: cells[0]?.trim() || '',
+        completed: cells[1]?.trim().toUpperCase() === "TRUE",
+        timeTaken: cells[2] ? parseFloat(cells[2]) : null,
+        enjoyment: cells[3] ? parseInt(cells[3]) : null,
+        notes: cells[4]?.trim() || '',
+        completionDate: cells[5]?.trim() || '',
+        arb: cells[1]?.trim() || '',
+        silverGolden: cells[2]?.trim() || ''
+      }));
 
     console.log('Formatted data:', formattedData);
 
