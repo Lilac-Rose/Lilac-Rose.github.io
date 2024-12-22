@@ -77,9 +77,11 @@ function initializeSidebar() {
     gameNav.classList.add('nav-item');
     gameNav.textContent = gameName;
     gameNav.onclick = () => {
-      document.querySelectorAll('.game-section').forEach(section => {
-        section.style.display = section.dataset.game === gameName ? 'block' : 'none';
-      });
+      const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
+      if (gameSection) {
+        gameSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       gameNav.classList.add('active');
       
@@ -100,11 +102,12 @@ function initializeSidebar() {
       categoryNav.onclick = (e) => {
         e.stopPropagation();
         const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
-        const categories = gameSection.querySelectorAll('.category-section');
-        categories.forEach(category => {
-          category.style.display = 
-            category.querySelector('h3').textContent === categoryName ? 'block' : 'none';
-        });
+        const categorySection = gameSection.querySelector(`.category-section h3[data-category="${categoryName}"]`)
+          ?.closest('.category-section');
+          
+        if (categorySection) {
+          categorySection.scrollIntoView({ behavior: 'smooth' });
+        }
       };
       subNav.appendChild(categoryNav);
     });
@@ -127,7 +130,6 @@ function toggleSidebar() {
   
   sidebar.classList.toggle('collapsed');
   toggle.classList.toggle('collapsed');
-  mainContent.classList.toggle('full-width');
 }
 
 function toggleCollapse(element) {
@@ -270,6 +272,7 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
 
   const categoryTitle = document.createElement("h3");
   categoryTitle.textContent = categoryName;
+  categoryTitle.setAttribute('data-category', categoryName);
   categoryHeader.appendChild(categoryTitle);
 
   const categoryProgress = document.createElement("div");
