@@ -27,14 +27,14 @@ exports.handler = async (event) => {
         if (range.includes(":F")) {
           return {
             goal: cells[0]?.trim() || '',
-            completed: cells[1]?.trim().toUpperCase() === "TRUE",
-            displayCompleted: cells[1]?.trim().toUpperCase() === "TRUE" ? "✓" : "✗",
+            completed: isCompleted,
+            displayCompleted: isCompleted ? "✓" : "✗",
             timeTaken: cells[2] ? parseFloat(cells[2]) : null,
             enjoyment: cells[3] ? parseInt(cells[3]) : null,
             notes: cells[4]?.trim() || '',
             completionDate: cells[5]?.trim() || ''
           };
-        } else {  // Berry format
+        } else {
           return {
             goal: cells[0]?.trim() || '',
             arb: cells[1]?.trim().toUpperCase() === "TRUE",
