@@ -37,8 +37,8 @@ exports.handler = async (event) => {
         } else {  // Berry format
           return {
             goal: cells[0]?.trim() || '',
-            arb: cells[1]?.trim() || '',
-            goldsilver: cells[2]?.trim() || ''
+            arb: cells[1]?.trim().toUpperCase() === "TRUE",
+            goldsilver: cells[2]?.trim().toUpperCase() === "TRUE"
           };
         }
       });
