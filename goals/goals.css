@@ -40,6 +40,7 @@ body {
   overflow-y: auto;
   transition: transform 0.3s ease;
   z-index: 100;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar.collapsed {
@@ -90,8 +91,7 @@ body {
 }
 
 .main-content {
-  margin-left: var(--sidebar-width);
-  flex: 1;
+  width: 100%;
   padding: 20px;
   transition: margin-left 0.3s ease;
 }
