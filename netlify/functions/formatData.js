@@ -14,6 +14,8 @@ exports.handler = async (event) => {
       .map(row => row.split(",").map(cell => cell.trim()))
       .filter(row => row.some(cell => cell.length > 0));
 
+    console.log('Raw rows:', rows);
+
     if (rows.length === 0) {
       return {
         statusCode: 200,
@@ -24,6 +26,10 @@ exports.handler = async (event) => {
     const formattedData = rows
       .filter(cells => cells[0] && cells[0].trim())
       .map((cells) => {
+        console.log('Processed row:', cells);
+        const isCompleted = cells[1]?.trim().toUpperCase() === "TRUE";
+        console.log('Checking value for TRUE:', cells[1], isCompleted);
+
         if (range.includes(":F")) {
           return {
             goal: cells[0]?.trim() || '',
