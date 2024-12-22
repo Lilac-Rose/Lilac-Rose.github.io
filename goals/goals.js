@@ -46,13 +46,11 @@ const games = {
 
 function checkCompletion(item, gameConfig) {
   if (gameConfig.dataType === "standard") {
-    return item.completed === "TRUE";
+    return item.completed === true;
   } else if (gameConfig.dataType === "berries") {
-    const redBerryValue = item.arb?.trim();
-    const goldenSilverValue = item.goldsilver?.trim();
-    return (redBerryValue === "TRUE") || (goldenSilverValue === "TRUE");
+    return item.arb === true || item.goldsilver === true;
   }
-  return item.completed === "TRUE";
+  return item.completed === true;
 }
 
 const gameBackgrounds = {
@@ -63,6 +61,74 @@ let totalStats = {
   completed: 0,
   total: 0
 };
+
+function initializeSidebar() {
+  const sidebar = document.createElement('div');
+  sidebar.classList.add('sidebar');
+  
+  const toggle = document.createElement('button');
+  toggle.classList.add('sidebar-toggle');
+  toggle.innerHTML = '☰';
+  toggle.onclick = toggleSidebar;
+  document.body.appendChild(toggle);
+  
+  Object.entries(games).forEach(([gameName, gameData]) => {
+    const gameNav = document.createElement('div');
+    gameNav.classList.add('nav-item');
+    gameNav.textContent = gameName;
+    gameNav.onclick = () => {
+      document.querySelectorAll('.game-section').forEach(section => {
+        section.style.display = section.dataset.game === gameName ? 'block' : 'none';
+      });
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      gameNav.classList.add('active');
+      
+      const subNav = gameNav.nextElementSibling;
+      document.querySelectorAll('.sub-nav').forEach(nav => {
+        if (nav !== subNav) nav.classList.remove('show');
+      });
+      subNav.classList.toggle('show');
+    };
+    sidebar.appendChild(gameNav);
+    
+    const subNav = document.createElement('div');
+    subNav.classList.add('sub-nav');
+    Object.keys(gameData.categories).forEach(categoryName => {
+      const categoryNav = document.createElement('div');
+      categoryNav.classList.add('nav-item');
+      categoryNav.textContent = categoryName;
+      categoryNav.onclick = (e) => {
+        e.stopPropagation();
+        const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
+        const categories = gameSection.querySelectorAll('.category-section');
+        categories.forEach(category => {
+          category.style.display = 
+            category.querySelector('h3').textContent === categoryName ? 'block' : 'none';
+        });
+      };
+      subNav.appendChild(categoryNav);
+    });
+    sidebar.appendChild(subNav);
+  });
+  
+  document.body.insertBefore(sidebar, document.body.firstChild);
+  
+  const mainContent = document.createElement('div');
+  mainContent.classList.add('main-content');
+  const content = document.getElementById('categories');
+  document.body.insertBefore(mainContent, content);
+  mainContent.appendChild(content);
+}
+
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const toggle = document.querySelector('.sidebar-toggle');
+  const mainContent = document.querySelector('.main-content');
+  
+  sidebar.classList.toggle('collapsed');
+  toggle.classList.toggle('collapsed');
+  mainContent.classList.toggle('full-width');
+}
 
 function toggleCollapse(element) {
   element.classList.toggle('collapsed');
@@ -335,9 +401,7 @@ async function renderAllGames() {
   }
 }
 
-console.log('Script loaded');
-
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM loaded, starting render');
+  initializeSidebar();
   renderAllGames();
 });
