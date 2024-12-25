@@ -3,22 +3,9 @@ const SHEET_NAME = "Sheet1";
 
 document.documentElement.style.setProperty('--container-width', '1600px');
 
-function formatCompletionStatus(value) {
-  return value === "TRUE" ? "✓" : "✗";
-}
-
 const games = {
   "Celeste": {
     background: "../images/celeste-background.jpg",
-    dataType: "standard",
-    columns: [
-      { header: "Goal", key: "goal", width: "30%" },
-      { header: "Completed", key: "completed", width: "10%", format: formatCompletionStatus },
-      { header: "Time (Hours)", key: "timeTaken", width: "10%", format: value => value ? parseFloat(value).toFixed(1) : "-" },
-      { header: "Enjoyment", key: "enjoyment", width: "10%" },
-      { header: "Notes", key: "notes", width: "25%" },
-      { header: "Completion Date", key: "completionDate", width: "15%" }
-    ],
     categories: {
       "Any%": "A6:F9",
       "ARB": "A12:F14",
@@ -28,12 +15,6 @@ const games = {
   },
   "Celeste: Strawberry Jam": {
     background: "../images/celeste-background.jpg",
-    dataType: "berries",
-    columns: [
-      { header: "Goal", key: "goal", width: "33%" },
-      { header: "Red Berries", key: "arb", width: "33%", format: formatCompletionStatus },
-      { header: "Golden/Silver", key: "goldsilver", width: "33%", format: formatCompletionStatus }
-    ],
     categories: {
       "Beginner": "H6:J27",
       "Intermediate": "L6:N24",
@@ -44,13 +25,12 @@ const games = {
   }
 };
 
-function checkCompletion(item, gameConfig) {
-  if (gameConfig.dataType === "standard") {
+function checkCompletion(item) {
+  // Check for 'completed' field first, then fallback to 'arb' or 'goldsilver'
+  if (item.completed !== undefined) {
     return item.completed === true;
-  } else if (gameConfig.dataType === "berries") {
-    return item.arb === true || item.goldsilver === true;
   }
-  return item.completed === true;
+  return (item.arb === true || item.goldsilver === true);
 }
 
 const gameBackgrounds = {
@@ -187,7 +167,7 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
     const formatResult = await formatResponse.json();
     console.log('Formatted data for range', range, ':', formatResult);
 
-    return formatResult.formattedData;
+    return formatResult;
 
   } catch (error) {
     console.error('Detailed error:', error);
@@ -232,19 +212,19 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
   const loadingDiv = showLoading(gameSection);
 
-  const formattedData = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
+  const response = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
   loadingDiv.remove();
 
-  if (!formattedData) {
+  if (!response || !response.formattedData) {
     console.error('No formatted data received');
     return;
   }
 
+  const { headers, formattedData } = response;
   console.log('Received data for category', categoryName, ':', formattedData);
 
-  const gameConfig = games[gameName];
   const categoryStats = {
-    completed: formattedData.filter(item => checkCompletion(item, gameConfig)).length,
+    completed: formattedData.filter(item => checkCompletion(item)).length,
     total: formattedData.length
   };
 
@@ -290,11 +270,11 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   const tableHeader = document.createElement("thead");
   const headerRow = document.createElement("tr");
 
-  const columns = gameConfig.columns;
-  columns.forEach(column => {
+  // Use dynamic headers from the spreadsheet
+  headers.forEach(header => {
     const th = document.createElement("th");
-    th.textContent = column.header;
-    th.style.width = column.width;
+    th.textContent = header.label;
+    th.style.width = `${100 / headers.length}%`;
     headerRow.appendChild(th);
   });
 
@@ -304,19 +284,12 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   const tableBody = document.createElement("tbody");
   formattedData.forEach(rowData => {
     const row = document.createElement("tr");
-    columns.forEach(column => {
+    headers.forEach(header => {
       const td = document.createElement("td");
-      let cellContent = rowData[column.key];
+      const value = rowData[header.key];
+      const displayValue = rowData[`display_${header.key}`] || value;
       
-      if (column.format && cellContent !== undefined) {
-        cellContent = column.format(cellContent);
-      }
-      
-      if (cellContent === undefined || cellContent === '') {
-        cellContent = '-';
-      }
-      
-      td.textContent = cellContent;
+      td.textContent = displayValue === null ? '-' : displayValue;
       row.appendChild(td);
     });
     tableBody.appendChild(row);
