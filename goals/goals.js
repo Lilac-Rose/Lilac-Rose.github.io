@@ -7,20 +7,20 @@ const games = {
   "Celeste": {
     background: "../images/celeste-background.jpg",
     categories: {
-      "Any%": "A6:F9",
-      "ARB": "A12:F14",
-      "TE": "A17:F19",
-      "100%": "A22:F25"
+      "Any%": "A5:F9",
+      "ARB": "A12:F15",
+      "TE": "A18:F21",
+      "100%": "A24:F28"
     }
   },
   "Celeste: Strawberry Jam": {
     background: "../images/celeste-background.jpg",
     categories: {
-      "Beginner": "H6:J27",
-      "Intermediate": "L6:N24",
-      "Advanced": "L26:N51",
-      "Expert": "P6:R35",
-      "Grandmaster": "P37:R55"
+      "Beginner": "H6:J28",
+      "Intermediate": "L6:N25",
+      "Advanced": "L26:N52",
+      "Expert": "P6:R36",
+      "Grandmaster": "P37:R56"
     }
   }
 };
