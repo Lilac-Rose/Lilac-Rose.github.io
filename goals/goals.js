@@ -43,6 +43,13 @@ let totalStats = {
 };
 
 function initializeSidebar() {
+  const mainContent = document.createElement('div');
+  mainContent.classList.add('main-content');
+  
+  const content = document.getElementById('categories');
+  content.parentNode.insertBefore(mainContent, content);
+  mainContent.appendChild(content);
+
   const sidebar = document.createElement('div');
   sidebar.classList.add('sidebar');
   
@@ -50,8 +57,10 @@ function initializeSidebar() {
   toggle.classList.add('sidebar-toggle');
   toggle.innerHTML = '☰';
   toggle.onclick = toggleSidebar;
-  document.body.appendChild(toggle);
   
+  document.body.insertBefore(sidebar, mainContent);
+  document.body.insertBefore(toggle, mainContent);
+
   Object.entries(games).forEach(([gameName, gameData]) => {
     const gameNav = document.createElement('div');
     gameNav.classList.add('nav-item');
@@ -93,14 +102,6 @@ function initializeSidebar() {
     });
     sidebar.appendChild(subNav);
   });
-  
-  document.body.insertBefore(sidebar, document.body.firstChild);
-  
-  const mainContent = document.createElement('div');
-  mainContent.classList.add('main-content');
-  const content = document.getElementById('categories');
-  document.body.insertBefore(mainContent, content);
-  mainContent.appendChild(content);
 }
 
 function toggleSidebar() {

@@ -24,7 +24,7 @@
   z-index: -1;
   background: url("../images/background.png") no-repeat center top,
               var(--main-bg, #0a0f14);
-  background-size: 100% 100vh;  /* This will make it fit both width and height */
+  background-size: 100% 100vh;
 }
 
 .blur-overlay {
@@ -33,7 +33,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  backdrop-filter: blur(20px);  /* Using backdrop-filter instead of filter */
+  backdrop-filter: blur(20px);
   z-index: -1;
 }
 
