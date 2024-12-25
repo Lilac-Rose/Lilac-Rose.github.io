@@ -25,8 +25,22 @@ const games = {
   }
 };
 
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
 function checkCompletion(item) {
-  // Check for 'completed' field first, then fallback to 'arb' or 'goldsilver'
+  if (typeof item === 'string') {
+    return item.includes('✓');
+  }
   if (item.completed !== undefined) {
     return item.completed === true;
   }
@@ -179,12 +193,63 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
 
 function createProgressBar(completed, total) {
   const percentage = (completed / total) * 100;
-  return `
-    <div class="progress-container">
-      <div class="progress-bar" style="width: ${percentage}%"></div>
-      <div class="progress-text">${completed}/${total} (${percentage.toFixed(1)}%)</div>
-    </div>
-  `;
+  const container = createElementWithCache('div', 'progress-container');
+  const bar = createElementWithCache('div', 'progress-bar');
+  const text = createElementWithCache('div', 'progress-text');
+  
+  bar.style.width = `${percentage}%`;
+  text.textContent = `${completed}/${total} (${percentage.toFixed(1)}%)`;
+  
+  container.appendChild(bar);
+  container.appendChild(text);
+  return container;
+}
+
+function createElementWithCache(type, className) {
+  const element = document.createElement(type);
+  if (className) {
+    element.className = className;
+  }
+  return element;
+}
+
+function createTable(headers, formattedData) {
+  const table = createElementWithCache('table');
+  const thead = createElementWithCache('thead');
+  const headerRow = createElementWithCache('tr');
+  
+  const headerWidth = `${100 / headers.length}%`;
+  const headerFragment = document.createDocumentFragment();
+  
+  headers.forEach(header => {
+    const th = createElementWithCache('th');
+    th.textContent = header.label;
+    th.style.width = headerWidth;
+    headerFragment.appendChild(th);
+  });
+  
+  headerRow.appendChild(headerFragment);
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+  
+  const tbody = createElementWithCache('tbody');
+  const rowFragment = document.createDocumentFragment();
+  
+  formattedData.forEach(rowData => {
+    const row = createElementWithCache('tr');
+    headers.forEach(header => {
+      const td = createElementWithCache('td');
+      const value = rowData[header.key];
+      const displayValue = rowData[`display_${header.key}`] || value;
+      td.textContent = displayValue === null ? '-' : displayValue;
+      row.appendChild(td);
+    });
+    rowFragment.appendChild(row);
+  });
+  
+  tbody.appendChild(rowFragment);
+  table.appendChild(tbody);
+  return table;
 }
 
 function showError(message) {
