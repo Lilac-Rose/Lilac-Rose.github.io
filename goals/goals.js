@@ -3,9 +3,14 @@ const SHEET_NAME = "Sheet1";
 
 document.documentElement.style.setProperty('--container-width', '1600px');
 
+const GAME_TIMES = {
+  "Celeste": 1019.4,
+};
+
 const games = {
   "Celeste": {
     background: "../images/celeste-background.jpg",
+    timeSpent: GAME_TIMES["Celeste"],
     categories: {
       "Any%": "A5:F9",
       "ARB": "A12:F15",
@@ -22,8 +27,44 @@ const games = {
       "Expert": "P6:R36",
       "Grandmaster": "P37:R56"
     }
+  },
+  "Hollow Knight": {
+    background: "../images/hollow-knight-background.jpg",
+    timeSpent: GAME_TIMES["Hollow Knight"],
+    categories: {
+      "Bosses": "B33:C48",
+      "Equipment": "B51:C57",
+      "Spells": "B60:C65",
+      "Dream Nail": "B68:C70",
+      "Nail Upgrades": "B73:C76",
+      "Nail Arts": "B79:C81",
+      "Dreamers": "B84:C94",
+      "Charms": "B97:C136",
+      "Godhome": "B139:C143",
+      "Vessel Fragments": "B146:C154",
+      "Colosseum": "B157:C159",
+      "Mask Shards": "B162:C177"
+    }
   }
 };
+
+function createTimeDisplay(timeSpent) {
+  const timeContainer = document.createElement('div');
+  timeContainer.classList.add('time-display');
+  
+  const timeLabel = document.createElement('span');
+  timeLabel.classList.add('time-label');
+  timeLabel.textContent = 'Time: ';
+  
+  const timeValue = document.createElement('span');
+  timeValue.classList.add('time-value');
+  timeValue.textContent = `${timeSpent} hours`;
+  
+  timeContainer.appendChild(timeLabel);
+  timeContainer.appendChild(timeValue);
+  return timeContainer;
+}
+
 
 function debounce(func, wait) {
   let timeout;
@@ -144,6 +185,51 @@ function toggleCollapse(element) {
   }
 }
 
+function calculateWeightedProgress(category, completedItems, totalItems) {
+  const weights = {
+    "Equipment": 2,
+    "Vessel Fragments": 1/3, 
+    "Mask Shards": 1/4,
+  };
+
+  const weight = weights[category] || 1;
+  return completedItems * weight;
+}
+
+function calculateCategoryStats(categoryName, formattedData) {
+  const completed = formattedData.reduce((count, item) => {
+    const hasCheckmark = Object.values(item).some(value => 
+      typeof value === 'string' && value.includes('✓')
+    );
+    return count + (hasCheckmark ? 1 : 0);
+  }, 0);
+
+  const total = formattedData.length;
+  const weightedCompleted = calculateWeightedProgress(categoryName, completed, total);
+  
+  const maxPercentages = {
+    "Bosses": 16,
+    "Equipment": 14,
+    "Spells": 6,
+    "Dream Nail": 3,
+    "Nail Upgrades": 4,
+    "Nail Arts": 3,
+    "Dreamers": 11,
+    "Charms": 40,
+    "Godhome": 5,
+    "Vessel Fragments": 3,
+    "Colosseum": 3,
+    "Mask Shards": 4
+  };
+
+  return {
+    completed: weightedCompleted,
+    total: maxPercentages[categoryName] || total,
+    rawCompleted: completed,
+    rawTotal: total
+  };
+}
+
 async function fetchAndFormatData(sheetId, sheetName, range) {
   try {
     console.log('Starting fetchAndFormatData for range:', range);
@@ -193,8 +279,7 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
   }
 }
 
-// Optimized progress bar creation
-function createProgressBar(completed, total) {
+function createProgressBar(completed, total, rawCompleted, rawTotal) {
   const percentage = (completed / total) * 100;
   const container = document.createElement('div');
   container.className = 'progress-container';
@@ -205,7 +290,7 @@ function createProgressBar(completed, total) {
   
   const text = document.createElement('div');
   text.className = 'progress-text';
-  text.textContent = `${completed}/${total} (${percentage.toFixed(1)}%)`;
+  text.textContent = `${completed}% / ${total}% (${rawCompleted}/${rawTotal})`;
   
   container.appendChild(bar);
   container.appendChild(text);
@@ -361,14 +446,24 @@ async function renderDataForGame(gameName, gameData) {
   const gameHeader = document.createElement("div");
   gameHeader.classList.add("game-header", "collapsible-header");
   gameHeader.addEventListener('click', (e) => {
-    if (!e.target.closest('.game-stats')) {
+    if (!e.target.closest('.game-stats') && !e.target.closest('.time-display')) {
       toggleCollapse(gameSection);
     }
   });
 
+  // Create title and stats container
+  const titleStatsContainer = document.createElement("div");
+  titleStatsContainer.classList.add("title-stats-container");
+
   const gameTitle = document.createElement("h2");
   gameTitle.textContent = gameName;
-  gameHeader.appendChild(gameTitle);
+  titleStatsContainer.appendChild(gameTitle);
+
+  // Add time display
+  const timeDisplay = createTimeDisplay(GAME_TIMES[gameName]);
+  titleStatsContainer.appendChild(timeDisplay);
+
+  gameHeader.appendChild(titleStatsContainer);
 
   const gameStats = document.createElement("div");
   gameStats.classList.add("game-stats");
