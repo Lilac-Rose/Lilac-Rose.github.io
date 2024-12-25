@@ -93,7 +93,6 @@ h1 {
   position: relative;
 }
 
-/* Sidebar Styles */
 .sidebar {
   width: var(--sidebar-width);
   background-color: var(--secondary-bg);
@@ -102,6 +101,8 @@ h1 {
   position: fixed;
   left: 0;
   top: 0;
+  margin: 0;
+  padding: 0;
   overflow-y: auto;
   transition: transform 0.3s ease;
   z-index: 100;
@@ -114,19 +115,24 @@ h1 {
 
 .sidebar-toggle {
   position: fixed;
-  left: var(--sidebar-width);
+  left: 0;
   top: 10px;
   background: var(--terminal-color);
   border: none;
   color: var(--text-primary);
-  padding: 8px;
+  padding: 8px 12px;
   cursor: pointer;
   z-index: 1000;
   transition: left 0.3s ease;
+  border-radius: 0 4px 4px 0;
+  margin: 0;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .sidebar-toggle.collapsed {
-  left: 10px;
+  left: 0;
 }
 
 .nav-item {
@@ -406,7 +412,12 @@ table tbody tr:hover {
   margin-bottom: 10px;
 }
 
-/* Responsive Styles */
+.sidebar, .main-content, .game-section, .category-section {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
 @media (max-width: 768px) {
   :root {
     --sidebar-width: 200px;
