@@ -37,6 +37,7 @@ function debounce(func, wait) {
   };
 }
 
+// Improved completion check function
 function checkCompletion(item) {
   if (typeof item === 'string') {
     return item.includes('✓');
@@ -75,6 +76,7 @@ function initializeSidebar() {
 
   parent.insertBefore(sidebar, mainContent);
   parent.insertBefore(toggle, mainContent);
+  
   Object.entries(games).forEach(([gameName, gameData]) => {
     const gameNav = document.createElement('div');
     gameNav.classList.add('nav-item');
@@ -191,65 +193,23 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
   }
 }
 
+// Optimized progress bar creation
 function createProgressBar(completed, total) {
   const percentage = (completed / total) * 100;
-  const container = createElementWithCache('div', 'progress-container');
-  const bar = createElementWithCache('div', 'progress-bar');
-  const text = createElementWithCache('div', 'progress-text');
+  const container = document.createElement('div');
+  container.className = 'progress-container';
   
+  const bar = document.createElement('div');
+  bar.className = 'progress-bar';
   bar.style.width = `${percentage}%`;
+  
+  const text = document.createElement('div');
+  text.className = 'progress-text';
   text.textContent = `${completed}/${total} (${percentage.toFixed(1)}%)`;
   
   container.appendChild(bar);
   container.appendChild(text);
   return container;
-}
-
-function createElementWithCache(type, className) {
-  const element = document.createElement(type);
-  if (className) {
-    element.className = className;
-  }
-  return element;
-}
-
-function createTable(headers, formattedData) {
-  const table = createElementWithCache('table');
-  const thead = createElementWithCache('thead');
-  const headerRow = createElementWithCache('tr');
-  
-  const headerWidth = `${100 / headers.length}%`;
-  const headerFragment = document.createDocumentFragment();
-  
-  headers.forEach(header => {
-    const th = createElementWithCache('th');
-    th.textContent = header.label;
-    th.style.width = headerWidth;
-    headerFragment.appendChild(th);
-  });
-  
-  headerRow.appendChild(headerFragment);
-  thead.appendChild(headerRow);
-  table.appendChild(thead);
-  
-  const tbody = createElementWithCache('tbody');
-  const rowFragment = document.createDocumentFragment();
-  
-  formattedData.forEach(rowData => {
-    const row = createElementWithCache('tr');
-    headers.forEach(header => {
-      const td = createElementWithCache('td');
-      const value = rowData[header.key];
-      const displayValue = rowData[`display_${header.key}`] || value;
-      td.textContent = displayValue === null ? '-' : displayValue;
-      row.appendChild(td);
-    });
-    rowFragment.appendChild(row);
-  });
-  
-  tbody.appendChild(rowFragment);
-  table.appendChild(tbody);
-  return table;
 }
 
 function showError(message) {
@@ -289,8 +249,14 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   const { headers, formattedData } = response;
   console.log('Received data for category', categoryName, ':', formattedData);
 
+  // Count completed items by checking all fields for checkmarks
   const categoryStats = {
-    completed: formattedData.filter(item => checkCompletion(item)).length,
+    completed: formattedData.reduce((count, item) => {
+      const hasCheckmark = Object.values(item).some(value => 
+        typeof value === 'string' && value.includes('✓')
+      );
+      return count + (hasCheckmark ? 1 : 0);
+    }, 0),
     total: formattedData.length
   };
 
@@ -299,7 +265,8 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   currentGameStats.completed += categoryStats.completed;
   currentGameStats.total += categoryStats.total;
   gameStatsDiv.dataset.stats = JSON.stringify(currentGameStats);
-  gameStatsDiv.innerHTML = createProgressBar(currentGameStats.completed, currentGameStats.total);
+  gameStatsDiv.innerHTML = '';
+  gameStatsDiv.appendChild(createProgressBar(currentGameStats.completed, currentGameStats.total));
 
   totalStats.completed += categoryStats.completed;
   totalStats.total += categoryStats.total;
@@ -323,51 +290,57 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
 
   const categoryProgress = document.createElement("div");
   categoryProgress.classList.add("category-stats");
-  categoryProgress.innerHTML = createProgressBar(categoryStats.completed, categoryStats.total);
+  categoryProgress.appendChild(createProgressBar(categoryStats.completed, categoryStats.total));
   categoryHeader.appendChild(categoryProgress);
 
   categorySection.appendChild(categoryHeader);
 
   const categoryContent = document.createElement("div");
   categoryContent.classList.add("collapsible-content");
-  categorySection.appendChild(categoryContent);
-
+  
+  // Optimized table creation
   const table = document.createElement("table");
   const tableHeader = document.createElement("thead");
   const headerRow = document.createElement("tr");
+  const headerFragment = document.createDocumentFragment();
 
   headers.forEach(header => {
     const th = document.createElement("th");
     th.textContent = header.label;
     th.style.width = `${100 / headers.length}%`;
-    headerRow.appendChild(th);
+    headerFragment.appendChild(th);
   });
 
+  headerRow.appendChild(headerFragment);
   tableHeader.appendChild(headerRow);
   table.appendChild(tableHeader);
 
   const tableBody = document.createElement("tbody");
+  const rowFragment = document.createDocumentFragment();
+
   formattedData.forEach(rowData => {
     const row = document.createElement("tr");
     headers.forEach(header => {
       const td = document.createElement("td");
       const value = rowData[header.key];
       const displayValue = rowData[`display_${header.key}`] || value;
-      
       td.textContent = displayValue === null ? '-' : displayValue;
+      rowFragment.appendChild(row);
       row.appendChild(td);
     });
-    tableBody.appendChild(row);
   });
 
+  tableBody.appendChild(rowFragment);
   table.appendChild(tableBody);
   categoryContent.appendChild(table);
+  categorySection.appendChild(categoryContent);
   parentElement.appendChild(categorySection);
 }
 
 function updateOverallStats() {
   const overallStats = document.getElementById("overall-stats");
-  overallStats.innerHTML = createProgressBar(totalStats.completed, totalStats.total);
+  overallStats.innerHTML = '';
+  overallStats.appendChild(createProgressBar(totalStats.completed, totalStats.total));
 }
 
 async function renderDataForGame(gameName, gameData) {
@@ -400,7 +373,7 @@ async function renderDataForGame(gameName, gameData) {
   const gameStats = document.createElement("div");
   gameStats.classList.add("game-stats");
   gameStats.dataset.stats = JSON.stringify({ completed: 0, total: 0 });
-  gameStats.innerHTML = createProgressBar(0, 0);
+  gameStats.appendChild(createProgressBar(0, 0));
   gameHeader.appendChild(gameStats);
 
   gameSection.appendChild(gameHeader);
@@ -430,7 +403,7 @@ async function renderAllGames() {
 
   const overallStats = document.createElement("div");
   overallStats.id = "overall-stats";
-  overallStats.innerHTML = createProgressBar(0, 0);
+  overallStats.appendChild(createProgressBar(0, 0));
   overallStatsContainer.appendChild(overallStats);
 
   container.appendChild(overallStatsContainer);
