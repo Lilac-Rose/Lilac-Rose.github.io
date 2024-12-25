@@ -1,5 +1,4 @@
 :root {
-  --container-width: 1600px;
   --main-bg: #0a0f14;
   --secondary-bg: #0f1a1f;
   --terminal-color: #0098CD;
@@ -7,28 +6,94 @@
   --inactive: #465766;
   --text-primary: #e6edf3;
   --text-secondary: #768390;
-  --error-color: #ff4444;
   --interface-lines: rgba(70, 87, 102, 0.1);
+  --container-width: 1200px;
   --sidebar-width: 250px;
   --header-height: 60px;
 }
 
-html {
-  background-color: var(--main-bg);
-  min-height: 100%;
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background: var(--main-bg);
+}
+
+.blur-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  backdrop-filter: blur(20px);
+  z-index: -1;
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Share Tech Mono', monospace;
-  background-color: var(--main-bg);
   color: var(--text-primary);
-  display: flex;
-  min-height: 100vh;
+  position: relative;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--main-bg);
 }
 
+.main-container {
+  width: 100%;
+  max-width: var(--container-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(to right, var(--interface-lines) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--interface-lines) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+h1 {
+  color: var(--terminal-color);
+  text-align: center;
+  font-size: 28px;
+  margin: 40px 0 30px 0;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  width: 100%;
+}
+
+#categories {
+  width: 100%;
+  position: relative;
+}
+
+/* Sidebar Styles */
 .sidebar {
   width: var(--sidebar-width);
   background-color: var(--secondary-bg);
@@ -90,6 +155,7 @@ body {
   display: block;
 }
 
+/* Main Content Styles */
 .main-content {
   width: 100%;
   padding: 20px;
@@ -100,15 +166,7 @@ body {
   margin-left: 0;
 }
 
-#categories {
-  width: 100%;
-  max-width: var(--container-width);
-  padding: 20px;
-  margin-top: 30px;
-  position: relative;
-  z-index: 1;
-}
-
+/* Game Section Styles */
 .game-section {
   background-color: var(--secondary-bg);
   border: 1px solid var(--terminal-color);
@@ -142,7 +200,8 @@ body {
   filter: blur(6px) brightness(0.4);
 }
 
-h1, h2, h3, th, td, .goal, .loading, .error-message {
+/* Typography Styles */
+h2, h3, th, td, .goal, .loading, .error-message {
   text-align: center;
 }
 
@@ -154,6 +213,7 @@ h1, h2, h3, th, td, .goal, .loading, .error-message {
   letter-spacing: 3px;
 }
 
+/* Loading and Error States */
 .loading {
   padding: 20px;
   text-align: center;
@@ -172,6 +232,7 @@ h1, h2, h3, th, td, .goal, .loading, .error-message {
   letter-spacing: 2px;
 }
 
+/* Category Section Styles */
 .category-section {
   background-color: rgba(15, 26, 31, 0.9);
   border: 1px solid var(--terminal-color);
@@ -192,6 +253,7 @@ h1, h2, h3, th, td, .goal, .loading, .error-message {
   letter-spacing: 2px;
 }
 
+/* Table Styles */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -223,6 +285,7 @@ td {
   transition: all 0.3s ease;
 }
 
+/* Goal Styles */
 .goal {
   background-color: rgba(15, 26, 31, 0.9);
   border: 1px solid var(--terminal-color);
@@ -246,29 +309,14 @@ td {
   letter-spacing: 1px;
 }
 
+/* Table Hover Effects */
 table tbody tr:hover {
   background-color: rgba(15, 26, 31, 0.9);
   cursor: pointer;
   box-shadow: 0 0 20px rgba(0, 255, 149, 0.1);
 }
 
-.game-section + .game-section {
-  margin-top: 30px;
-}
-
-.grid-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(to right, var(--interface-lines) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--interface-lines) 1px, transparent 1px);
-  background-size: 20px 20px;
-  pointer-events: none;
-  z-index: -1;
-}
-
+/* Stats Container Styles */
 .overall-stats-container {
   background-color: var(--secondary-bg);
   border: 1px solid var(--terminal-color);
@@ -282,6 +330,7 @@ table tbody tr:hover {
   margin-bottom: 15px;
 }
 
+/* Header and Section Styles */
 .game-header, .category-header {
   display: flex;
   justify-content: space-between;
@@ -295,6 +344,7 @@ table tbody tr:hover {
   min-width: 200px;
 }
 
+/* Progress Bar Styles */
 .progress-container {
   background-color: rgba(10, 15, 20, 0.9);
   border: 1px solid var(--terminal-color);
@@ -320,6 +370,7 @@ table tbody tr:hover {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+/* Collapsible Section Styles */
 .collapsible-header {
   cursor: pointer;
   user-select: none;
@@ -355,9 +406,19 @@ table tbody tr:hover {
   margin-bottom: 10px;
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
   :root {
     --sidebar-width: 200px;
+  }
+  
+  .main-container {
+    padding: 0 15px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin: 30px 0 20px 0;
   }
   
   #categories {
