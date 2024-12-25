@@ -47,7 +47,8 @@ function initializeSidebar() {
   mainContent.classList.add('main-content');
   
   const content = document.getElementById('categories');
-  content.parentNode.insertBefore(mainContent, content);
+  const parent = content.parentNode;
+  parent.insertBefore(mainContent, content);
   mainContent.appendChild(content);
 
   const sidebar = document.createElement('div');
@@ -57,10 +58,9 @@ function initializeSidebar() {
   toggle.classList.add('sidebar-toggle');
   toggle.innerHTML = '☰';
   toggle.onclick = toggleSidebar;
-  
-  document.body.insertBefore(sidebar, mainContent);
-  document.body.insertBefore(toggle, mainContent);
 
+  parent.insertBefore(sidebar, mainContent);
+  parent.insertBefore(toggle, mainContent);
   Object.entries(games).forEach(([gameName, gameData]) => {
     const gameNav = document.createElement('div');
     gameNav.classList.add('nav-item');
@@ -271,7 +271,6 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   const tableHeader = document.createElement("thead");
   const headerRow = document.createElement("tr");
 
-  // Use dynamic headers from the spreadsheet
   headers.forEach(header => {
     const th = document.createElement("th");
     th.textContent = header.label;
