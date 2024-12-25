@@ -49,6 +49,8 @@ const games = {
 };
 
 function createTimeDisplay(timeSpent) {
+  if (!timeSpent) return null;
+  
   const timeContainer = document.createElement('div');
   timeContainer.classList.add('time-display');
   
@@ -196,38 +198,57 @@ function calculateWeightedProgress(category, completedItems, totalItems) {
   return completedItems * weight;
 }
 
-function calculateCategoryStats(categoryName, formattedData) {
-  const completed = formattedData.reduce((count, item) => {
-    const hasCheckmark = Object.values(item).some(value => 
-      typeof value === 'string' && value.includes('✓')
-    );
-    return count + (hasCheckmark ? 1 : 0);
-  }, 0);
+function calculateCategoryStats(gameName, categoryName, formattedData) {
+  // Only use percentage calculations for Hollow Knight
+  if (gameName === "Hollow Knight") {
+    const completed = formattedData.reduce((count, item) => {
+      const hasCheckmark = Object.values(item).some(value => 
+        typeof value === 'string' && value.includes('✓')
+      );
+      return count + (hasCheckmark ? 1 : 0);
+    }, 0);
 
-  const total = formattedData.length;
-  const weightedCompleted = calculateWeightedProgress(categoryName, completed, total);
-  
-  const maxPercentages = {
-    "Bosses": 16,
-    "Equipment": 14,
-    "Spells": 6,
-    "Dream Nail": 3,
-    "Nail Upgrades": 4,
-    "Nail Arts": 3,
-    "Dreamers": 11,
-    "Charms": 40,
-    "Godhome": 5,
-    "Vessel Fragments": 3,
-    "Colosseum": 3,
-    "Mask Shards": 4
-  };
+    const total = formattedData.length;
+    const weightedCompleted = calculateWeightedProgress(categoryName, completed, total);
+    
+    const maxPercentages = {
+      "Bosses": 16,
+      "Equipment": 14,
+      "Spells": 6,
+      "Dream Nail": 3,
+      "Nail Upgrades": 4,
+      "Nail Arts": 3,
+      "Dreamers": 11,
+      "Charms": 40,
+      "Godhome": 5,
+      "Vessel Fragments": 3,
+      "Colosseum": 3,
+      "Mask Shards": 4
+    };
 
-  return {
-    completed: weightedCompleted,
-    total: maxPercentages[categoryName] || total,
-    rawCompleted: completed,
-    rawTotal: total
-  };
+    return {
+      completed: weightedCompleted,
+      total: maxPercentages[categoryName] || total,
+      rawCompleted: completed,
+      rawTotal: total,
+      isPercentage: true
+    };
+  } else {
+    const completed = formattedData.reduce((count, item) => {
+      const hasCheckmark = Object.values(item).some(value => 
+        typeof value === 'string' && value.includes('✓')
+      );
+      return count + (hasCheckmark ? 1 : 0);
+    }, 0);
+
+    return {
+      completed,
+      total: formattedData.length,
+      rawCompleted: completed,
+      rawTotal: formattedData.length,
+      isPercentage: false
+    };
+  }
 }
 
 async function fetchAndFormatData(sheetId, sheetName, range) {
@@ -279,8 +300,8 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
   }
 }
 
-function createProgressBar(completed, total, rawCompleted, rawTotal) {
-  const percentage = (completed / total) * 100;
+function createProgressBar(completed, total, rawCompleted, rawTotal, isPercentage = false) {
+  const percentage = isPercentage ? (completed / total) * 100 : (rawCompleted / rawTotal) * 100;
   const container = document.createElement('div');
   container.className = 'progress-container';
   
@@ -290,7 +311,11 @@ function createProgressBar(completed, total, rawCompleted, rawTotal) {
   
   const text = document.createElement('div');
   text.className = 'progress-text';
-  text.textContent = `${completed}% / ${total}% (${rawCompleted}/${rawTotal})`;
+  if (isPercentage) {
+    text.textContent = `${completed}% / ${total}% (${rawCompleted}/${rawTotal})`;
+  } else {
+    text.textContent = `${rawCompleted}/${rawTotal}`;
+  }
   
   container.appendChild(bar);
   container.appendChild(text);
@@ -319,7 +344,6 @@ function showLoading(gameSection) {
 }
 
 async function renderDataForCategory(gameName, categoryName, range, parentElement) {
-  console.log('Rendering category:', categoryName, 'for game:', gameName, 'with range:', range);
   const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
   const loadingDiv = showLoading(gameSection);
 
@@ -332,31 +356,25 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   }
 
   const { headers, formattedData } = response;
-  console.log('Received data for category', categoryName, ':', formattedData);
+  const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData);
 
-  // Count completed items by checking all fields for checkmarks
-  const categoryStats = {
-    completed: formattedData.reduce((count, item) => {
-      const hasCheckmark = Object.values(item).some(value => 
-        typeof value === 'string' && value.includes('✓')
-      );
-      return count + (hasCheckmark ? 1 : 0);
-    }, 0),
-    total: formattedData.length
-  };
-
+  // Update game stats
   const gameStatsDiv = gameSection.querySelector('.game-stats');
   const currentGameStats = JSON.parse(gameStatsDiv.dataset.stats);
   currentGameStats.completed += categoryStats.completed;
   currentGameStats.total += categoryStats.total;
+  currentGameStats.isPercentage = categoryStats.isPercentage;
   gameStatsDiv.dataset.stats = JSON.stringify(currentGameStats);
   gameStatsDiv.innerHTML = '';
-  gameStatsDiv.appendChild(createProgressBar(currentGameStats.completed, currentGameStats.total));
+  gameStatsDiv.appendChild(createProgressBar(
+    currentGameStats.completed,
+    currentGameStats.total,
+    categoryStats.rawCompleted,
+    categoryStats.rawTotal,
+    currentGameStats.isPercentage
+  ));
 
-  totalStats.completed += categoryStats.completed;
-  totalStats.total += categoryStats.total;
-  updateOverallStats();
-
+  // Create category section structure
   const categorySection = document.createElement("div");
   categorySection.classList.add("category-section");
 
@@ -373,17 +391,24 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   categoryTitle.setAttribute('data-category', categoryName);
   categoryHeader.appendChild(categoryTitle);
 
-  const categoryProgress = document.createElement("div");
-  categoryProgress.classList.add("category-stats");
-  categoryProgress.appendChild(createProgressBar(categoryStats.completed, categoryStats.total));
-  categoryHeader.appendChild(categoryProgress);
+  // Create category stats
+  const categoryStatsContainer = document.createElement("div");
+  categoryStatsContainer.classList.add("category-stats");
+  categoryStatsContainer.appendChild(createProgressBar(
+    categoryStats.completed,
+    categoryStats.total,
+    categoryStats.rawCompleted,
+    categoryStats.rawTotal,
+    categoryStats.isPercentage
+  ));
 
+  categoryHeader.appendChild(categoryStatsContainer);
   categorySection.appendChild(categoryHeader);
 
   const categoryContent = document.createElement("div");
   categoryContent.classList.add("collapsible-content");
   
-  // Optimized table creation
+  // Create table
   const table = document.createElement("table");
   const tableHeader = document.createElement("thead");
   const headerRow = document.createElement("tr");
