@@ -300,8 +300,8 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
   }
 }
 
-function createProgressBar(completed, total, rawCompleted, rawTotal, isPercentage = false) {
-  const percentage = isPercentage ? (completed / total) * 100 : (rawCompleted / rawTotal) * 100;
+function createProgressBar(completed, total, rawCompleted, rawTotal) {
+  const percentage = (completed / total) * 100;
   const container = document.createElement('div');
   container.className = 'progress-container';
   
@@ -311,11 +311,7 @@ function createProgressBar(completed, total, rawCompleted, rawTotal, isPercentag
   
   const text = document.createElement('div');
   text.className = 'progress-text';
-  if (isPercentage) {
-    text.textContent = `${completed}% / ${total}% (${rawCompleted}/${rawTotal})`;
-  } else {
-    text.textContent = `${rawCompleted}/${rawTotal}`;
-  }
+  text.textContent = `${completed}% / ${total}% (${rawCompleted}/${rawTotal})`;
   
   container.appendChild(bar);
   container.appendChild(text);
@@ -344,6 +340,7 @@ function showLoading(gameSection) {
 }
 
 async function renderDataForCategory(gameName, categoryName, range, parentElement) {
+  console.log('Rendering category:', categoryName, 'for game:', gameName, 'with range:', range);
   const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
   const loadingDiv = showLoading(gameSection);
 
@@ -356,25 +353,31 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   }
 
   const { headers, formattedData } = response;
-  const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData);
+  console.log('Received data for category', categoryName, ':', formattedData);
 
-  // Update game stats
+  // Count completed items by checking all fields for checkmarks
+  const categoryStats = {
+    completed: formattedData.reduce((count, item) => {
+      const hasCheckmark = Object.values(item).some(value => 
+        typeof value === 'string' && value.includes('✓')
+      );
+      return count + (hasCheckmark ? 1 : 0);
+    }, 0),
+    total: formattedData.length
+  };
+
   const gameStatsDiv = gameSection.querySelector('.game-stats');
   const currentGameStats = JSON.parse(gameStatsDiv.dataset.stats);
   currentGameStats.completed += categoryStats.completed;
   currentGameStats.total += categoryStats.total;
-  currentGameStats.isPercentage = categoryStats.isPercentage;
   gameStatsDiv.dataset.stats = JSON.stringify(currentGameStats);
   gameStatsDiv.innerHTML = '';
-  gameStatsDiv.appendChild(createProgressBar(
-    currentGameStats.completed,
-    currentGameStats.total,
-    categoryStats.rawCompleted,
-    categoryStats.rawTotal,
-    currentGameStats.isPercentage
-  ));
+  gameStatsDiv.appendChild(createProgressBar(currentGameStats.completed, currentGameStats.total));
 
-  // Create category section structure
+  totalStats.completed += categoryStats.completed;
+  totalStats.total += categoryStats.total;
+  updateOverallStats();
+
   const categorySection = document.createElement("div");
   categorySection.classList.add("category-section");
 
@@ -391,24 +394,17 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   categoryTitle.setAttribute('data-category', categoryName);
   categoryHeader.appendChild(categoryTitle);
 
-  // Create category stats
-  const categoryStatsContainer = document.createElement("div");
-  categoryStatsContainer.classList.add("category-stats");
-  categoryStatsContainer.appendChild(createProgressBar(
-    categoryStats.completed,
-    categoryStats.total,
-    categoryStats.rawCompleted,
-    categoryStats.rawTotal,
-    categoryStats.isPercentage
-  ));
+  const categoryProgress = document.createElement("div");
+  categoryProgress.classList.add("category-stats");
+  categoryProgress.appendChild(createProgressBar(categoryStats.completed, categoryStats.total));
+  categoryHeader.appendChild(categoryProgress);
 
-  categoryHeader.appendChild(categoryStatsContainer);
   categorySection.appendChild(categoryHeader);
 
   const categoryContent = document.createElement("div");
   categoryContent.classList.add("collapsible-content");
   
-  // Create table
+  // Optimized table creation
   const table = document.createElement("table");
   const tableHeader = document.createElement("thead");
   const headerRow = document.createElement("tr");
