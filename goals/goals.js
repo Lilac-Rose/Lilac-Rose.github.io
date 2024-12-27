@@ -386,24 +386,24 @@ function createProgressBar(stats, isPercentage = false) {
   return container;
 }
 
-function updateHomeStats() {
-  // Update total time
-  const totalTimeDiv = document.getElementById('total-time');
-  const totalTime = Object.values(GAME_TIMES).reduce((acc, time) => acc + time, 0);
-  if (totalTimeDiv) {
-      totalTimeDiv.textContent = totalTime.toFixed(1);
+function updateHomeStats(totalGoals) {
+  const totalGoalsDiv = document.getElementById('totalGoalsDiv');
+  const hollowKnightPercentDiv = document.getElementById('hollowKnightPercent');
+
+  if (!totalGoalsDiv) {
+      console.error("Element with ID 'totalGoalsDiv' not found!");
+  } else {
+      totalGoalsDiv.textContent = `${totalGoals} Total Goals`;
   }
-  
-  // Update total goals (excluding Hollow Knight)
-  const totalGoalsDiv = document.getElementById('total-goals');
-  totalGoalsDiv.innerHTML = '';
-  totalGoalsDiv.appendChild(createProgressBar(gameStats.totalGoals));
-  
-  // Update Hollow Knight progress
-  const hollowKnightDiv = document.getElementById('hollow-knight-progress');
-  hollowKnightDiv.innerHTML = '';
-  hollowKnightDiv.appendChild(createProgressBar(gameStats.hollowKnight, true));
+
+  if (!hollowKnightPercentDiv) {
+      console.error("Element with ID 'hollowKnightPercent' not found!");
+  } else {
+      const hollowKnightPercent = calculateHollowKnightProgress();
+      hollowKnightPercentDiv.textContent = `${hollowKnightPercent}% Completed`;
+  }
 }
+
 
 function processGameData(gameName, formattedData, categoryName) {
   const completed = formattedData.reduce((count, item) => {

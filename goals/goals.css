@@ -154,6 +154,8 @@ root {
 }
 
 .background-container {
+  background: linear-gradient(120deg, var(--terminal-color), var(--secondary-bg), var(--celeste-color));
+  animation: gradientShift 10s infinite alternate;
   position: fixed;
   top: 0;
   left: 0;
@@ -161,6 +163,11 @@ root {
   height: 100vh;
   z-index: -1;
   background: var(--main-bg);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 .blur-overlay {
