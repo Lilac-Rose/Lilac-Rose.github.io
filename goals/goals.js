@@ -93,6 +93,9 @@ async function initializeTracker() {
   // Show home content initially
   document.getElementById('home-content').classList.add('active');
   updateHomeStats();
+
+  updateTerminalDate();
+  setInterval(updateTerminalDate, 1000);
 }
 
 function initializeTabs() {
@@ -382,8 +385,10 @@ function createProgressBar(stats, isPercentage = false) {
 function updateHomeStats() {
   // Update total time
   const totalTimeDiv = document.getElementById('total-time');
-  const totalTime = Object.values(games).reduce((acc, game) => acc + (game.timeSpent || 0), 0);
-  totalTimeDiv.textContent = `${totalTime.toFixed(1)} hours`;
+  const totalTime = Object.values(GAME_TIMES).reduce((acc, time) => acc + time, 0);
+  if (totalTimeDiv) {
+      totalTimeDiv.textContent = totalTime.toFixed(1);
+  }
   
   // Update total goals (excluding Hollow Knight)
   const totalGoalsDiv = document.getElementById('total-goals');
@@ -619,7 +624,6 @@ async function renderGame(gameName, gameData) {
   const gameSection = document.createElement('div');
   gameSection.className = 'game-section';
   
-  // Add game title and time
   const header = document.createElement('div');
   header.className = 'game-header';
   header.innerHTML = `
@@ -628,10 +632,8 @@ async function renderGame(gameName, gameData) {
   `;
   gameSection.appendChild(header);
   
-  // Update total time
   gameStats.totalTime += gameData.timeSpent || 0;
   
-  // Render categories
   for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
     const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
     await renderDataForCategory(gameName, categoryName, range, gameSection);
@@ -640,7 +642,6 @@ async function renderGame(gameName, gameData) {
   gameContent.appendChild(gameSection);
   container.appendChild(gameContent);
   
-  // Update home stats after processing each game
   updateHomeStats();
 }
 
@@ -670,8 +671,31 @@ async function renderAllGames() {
   }
 }
 
+function updateTerminalDate() {
+  const now = new Date();
+  
+  // Format the date as YYYY.MM.DD
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  
+  // Format the time as HH:MM:SS
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  
+  // Combine into SIGNALIS style format
+  const dateString = `${year}.${month}.${day}`;
+  const timeString = `${hours}:${minutes}:${seconds}`;
+  
+  // Update the date display
+  const dateDisplay = document.querySelector('.report-header');
+  if (dateDisplay) {
+      dateDisplay.textContent = `DIAGNOSTIC REPORT [${dateString}] ${timeString}`;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initializeTracker();
-  initializeSidebar();
   renderAllGames();
 });
