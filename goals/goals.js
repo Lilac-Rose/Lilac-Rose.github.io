@@ -74,7 +74,6 @@ function createTimeDisplay(timeSpent) {
   return timeContainer;
 }
 
-
 async function initializeTracker() {
   // Reset stats
   gameStats = {
@@ -397,32 +396,6 @@ function updateHomeStats() {
   hollowKnightDiv.appendChild(createProgressBar(gameStats.hollowKnight, true));
 }
 
-async function processGameData(gameName, formattedData, categoryName) {
-  const completed = formattedData.reduce((count, item) => {
-    const hasCheckmark = Object.values(item).some(value => 
-      typeof value === 'string' && value.includes('✓')
-    );
-    return count + (hasCheckmark ? 1 : 0);
-  }, 0);
-  
-  const total = formattedData.length;
-  
-  if (gameName === "Hollow Knight") {
-    const weightedProgress = calculateHollowKnightProgress(categoryName, completed, total);
-    gameStats.hollowKnight.completed += weightedProgress;
-  } else {
-    gameStats.totalGoals.completed += completed;
-    gameStats.totalGoals.total += total;
-  }
-}
-
-function calculateHollowKnightProgress(category, completed, total) {
-  const categoryData = games["Hollow Knight"].categories[category];
-  if (!categoryData || !categoryData.maxPercent) return 0;
-  
-  return (completed / total) * categoryData.maxPercent;
-}
-
 function processGameData(gameName, formattedData, categoryName) {
   const completed = formattedData.reduce((count, item) => {
     const hasCheckmark = Object.values(item).some(value => 
@@ -440,6 +413,13 @@ function processGameData(gameName, formattedData, categoryName) {
     gameStats.totalGoals.completed += completed;
     gameStats.totalGoals.total += total;
   }
+}
+
+function calculateHollowKnightProgress(category, completed, total) {
+  const categoryData = games["Hollow Knight"].categories[category];
+  if (!categoryData || !categoryData.maxPercent) return 0;
+  
+  return (completed / total) * categoryData.maxPercent;
 }
 
 function showError(message) {
@@ -644,7 +624,7 @@ async function renderGame(gameName, gameData) {
   header.className = 'game-header';
   header.innerHTML = `
     <h2>${gameName}</h2>
-    <div class="time-display">${gameData.timeSpent} hours</div>
+    ${gameData.timeSpent ? `<div class="time-display">${gameData.timeSpent} hours</div>` : ''}
   `;
   gameSection.appendChild(header);
   
