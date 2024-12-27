@@ -14,7 +14,33 @@
     
     <div class="main-container">
         <h1>Lilac's Game Tracker :3</h1>
+        
+        <div class="game-content active" id="home-content">
+            <div class="home-stats">
+                <div class="stat-card">
+                    <h3>Total Time</h3>
+                    <div class="total-time" id="total-time">0 hours</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Goals</h3>
+                    <div id="total-goals"></div>
+                </div>
+                <div class="stat-card">
+                    <h3>Hollow Knight Progress</h3>
+                    <div id="hollow-knight-progress"></div>
+                </div>
+            </div>
+        </div>
+        
         <div id="categories"></div>
+    </div>
+    
+    <!-- Game tabs -->
+    <div class="game-tabs">
+        <div class="game-tab active" data-game="home">Home</div>
+        <div class="game-tab" data-game="Celeste">Celeste</div>
+        <div class="game-tab" data-game="Celeste: Strawberry Jam">Celeste: Strawberry Jam</div>
+        <div class="game-tab" data-game="Hollow Knight">Hollow Knight</div>
     </div>
     
     <script src="goals.js" type="module"></script>
