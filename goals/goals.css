@@ -8,11 +8,14 @@
   --text-secondary: #768390;
   --interface-lines: rgba(70, 87, 102, 0.1);
   --container-width: 1200px;
-  --sidebar-width: 250px;
   --header-height: 60px;
+  
+  /* Game-specific colors */
+  --celeste-color: #ff6b6b;
+  --celeste-jam-color: #4ecdc4;
+  --hollow-knight-color: #6c5ce7;
 }
 
-/* Base Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -62,6 +65,102 @@ body {
   padding: 0 20px;
   position: relative;
   z-index: 1;
+  padding-bottom: 60px;
+}
+
+.game-tabs {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: var(--secondary-bg);
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--terminal-color);
+  z-index: 1000;
+}
+
+.game-tab {
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  min-width: 150px;
+  text-align: center;
+}
+
+.game-tab::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.game-tab:hover::before {
+  height: 5px;
+}
+
+.game-tab.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.game-tab[data-game="Celeste"]::before {
+  background-color: var(--celeste-color);
+}
+
+.game-tab[data-game="Celeste: Strawberry Jam"]::before {
+  background-color: var(--celeste-jam-color);
+}
+
+.game-tab[data-game="Hollow Knight"]::before {
+  background-color: var(--hollow-knight-color);
+}
+
+.game-content {
+  display: none;
+  width: 100%;
+}
+
+.game-content.active {
+  display: block;
+}
+
+.home-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.stat-card {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--terminal-color);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.stat-card h3 {
+  color: var(--terminal-color);
+  margin-bottom: 15px;
+  font-size: 1.2em;
+}
+
+.total-time {
+  font-size: 2em;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 10px 0;
 }
 
 .grid-overlay {

@@ -5,6 +5,13 @@ document.documentElement.style.setProperty('--container-width', '1600px');
 
 const GAME_TIMES = {
   "Celeste": 1019.4,
+  "Hollow Knight": 191.1
+};
+
+let gameStats = {
+  totalGoals: { completed: 0, total: 0 },
+  hollowKnight: { completed: 0, total: 112 },
+  totalTime: 0
 };
 
 const games = {
@@ -32,18 +39,18 @@ const games = {
     background: "../images/hollow-knight-background.jpg",
     timeSpent: GAME_TIMES["Hollow Knight"],
     categories: {
-      "Bosses": "B33:C48",
-      "Equipment": "B51:C57",
-      "Spells": "B60:C65",
-      "Dream Nail": "B68:C70",
-      "Nail Upgrades": "B73:C76",
-      "Nail Arts": "B79:C81",
-      "Dreamers": "B84:C94",
-      "Charms": "B97:C136",
-      "Godhome": "B139:C143",
-      "Vessel Fragments": "B146:C154",
-      "Colosseum": "B157:C159",
-      "Mask Shards": "B162:C177"
+      "Bosses": { range: "B33:C48", maxPercent: 16 },
+      "Equipment": { range: "B51:C57", maxPercent: 14 },
+      "Spells": { range: "B60:C65", maxPercent: 6 },
+      "Dream Nail": { range: "B68:C70", maxPercent: 3 },
+      "Nail Upgrades": { range: "B73:C76", maxPercent: 4 },
+      "Nail Arts": { range: "B79:C81", maxPercent: 3 },
+      "Dreamers": { range: "B84:C94", maxPercent: 11 },
+      "Charms": { range: "B97:C136", maxPercent: 40 },
+      "Godhome": { range: "B139:C143", maxPercent: 5 },
+      "Vessel Fragments": { range: "B146:C154", maxPercent: 3 },
+      "Colosseum": { range: "B157:C159", maxPercent: 3 },
+      "Mask Shards": { range: "B162:C177", maxPercent: 4 }
     }
   }
 };
@@ -67,6 +74,54 @@ function createTimeDisplay(timeSpent) {
   return timeContainer;
 }
 
+
+async function initializeTracker() {
+  // Reset stats
+  gameStats = {
+    totalGoals: { completed: 0, total: 0 },
+    hollowKnight: { completed: 0, total: 112 },
+    totalTime: 0
+  };
+  
+  // Initialize tabs
+  initializeTabs();
+  
+  // Render all games
+  for (const [gameName, gameData] of Object.entries(games)) {
+    await renderGame(gameName, gameData);
+  }
+  
+  // Show home content initially
+  document.getElementById('home-content').classList.add('active');
+  updateHomeStats();
+}
+
+function initializeTabs() {
+  const tabs = document.querySelectorAll('.game-tab');
+  const gameContents = document.querySelectorAll('.game-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active class from all tabs and contents
+      tabs.forEach(t => t.classList.remove('active'));
+      gameContents.forEach(content => content.classList.remove('active'));
+      
+      // Add active class to clicked tab
+      tab.classList.add('active');
+      
+      const gameName = tab.dataset.game;
+      if (gameName === 'home') {
+        document.getElementById('home-content').classList.add('active');
+        updateHomeStats();
+      } else {
+        const gameContent = document.querySelector(`.game-content[data-game="${gameName}"]`);
+        if (gameContent) {
+          gameContent.classList.add('active');
+        }
+      }
+    });
+  });
+}
 
 function debounce(func, wait) {
   let timeout;
@@ -300,8 +355,10 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
   }
 }
 
-function createProgressBar(completed, total, rawCompleted, rawTotal) {
+function createProgressBar(stats, isPercentage = false) {
+  const { completed, total } = stats;
   const percentage = (completed / total) * 100;
+  
   const container = document.createElement('div');
   container.className = 'progress-container';
   
@@ -311,11 +368,78 @@ function createProgressBar(completed, total, rawCompleted, rawTotal) {
   
   const text = document.createElement('div');
   text.className = 'progress-text';
-  text.textContent = `${completed}% / ${total}% (${rawCompleted}/${rawTotal})`;
+  
+  if (isPercentage) {
+    text.textContent = `${completed}% / ${total}%`;
+  } else {
+    text.textContent = `${completed} / ${total}`;
+  }
   
   container.appendChild(bar);
   container.appendChild(text);
   return container;
+}
+
+function updateHomeStats() {
+  // Update total time
+  const totalTimeDiv = document.getElementById('total-time');
+  const totalTime = Object.values(games).reduce((acc, game) => acc + (game.timeSpent || 0), 0);
+  totalTimeDiv.textContent = `${totalTime.toFixed(1)} hours`;
+  
+  // Update total goals (excluding Hollow Knight)
+  const totalGoalsDiv = document.getElementById('total-goals');
+  totalGoalsDiv.innerHTML = '';
+  totalGoalsDiv.appendChild(createProgressBar(gameStats.totalGoals));
+  
+  // Update Hollow Knight progress
+  const hollowKnightDiv = document.getElementById('hollow-knight-progress');
+  hollowKnightDiv.innerHTML = '';
+  hollowKnightDiv.appendChild(createProgressBar(gameStats.hollowKnight, true));
+}
+
+async function processGameData(gameName, formattedData, categoryName) {
+  const completed = formattedData.reduce((count, item) => {
+    const hasCheckmark = Object.values(item).some(value => 
+      typeof value === 'string' && value.includes('✓')
+    );
+    return count + (hasCheckmark ? 1 : 0);
+  }, 0);
+  
+  const total = formattedData.length;
+  
+  if (gameName === "Hollow Knight") {
+    const weightedProgress = calculateHollowKnightProgress(categoryName, completed, total);
+    gameStats.hollowKnight.completed += weightedProgress;
+  } else {
+    gameStats.totalGoals.completed += completed;
+    gameStats.totalGoals.total += total;
+  }
+}
+
+function calculateHollowKnightProgress(category, completed, total) {
+  const categoryData = games["Hollow Knight"].categories[category];
+  if (!categoryData || !categoryData.maxPercent) return 0;
+  
+  return (completed / total) * categoryData.maxPercent;
+}
+
+function processGameData(gameName, formattedData, categoryName) {
+  const completed = formattedData.reduce((count, item) => {
+    const hasCheckmark = Object.values(item).some(value => 
+      typeof value === 'string' && value.includes('✓')
+    );
+    return count + (hasCheckmark ? 1 : 0);
+  }, 0);
+  
+  const total = formattedData.length;
+  
+  if (gameName === "Hollow Knight") {
+    const percentageProgress = calculateHollowKnightProgress(categoryName, completed, total);
+    gameStats.hollowKnight.completed += percentageProgress;
+  } else {
+    gameStats.totalGoals.completed += completed;
+    gameStats.totalGoals.total += total;
+  }
 }
 
 function showError(message) {
@@ -505,6 +629,41 @@ async function renderDataForGame(gameName, gameData) {
   }
 }
 
+async function renderGame(gameName, gameData) {
+  const container = document.getElementById('categories');
+  
+  const gameContent = document.createElement('div');
+  gameContent.className = 'game-content';
+  gameContent.dataset.game = gameName;
+  
+  const gameSection = document.createElement('div');
+  gameSection.className = 'game-section';
+  
+  // Add game title and time
+  const header = document.createElement('div');
+  header.className = 'game-header';
+  header.innerHTML = `
+    <h2>${gameName}</h2>
+    <div class="time-display">${gameData.timeSpent} hours</div>
+  `;
+  gameSection.appendChild(header);
+  
+  // Update total time
+  gameStats.totalTime += gameData.timeSpent || 0;
+  
+  // Render categories
+  for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
+    const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
+    await renderDataForCategory(gameName, categoryName, range, gameSection);
+  }
+  
+  gameContent.appendChild(gameSection);
+  container.appendChild(gameContent);
+  
+  // Update home stats after processing each game
+  updateHomeStats();
+}
+
 async function renderAllGames() {
   console.log('Starting renderAllGames');
   const container = document.getElementById("categories");
@@ -532,6 +691,7 @@ async function renderAllGames() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initializeTracker();
   initializeSidebar();
   renderAllGames();
 });
