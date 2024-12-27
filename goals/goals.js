@@ -100,28 +100,32 @@ async function initializeTracker() {
 
 function initializeTabs() {
   const tabs = document.querySelectorAll('.game-tab');
-  const gameContents = document.querySelectorAll('.game-content');
   
   tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      // Remove active class from all tabs and contents
-      tabs.forEach(t => t.classList.remove('active'));
-      gameContents.forEach(content => content.classList.remove('active'));
-      
-      // Add active class to clicked tab
-      tab.classList.add('active');
-      
-      const gameName = tab.dataset.game;
-      if (gameName === 'home') {
-        document.getElementById('home-content').classList.add('active');
-        updateHomeStats();
-      } else {
-        const gameContent = document.querySelector(`.game-content[data-game="${gameName}"]`);
-        if (gameContent) {
-          gameContent.classList.add('active');
-        }
-      }
-    });
+      tab.addEventListener('click', () => {
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          tab.classList.add('active');
+          
+          // Hide all game content
+          document.querySelectorAll('.game-content').forEach(content => {
+              content.classList.remove('active');
+          });
+          
+          // Show appropriate content
+          const gameName = tab.dataset.game;
+          if (gameName === 'home') {
+              document.getElementById('home-content').classList.add('active');
+          } else {
+              // Find the corresponding game content
+              const gameContent = document.querySelector(`.game-content[data-game="${gameName}"]`);
+              if (gameContent) {
+                  gameContent.classList.add('active');
+              }
+          }
+      });
   });
 }
 
@@ -615,13 +619,20 @@ async function renderDataForGame(gameName, gameData) {
 }
 
 async function renderGame(gameName, gameData) {
-  const container = document.getElementById('categories');
+
+  const container = document.querySelector(`.game-content[data-game="${gameName}"]`);
+  if (!container) return;
   
+  // Clear existing content
+  container.innerHTML = '';
+  
+  const gameSection = document.createElement('div');
+  gameSection.className = 'game-section';
+
   const gameContent = document.createElement('div');
   gameContent.className = 'game-content';
   gameContent.dataset.game = gameName;
   
-  const gameSection = document.createElement('div');
   gameSection.className = 'game-section';
   
   const header = document.createElement('div');
@@ -641,7 +652,7 @@ async function renderGame(gameName, gameData) {
   
   gameContent.appendChild(gameSection);
   container.appendChild(gameContent);
-  
+  container.appendChild(gameSection);
   updateHomeStats();
 }
 

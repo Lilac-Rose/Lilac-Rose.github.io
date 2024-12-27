@@ -685,3 +685,93 @@ table tbody tr:hover {
 .report-header:hover {
   color: #00b4ef;
 }
+
+.game-content {
+  display: none;
+  width: 100%;
+}
+
+.game-content.active {
+  display: block;
+}
+
+/* Fix background colors */
+body {
+  background-color: var(--main-bg);
+  color: var(--text-primary);
+}
+
+.game-section {
+  background-color: var(--secondary-bg);
+}
+
+/* Fix tab styles */
+.game-tab {
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
+  border-top: 3px solid transparent;
+  transition: all var(--transition-speed) ease;
+}
+
+.game-tab.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-top-color: var(--terminal-color);
+}
+
+/* Fix terminal colors */
+.terminal-container {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.terminal-body {
+  color: var(--terminal-color);
+}
+
+.terminal-header {
+  background-color: var(--terminal-color);
+  color: var(--main-bg);
+}
+
+/* Fix text colors */
+h1, h2, h3 {
+  color: var(--terminal-color);
+}
+
+.terminal-stat-card {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-color: var(--terminal-color);
+}
+
+/* Fix game section backgrounds */
+.game-section {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--terminal-color);
+}
+
+/* Make sure tables are readable */
+table {
+  border-color: var(--terminal-color);
+}
+
+th {
+  background-color: rgba(15, 26, 31, 0.9);
+  color: var(--terminal-color);
+}
+
+td {
+  background-color: rgba(10, 15, 20, 0.9);
+  color: var(--text-primary);
+}
+
+.progress-container {
+  background-color: rgba(10, 15, 20, 0.9);
+  border-color: var(--terminal-color);
+}
+
+.progress-bar {
+  background-color: var(--terminal-color);
+}
+
+.progress-text {
+  color: var(--text-primary);
+}
