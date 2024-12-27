@@ -99,34 +99,34 @@ async function initializeTracker() {
 }
 
 function initializeTabs() {
-  const tabs = document.querySelectorAll('.game-tab');
-  
-  tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-          // Remove active class from all tabs
-          tabs.forEach(t => t.classList.remove('active'));
-          
-          // Add active class to clicked tab
-          tab.classList.add('active');
-          
-          // Hide all game content
-          document.querySelectorAll('.game-content').forEach(content => {
-              content.classList.remove('active');
-          });
-          
-          // Show appropriate content
-          const gameName = tab.dataset.game;
-          if (gameName === 'home') {
-              document.getElementById('home-content').classList.add('active');
-          } else {
-              // Find the corresponding game content
-              const gameContent = document.querySelector(`.game-content[data-game="${gameName}"]`);
-              if (gameContent) {
-                  gameContent.classList.add('active');
-              }
-          }
-      });
-  });
+    const tabs = document.querySelectorAll('.game-tab');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            tab.classList.add('active');
+            
+            // Hide all game content
+            document.querySelectorAll('.game-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show appropriate content
+            const gameName = tab.dataset.game;
+            if (gameName === 'home') {
+                document.getElementById('home-content').classList.add('active');
+            } else {
+                // Find the corresponding game content
+                const gameContent = document.querySelector(`.game-content[data-game="${gameName}"]`);
+                if (gameContent) {
+                    gameContent.classList.add('active');
+                }
+            }
+        });
+    });
 }
 
 function debounce(func, wait) {
@@ -386,24 +386,24 @@ function createProgressBar(stats, isPercentage = false) {
   return container;
 }
 
-function updateHomeStats(totalGoals) {
-  const totalGoalsDiv = document.getElementById('totalGoalsDiv');
-  const hollowKnightPercentDiv = document.getElementById('hollowKnightPercent');
-
-  if (!totalGoalsDiv) {
-      console.error("Element with ID 'totalGoalsDiv' not found!");
-  } else {
-      totalGoalsDiv.textContent = `${totalGoals} Total Goals`;
+function updateHomeStats() {
+  // Update total time
+  const totalTimeDiv = document.getElementById('total-time');
+  const totalTime = Object.values(GAME_TIMES).reduce((acc, time) => acc + time, 0);
+  if (totalTimeDiv) {
+      totalTimeDiv.textContent = totalTime.toFixed(1);
   }
-
-  if (!hollowKnightPercentDiv) {
-      console.error("Element with ID 'hollowKnightPercent' not found!");
-  } else {
-      const hollowKnightPercent = calculateHollowKnightProgress();
-      hollowKnightPercentDiv.textContent = `${hollowKnightPercent}% Completed`;
-  }
+  
+  // Update total goals (excluding Hollow Knight)
+  const totalGoalsDiv = document.getElementById('total-goals');
+  totalGoalsDiv.innerHTML = '';
+  totalGoalsDiv.appendChild(createProgressBar(gameStats.totalGoals));
+  
+  // Update Hollow Knight progress
+  const hollowKnightDiv = document.getElementById('hollow-knight-progress');
+  hollowKnightDiv.innerHTML = '';
+  hollowKnightDiv.appendChild(createProgressBar(gameStats.hollowKnight, true));
 }
-
 
 function processGameData(gameName, formattedData, categoryName) {
   const completed = formattedData.reduce((count, item) => {
@@ -619,20 +619,13 @@ async function renderDataForGame(gameName, gameData) {
 }
 
 async function renderGame(gameName, gameData) {
-
-  const container = document.querySelector(`.game-content[data-game="${gameName}"]`);
-  if (!container) return;
+  const container = document.getElementById('categories');
   
-  // Clear existing content
-  container.innerHTML = '';
-  
-  const gameSection = document.createElement('div');
-  gameSection.className = 'game-section';
-
   const gameContent = document.createElement('div');
   gameContent.className = 'game-content';
   gameContent.dataset.game = gameName;
   
+  const gameSection = document.createElement('div');
   gameSection.className = 'game-section';
   
   const header = document.createElement('div');
@@ -652,7 +645,7 @@ async function renderGame(gameName, gameData) {
   
   gameContent.appendChild(gameSection);
   container.appendChild(gameContent);
-  container.appendChild(gameSection);
+  
   updateHomeStats();
 }
 
