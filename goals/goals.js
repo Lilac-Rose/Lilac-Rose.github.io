@@ -243,19 +243,16 @@ function toggleCollapse(element) {
   }
 }
 
-function calculateWeightedProgress(category, completedItems, totalItems) {
-  const weights = {
-    "Equipment": 2,
-    "Vessel Fragments": 1/3, 
-    "Mask Shards": 1/4,
-  };
-
-  const weight = weights[category] || 1;
-  return completedItems * weight;
+function calculateWeightedProgress(categoryName, completed, total) {
+  const categoryData = games["Hollow Knight"].categories[categoryName];
+  if (!categoryData || !categoryData.maxPercent) return 0;
+  
+  const maxPercent = categoryData.maxPercent;
+  return (completed / total) * maxPercent;
 }
 
 function calculateCategoryStats(gameName, categoryName, formattedData) {
-  // Only use percentage calculations for Hollow Knight
+  // Special handling for Hollow Knight's percentage-based tracking
   if (gameName === "Hollow Knight") {
     const completed = formattedData.reduce((count, item) => {
       const hasCheckmark = Object.values(item).some(value => 
@@ -266,45 +263,32 @@ function calculateCategoryStats(gameName, categoryName, formattedData) {
 
     const total = formattedData.length;
     const weightedCompleted = calculateWeightedProgress(categoryName, completed, total);
-    
-    const maxPercentages = {
-      "Bosses": 16,
-      "Equipment": 14,
-      "Spells": 6,
-      "Dream Nail": 3,
-      "Nail Upgrades": 4,
-      "Nail Arts": 3,
-      "Dreamers": 11,
-      "Charms": 40,
-      "Godhome": 5,
-      "Vessel Fragments": 3,
-      "Colosseum": 3,
-      "Mask Shards": 4
-    };
+    const maxPercent = games["Hollow Knight"].categories[categoryName].maxPercent || 0;
 
     return {
       completed: weightedCompleted,
-      total: maxPercentages[categoryName] || total,
+      total: maxPercent,
       rawCompleted: completed,
       rawTotal: total,
       isPercentage: true
     };
-  } else {
-    const completed = formattedData.reduce((count, item) => {
-      const hasCheckmark = Object.values(item).some(value => 
-        typeof value === 'string' && value.includes('✓')
-      );
-      return count + (hasCheckmark ? 1 : 0);
-    }, 0);
-
-    return {
-      completed,
-      total: formattedData.length,
-      rawCompleted: completed,
-      rawTotal: formattedData.length,
-      isPercentage: false
-    };
   }
+  
+  // Standard counting for other games
+  const completed = formattedData.reduce((count, item) => {
+    const hasCheckmark = Object.values(item).some(value => 
+      typeof value === 'string' && value.includes('✓')
+    );
+    return count + (hasCheckmark ? 1 : 0);
+  }, 0);
+
+  return {
+    completed,
+    total: formattedData.length,
+    rawCompleted: completed,
+    rawTotal: formattedData.length,
+    isPercentage: false
+  };
 }
 
 async function fetchAndFormatData(sheetId, sheetName, range) {
@@ -357,8 +341,8 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
 }
 
 function createProgressBar(stats, isPercentage = false) {
-  const { completed, total } = stats;
-  const percentage = (completed / total) * 100;
+  const { completed = 0, total = 0 } = stats;
+  const percentage = total > 0 ? (completed / total) * 100 : 0;
   
   const container = document.createElement('div');
   container.className = 'progress-container';
@@ -371,7 +355,7 @@ function createProgressBar(stats, isPercentage = false) {
   text.className = 'progress-text';
   
   if (isPercentage) {
-    text.textContent = `${completed}% / ${total}%`;
+    text.textContent = `${completed.toFixed(1)}% / ${total}%`;
   } else {
     text.textContent = `${completed} / ${total}`;
   }
@@ -380,6 +364,7 @@ function createProgressBar(stats, isPercentage = false) {
   container.appendChild(text);
   return container;
 }
+
 
 function updateHomeStats() {
   // Update total goals
@@ -562,6 +547,7 @@ async function renderDataForGame(gameName, gameData) {
   gameSection.classList.add("game-section");
   gameSection.setAttribute("data-game", gameName);
 
+  // Add background if exists
   if (gameBackgrounds[gameName]) {
     const bgDiv = document.createElement("div");
     bgDiv.classList.add("game-section-bg");
@@ -571,11 +557,6 @@ async function renderDataForGame(gameName, gameData) {
 
   const gameHeader = document.createElement("div");
   gameHeader.classList.add("game-header", "collapsible-header");
-  gameHeader.addEventListener('click', (e) => {
-    if (!e.target.closest('.game-stats') && !e.target.closest('.time-display')) {
-      toggleCollapse(gameSection);
-    }
-  });
 
   // Create title and stats container
   const titleStatsContainer = document.createElement("div");
@@ -585,17 +566,24 @@ async function renderDataForGame(gameName, gameData) {
   gameTitle.textContent = gameName;
   titleStatsContainer.appendChild(gameTitle);
 
-  // Add time display
-  const timeDisplay = createTimeDisplay(GAME_TIMES[gameName]);
-  titleStatsContainer.appendChild(timeDisplay);
+  // Add time display if available
+  if (gameData.timeSpent) {
+    const timeDisplay = createTimeDisplay(gameData.timeSpent);
+    if (timeDisplay) titleStatsContainer.appendChild(timeDisplay);
+  }
 
   gameHeader.appendChild(titleStatsContainer);
 
-  const gameStats = document.createElement("div");
-  gameStats.classList.add("game-stats");
-  gameStats.dataset.stats = JSON.stringify({ completed: 0, total: 0 });
-  gameStats.appendChild(createProgressBar(0, 0));
-  gameHeader.appendChild(gameStats);
+  // Initialize game stats
+  let gameStats = { completed: 0, total: 0 };
+  
+  // Create stats display
+  const gameStatsDiv = document.createElement("div");
+  gameStatsDiv.classList.add("game-stats");
+  
+  const progressBar = createProgressBar({ completed: 0, total: 0 }, gameName === "Hollow Knight");
+  gameStatsDiv.appendChild(progressBar);
+  gameHeader.appendChild(gameStatsDiv);
 
   gameSection.appendChild(gameHeader);
   
@@ -605,9 +593,29 @@ async function renderDataForGame(gameName, gameData) {
   
   container.appendChild(gameSection);
 
-  for (const [categoryName, range] of Object.entries(gameData.categories)) {
-    await renderDataForCategory(gameName, categoryName, range, gameContent);
+  // Process each category
+  for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
+    const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
+    const formattedData = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
+    
+    if (formattedData && formattedData.formattedData) {
+      const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData.formattedData);
+      
+      if (gameName === "Hollow Knight") {
+        gameStats.completed += categoryStats.completed;
+        gameStats.total += categoryStats.total;
+      } else {
+        gameStats.completed += categoryStats.rawCompleted;
+        gameStats.total += categoryStats.rawTotal;
+      }
+      
+      await renderDataForCategory(gameName, categoryName, range, gameContent);
+    }
   }
+
+  // Update the game's progress bar with final stats
+  gameStatsDiv.innerHTML = '';
+  gameStatsDiv.appendChild(createProgressBar(gameStats, gameName === "Hollow Knight"));
 }
 
 async function renderGame(gameName, gameData) {
@@ -629,30 +637,118 @@ async function renderGame(gameName, gameData) {
   gameSection.appendChild(header);
   
   // Update total time
-  gameStats.totalTime += gameData.timeSpent || 0;
+  if (gameData.timeSpent) {
+    document.getElementById('total-time').textContent = 
+      (parseFloat(document.getElementById('total-time').textContent || 0) + gameData.timeSpent).toFixed(1);
+  }
+  
+  // Create a container for all categories
+  const categoriesContainer = document.createElement('div');
+  categoriesContainer.className = 'categories-container';
   
   // Process each category
   for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
-      const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
+    const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
+    
+    try {
       const formattedData = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
+      
       if (formattedData && formattedData.formattedData) {
-          processGameData(gameName, formattedData.formattedData);
-          await renderDataForCategory(gameName, categoryName, range, gameSection);
+        // Calculate stats for this category
+        const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData.formattedData);
+        
+        // Update game stats based on category completion
+        if (gameName === "Hollow Knight") {
+          gameStats.hollowKnight.completed += categoryStats.rawCompleted;
+        } else {
+          gameStats.totalGoals.completed += categoryStats.rawCompleted;
+          gameStats.totalGoals.total += categoryStats.rawTotal;
+        }
+        
+        // Create and append the category section
+        const categorySection = await createCategorySection(
+          categoryName, 
+          formattedData.headers, 
+          formattedData.formattedData,
+          categoryStats
+        );
+        categoriesContainer.appendChild(categorySection);
       }
+    } catch (error) {
+      console.error(`Error processing category ${categoryName} for ${gameName}:`, error);
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      errorDiv.textContent = `Failed to load ${categoryName}`;
+      categoriesContainer.appendChild(errorDiv);
+    }
   }
   
+  gameSection.appendChild(categoriesContainer);
   gameContent.appendChild(gameSection);
   container.appendChild(gameContent);
   
+  // Update home stats after processing all categories
   updateHomeStats();
+}
+
+async function createCategorySection(categoryName, headers, formattedData, categoryStats) {
+  const categorySection = document.createElement('div');
+  categorySection.className = 'category-section';
+  
+  const header = document.createElement('div');
+  header.className = 'category-header';
+  
+  const title = document.createElement('h3');
+  title.textContent = categoryName;
+  header.appendChild(title);
+  
+  // Add progress bar
+  const progressBar = createProgressBar(categoryStats, categoryStats.isPercentage);
+  header.appendChild(progressBar);
+  
+  categorySection.appendChild(header);
+  
+  // Create table for category data
+  const table = document.createElement('table');
+  
+  // Add headers
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  headers.forEach(header => {
+    const th = document.createElement('th');
+    th.textContent = header.label;
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+  
+  // Add data rows
+  const tbody = document.createElement('tbody');
+  formattedData.forEach(row => {
+    const tr = document.createElement('tr');
+    headers.forEach(header => {
+      const td = document.createElement('td');
+      td.textContent = row[header.key] || '';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  
+  categorySection.appendChild(table);
+  return categorySection;
 }
 
 function resetStats() {
   gameStats = {
-      totalGoals: { completed: 0, total: 0 },
-      hollowKnight: { completed: 0, total: 112 },
-      totalTime: 0
+    totalGoals: { completed: 0, total: 0 },
+    hollowKnight: { completed: 0, total: 112 },
+    totalTime: 0
   };
+  
+  // Reset displayed stats
+  document.getElementById('total-time').textContent = '0';
+  document.getElementById('total-goals').textContent = '0 / 0';
 }
 
 async function renderAllGames() {
