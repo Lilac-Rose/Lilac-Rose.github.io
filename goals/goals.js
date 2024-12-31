@@ -75,25 +75,15 @@ function createTimeDisplay(timeSpent) {
 }
 
 async function initializeTracker() {
-  // Reset stats
-  gameStats = {
-    totalGoals: { completed: 0, total: 0 },
-    hollowKnight: { completed: 0, total: 112 },
-    totalTime: 0
-  };
-  
-  // Initialize tabs
+  resetStats();
   initializeTabs();
   
-  // Render all games
   for (const [gameName, gameData] of Object.entries(games)) {
-    await renderGame(gameName, gameData);
+      await renderGame(gameName, gameData);
   }
   
-  // Show home content initially
   document.getElementById('home-content').classList.add('active');
   updateHomeStats();
-
   updateTerminalDate();
   setInterval(updateTerminalDate, 1000);
 }
@@ -392,13 +382,6 @@ function createProgressBar(stats, isPercentage = false) {
 }
 
 function updateHomeStats() {
-  // Update total time
-  const totalTimeDiv = document.getElementById('total-time');
-  const totalTime = Object.values(GAME_TIMES).reduce((acc, time) => acc + time, 0);
-  if (totalTimeDiv) {
-      totalTimeDiv.textContent = totalTime.toFixed(1);
-  }
-  
   // Update total goals
   const totalGoalsDiv = document.getElementById('total-goals');
   if (totalGoalsDiv) {
@@ -408,23 +391,30 @@ function updateHomeStats() {
 }
 
 function processGameData(gameName, formattedData) {
-  const completed = formattedData.reduce((count, item) => {
+  // Count completed items in this category
+  const categoryStats = formattedData.reduce((stats, item) => {
       const hasCheckmark = Object.values(item).some(value => 
           typeof value === 'string' && value.includes('✓')
       );
-      return count + (hasCheckmark ? 1 : 0);
-  }, 0);
+      if (hasCheckmark) {
+          stats.completed++;
+      }
+      stats.total++;
+      return stats;
+  }, { completed: 0, total: 0 });
   
-  const total = formattedData.length;
-  
+  // Only update total goals for non-Hollow Knight games
+  // (since Hollow Knight uses percentage-based tracking)
   if (gameName !== "Hollow Knight") {
-      gameStats.totalGoals.completed += completed;
-      gameStats.totalGoals.total += total;
+      gameStats.totalGoals.completed += categoryStats.completed;
+      gameStats.totalGoals.total += categoryStats.total;
   }
   
+  // Update display
   updateHomeStats();
+  
+  return categoryStats;
 }
- 
 
 function calculateHollowKnightProgress(category, completed, total) {
   const categoryData = games["Hollow Knight"].categories[category];
@@ -633,22 +623,36 @@ async function renderGame(gameName, gameData) {
   const header = document.createElement('div');
   header.className = 'game-header';
   header.innerHTML = `
-    <h2>${gameName}</h2>
-    ${gameData.timeSpent ? `<div class="time-display">${gameData.timeSpent} hours</div>` : ''}
+      <h2>${gameName}</h2>
+      ${gameData.timeSpent ? `<div class="time-display">${gameData.timeSpent} hours</div>` : ''}
   `;
   gameSection.appendChild(header);
   
+  // Update total time
   gameStats.totalTime += gameData.timeSpent || 0;
   
+  // Process each category
   for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
-    const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
-    await renderDataForCategory(gameName, categoryName, range, gameSection);
+      const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
+      const formattedData = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
+      if (formattedData && formattedData.formattedData) {
+          processGameData(gameName, formattedData.formattedData);
+          await renderDataForCategory(gameName, categoryName, range, gameSection);
+      }
   }
   
   gameContent.appendChild(gameSection);
   container.appendChild(gameContent);
   
   updateHomeStats();
+}
+
+function resetStats() {
+  gameStats = {
+      totalGoals: { completed: 0, total: 0 },
+      hollowKnight: { completed: 0, total: 112 },
+      totalTime: 0
+  };
 }
 
 async function renderAllGames() {
