@@ -10,7 +10,6 @@ const GAME_TIMES = {
 
 let gameStats = {
   totalGoals: { completed: 0, total: 0 },
-  hollowKnight: { completed: 0, total: 112 },
   totalTime: 0
 };
 
@@ -39,18 +38,18 @@ const games = {
     background: "../images/hollow-knight-background.jpg",
     timeSpent: GAME_TIMES["Hollow Knight"],
     categories: {
-      "Bosses": { range: "B33:C48", maxPercent: 16 },
-      "Equipment": { range: "B51:C57", maxPercent: 14 },
-      "Spells": { range: "B60:C65", maxPercent: 6 },
-      "Dream Nail": { range: "B68:C70", maxPercent: 3 },
-      "Nail Upgrades": { range: "B73:C76", maxPercent: 4 },
-      "Nail Arts": { range: "B79:C81", maxPercent: 3 },
-      "Dreamers": { range: "B84:C94", maxPercent: 11 },
-      "Charms": { range: "B97:C136", maxPercent: 40 },
-      "Godhome": { range: "B139:C143", maxPercent: 5 },
-      "Vessel Fragments": { range: "B146:C154", maxPercent: 3 },
-      "Colosseum": { range: "B157:C159", maxPercent: 3 },
-      "Mask Shards": { range: "B162:C177", maxPercent: 4 }
+      "Bosses": "B33:C48",
+      "Equipment": "B51:C57",
+      "Spells": "B60:C65",
+      "Dream Nail": "B68:C70",
+      "Nail Upgrades": "B73:C76",
+      "Nail Arts": "B79:C81",
+      "Dreamers": "B84:C94",
+      "Charms": "B97:C136",
+      "Godhome": "B139:C143",
+      "Vessel Fragments": "B146:C154",
+      "Colosseum": "B157:C159",
+      "Mask Shards": "B162:C177"
     }
   }
 };
@@ -257,29 +256,7 @@ function calculateWeightedProgress(categoryName, completed, total) {
 }
 
 function calculateCategoryStats(gameName, categoryName, formattedData) {
-  // Special handling for Hollow Knight's percentage-based tracking
-  if (gameName === "Hollow Knight") {
-    const completed = formattedData.reduce((count, item) => {
-      const hasCheckmark = Object.values(item).some(value => 
-        typeof value === 'string' && value.includes('✓')
-      );
-      return count + (hasCheckmark ? 1 : 0);
-    }, 0);
-
-    const total = formattedData.length;
-    const weightedCompleted = calculateWeightedProgress(categoryName, completed, total);
-    const maxPercent = games["Hollow Knight"].categories[categoryName].maxPercent || 0;
-
-    return {
-      completed: weightedCompleted,
-      total: maxPercent,
-      rawCompleted: completed,
-      rawTotal: total,
-      isPercentage: true
-    };
-  }
-  
-  // Standard counting for other games
+  // Count completed items by checking all fields for checkmarks
   const completed = formattedData.reduce((count, item) => {
     const hasCheckmark = Object.values(item).some(value => 
       typeof value === 'string' && value.includes('✓')
@@ -289,10 +266,7 @@ function calculateCategoryStats(gameName, categoryName, formattedData) {
 
   return {
     completed,
-    total: formattedData.length,
-    rawCompleted: completed,
-    rawTotal: formattedData.length,
-    isPercentage: false
+    total: formattedData.length
   };
 }
 
@@ -345,7 +319,7 @@ async function fetchAndFormatData(sheetId, sheetName, range) {
   }
 }
 
-function createProgressBar(stats, isPercentage = false) {
+function createProgressBar(stats) {
   const { completed = 0, total = 0 } = stats;
   const percentage = total > 0 ? (completed / total) * 100 : 0;
   
@@ -358,12 +332,7 @@ function createProgressBar(stats, isPercentage = false) {
   
   const text = document.createElement('div');
   text.className = 'progress-text';
-  
-  if (isPercentage) {
-    text.textContent = `${completed.toFixed(1)}% / ${total}%`;
-  } else {
-    text.textContent = `${completed} / ${total}`;
-  }
+  text.textContent = `${completed} / ${total}`;
   
   container.appendChild(bar);
   container.appendChild(text);
@@ -577,12 +546,11 @@ async function renderDataForGame(gameName, gameData) {
 
   gameHeader.appendChild(titleStatsContainer);
 
-  // Initialize game stats with data-stats attribute
   const gameStatsDiv = document.createElement("div");
   gameStatsDiv.classList.add("game-stats");
   gameStatsDiv.dataset.stats = JSON.stringify({ completed: 0, total: 0 });
   
-  const progressBar = createProgressBar({ completed: 0, total: 0 }, gameName === "Hollow Knight");
+  const progressBar = createProgressBar({ completed: 0, total: 0 });
   gameStatsDiv.appendChild(progressBar);
   gameHeader.appendChild(gameStatsDiv);
 
@@ -611,17 +579,12 @@ async function renderDataForGame(gameName, gameData) {
       
       // Update game totals
       const currentStats = JSON.parse(gameStatsDiv.dataset.stats);
-      if (gameName === "Hollow Knight") {
-        currentStats.completed += categoryStats.completed;
-        currentStats.total += categoryStats.total;
-      } else {
-        currentStats.completed += categoryStats.rawCompleted;
-        currentStats.total += categoryStats.rawTotal;
-        
-        // Update global total goals for non-Hollow Knight games
-        gameStats.totalGoals.completed += categoryStats.rawCompleted;
-        gameStats.totalGoals.total += categoryStats.rawTotal;
-      }
+      currentStats.completed += categoryStats.completed;
+      currentStats.total += categoryStats.total;
+      
+      // Update global total goals
+      gameStats.totalGoals.completed += categoryStats.completed;
+      gameStats.totalGoals.total += categoryStats.total;
       
       gameStatsDiv.dataset.stats = JSON.stringify(currentStats);
       
@@ -633,7 +596,7 @@ async function renderDataForGame(gameName, gameData) {
   // Update the game's progress bar with final stats
   const finalStats = JSON.parse(gameStatsDiv.dataset.stats);
   gameStatsDiv.innerHTML = '';
-  gameStatsDiv.appendChild(createProgressBar(finalStats, gameName === "Hollow Knight"));
+  gameStatsDiv.appendChild(createProgressBar(finalStats));
   
   // Update home page stats
   updateHomeStats();
