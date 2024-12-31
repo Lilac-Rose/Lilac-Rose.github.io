@@ -270,10 +270,12 @@ body {
 .game-content {
   display: none;
   width: 100%;
+  display: none;
 }
 
 .game-content.active {
   display: block;
+  display: none;
 }
 
 .game-section {
@@ -284,6 +286,7 @@ body {
   border-radius: 0;
   position: relative;
   overflow: hidden;
+  display: none;
 }
 
 .game-section-bg {
@@ -315,6 +318,14 @@ body {
   margin-bottom: 20px;
   padding: 20px;
   transition: all 0.3s ease;
+}
+
+.categories {
+  display: none;
+}
+
+#home-content.active {
+  display: block;
 }
 
 .category-section:hover {
