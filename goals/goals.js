@@ -78,10 +78,6 @@ async function initializeTracker() {
   resetStats();
   initializeTabs();
   
-  for (const [gameName, gameData] of Object.entries(games)) {
-      await renderGame(gameName, gameData);
-  }
-  
   document.getElementById('home-content').classList.add('active');
   updateHomeStats();
   updateTerminalDate();
@@ -93,35 +89,49 @@ function initializeTabs() {
   const categories = document.getElementById('categories');
   
   tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-          // Remove active class from all tabs and content
-          tabs.forEach(t => t.classList.remove('active'));
-          document.querySelectorAll('.game-content').forEach(content => {
-              content.classList.remove('active');
-          });
-          
-          // Add active class to clicked tab
-          tab.classList.add('active');
-          
-          // Show appropriate content
-          const gameName = tab.dataset.game;
-          if (gameName === 'home') {
-              document.getElementById('home-content').classList.add('active');
-              categories.style.display = 'none';
-          } else {
-              categories.style.display = 'block';
-              // Hide all game sections
-              document.querySelectorAll('.game-section').forEach(section => {
-                  section.style.display = 'none';
-              });
-              // Show only the selected game's section
-              const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
-              if (gameSection) {
-                  gameSection.style.display = 'block';
-              }
-          }
+    tab.addEventListener('click', () => {
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      // Hide all game sections and content
+      document.querySelectorAll('.game-content').forEach(content => {
+        content.classList.remove('active');
+        content.style.display = 'none';
       });
+      document.querySelectorAll('.game-section').forEach(section => {
+        section.style.display = 'none';
+      });
+      
+      // Add active class to clicked tab
+      tab.classList.add('active');
+      
+      const gameName = tab.dataset.game;
+      
+      if (gameName === 'home') {
+        // Show home content
+        const homeContent = document.getElementById('home-content');
+        homeContent.classList.add('active');
+        homeContent.style.display = 'block';
+        categories.style.display = 'none';
+      } else {
+        // Hide home content and show categories
+        document.getElementById('home-content').style.display = 'none';
+        categories.style.display = 'block';
+        
+        // Show the selected game's section
+        const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
+        if (gameSection) {
+          gameSection.style.display = 'block';
+        }
+      }
+    });
   });
+  
+  // Initialize with home tab active
+  const homeTab = document.querySelector('.game-tab[data-game="home"]');
+  if (homeTab) {
+    homeTab.click();
+  }
 }
 
 function debounce(func, wait) {
@@ -624,6 +634,7 @@ async function renderGame(gameName, gameData) {
   const gameContent = document.createElement('div');
   gameContent.className = 'game-content';
   gameContent.dataset.game = gameName;
+  gameContent.style.display = 'none';
   
   const gameSection = document.createElement('div');
   gameSection.className = 'game-section';
@@ -801,7 +812,12 @@ function updateTerminalDate() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  initializeTracker();
-  renderAllGames();
+document.addEventListener('DOMContentLoaded', async () => {
+  await initializeTracker();
+  
+  await renderAllGames();
+  
+  document.querySelectorAll('.game-section').forEach(section => {
+    section.style.display = 'none';
+  });
 });
