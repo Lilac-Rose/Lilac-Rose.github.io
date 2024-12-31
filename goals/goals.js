@@ -99,34 +99,39 @@ async function initializeTracker() {
 }
 
 function initializeTabs() {
-    const tabs = document.querySelectorAll('.game-tab');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class from all tabs
-            tabs.forEach(t => t.classList.remove('active'));
-            
-            // Add active class to clicked tab
-            tab.classList.add('active');
-            
-            // Hide all game content
-            document.querySelectorAll('.game-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Show appropriate content
-            const gameName = tab.dataset.game;
-            if (gameName === 'home') {
-                document.getElementById('home-content').classList.add('active');
-            } else {
-                // Find the corresponding game content
-                const gameContent = document.querySelector(`.game-content[data-game="${gameName}"]`);
-                if (gameContent) {
-                    gameContent.classList.add('active');
-                }
-            }
-        });
-    });
+  const tabs = document.querySelectorAll('.game-tab');
+  const categories = document.getElementById('categories');
+  
+  tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+          // Remove active class from all tabs and content
+          tabs.forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.game-content').forEach(content => {
+              content.classList.remove('active');
+          });
+          
+          // Add active class to clicked tab
+          tab.classList.add('active');
+          
+          // Show appropriate content
+          const gameName = tab.dataset.game;
+          if (gameName === 'home') {
+              document.getElementById('home-content').classList.add('active');
+              categories.style.display = 'none';
+          } else {
+              categories.style.display = 'block';
+              // Hide all game sections
+              document.querySelectorAll('.game-section').forEach(section => {
+                  section.style.display = 'none';
+              });
+              // Show only the selected game's section
+              const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
+              if (gameSection) {
+                  gameSection.style.display = 'block';
+              }
+          }
+      });
+  });
 }
 
 function debounce(func, wait) {
@@ -394,35 +399,32 @@ function updateHomeStats() {
       totalTimeDiv.textContent = totalTime.toFixed(1);
   }
   
-  // Update total goals (excluding Hollow Knight)
+  // Update total goals
   const totalGoalsDiv = document.getElementById('total-goals');
-  totalGoalsDiv.innerHTML = '';
-  totalGoalsDiv.appendChild(createProgressBar(gameStats.totalGoals));
-  
-  // Update Hollow Knight progress
-  const hollowKnightDiv = document.getElementById('hollow-knight-progress');
-  hollowKnightDiv.innerHTML = '';
-  hollowKnightDiv.appendChild(createProgressBar(gameStats.hollowKnight, true));
+  if (totalGoalsDiv) {
+      const { completed, total } = gameStats.totalGoals;
+      totalGoalsDiv.textContent = `${completed} / ${total}`;
+  }
 }
 
-function processGameData(gameName, formattedData, categoryName) {
+function processGameData(gameName, formattedData) {
   const completed = formattedData.reduce((count, item) => {
-    const hasCheckmark = Object.values(item).some(value => 
-      typeof value === 'string' && value.includes('✓')
-    );
-    return count + (hasCheckmark ? 1 : 0);
+      const hasCheckmark = Object.values(item).some(value => 
+          typeof value === 'string' && value.includes('✓')
+      );
+      return count + (hasCheckmark ? 1 : 0);
   }, 0);
   
   const total = formattedData.length;
   
-  if (gameName === "Hollow Knight") {
-    const percentageProgress = calculateHollowKnightProgress(categoryName, completed, total);
-    gameStats.hollowKnight.completed += percentageProgress;
-  } else {
-    gameStats.totalGoals.completed += completed;
-    gameStats.totalGoals.total += total;
+  if (gameName !== "Hollow Knight") {
+      gameStats.totalGoals.completed += completed;
+      gameStats.totalGoals.total += total;
   }
+  
+  updateHomeStats();
 }
+ 
 
 function calculateHollowKnightProgress(category, completed, total) {
   const categoryData = games["Hollow Knight"].categories[category];
