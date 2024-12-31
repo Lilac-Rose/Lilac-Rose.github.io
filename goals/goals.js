@@ -256,20 +256,18 @@ function calculateWeightedProgress(categoryName, completed, total) {
 }
 
 function calculateCategoryStats(gameName, categoryName, formattedData) {
-  // Count completed items by checking all fields for checkmarks
-  const completed = formattedData.reduce((count, item) => {
+  let completed = 0;
+  let total = formattedData.length;
+
+  completed = formattedData.reduce((count, item) => {
     const hasCheckmark = Object.values(item).some(value => 
       typeof value === 'string' && value.includes('✓')
     );
     return count + (hasCheckmark ? 1 : 0);
   }, 0);
 
-  return {
-    completed,
-    total: formattedData.length
-  };
+  return { completed, total };
 }
-
 async function fetchAndFormatData(sheetId, sheetName, range) {
   try {
     console.log('Starting fetchAndFormatData for range:', range);
@@ -341,35 +339,29 @@ function createProgressBar(stats) {
 
 
 function updateHomeStats() {
-  // Update total goals
   const totalGoalsDiv = document.getElementById('total-goals');
   if (totalGoalsDiv) {
-      const { completed, total } = gameStats.totalGoals;
-      totalGoalsDiv.textContent = `${completed} / ${total}`;
+    const { completed, total } = gameStats.totalGoals;
+    totalGoalsDiv.textContent = `${completed} / ${total}`;
+  }
+
+  const totalTimeDiv = document.getElementById('total-time');
+  if (totalTimeDiv) {
+    const totalTime = Object.values(GAME_TIMES).reduce((sum, time) => sum + time, 0);
+    totalTimeDiv.textContent = totalTime.toFixed(1);
   }
 }
 
 function processGameData(gameName, formattedData) {
-  // Count completed items in this category
-  const categoryStats = formattedData.reduce((stats, item) => {
-      const hasCheckmark = Object.values(item).some(value => 
-          typeof value === 'string' && value.includes('✓')
-      );
-      if (hasCheckmark) {
-          stats.completed++;
-      }
-      stats.total++;
-      return stats;
-  }, { completed: 0, total: 0 });
+  const categoryStats = calculateCategoryStats(gameName, null, formattedData);
   
-  // Only update total goals for non-Hollow Knight games
-  // (since Hollow Knight uses percentage-based tracking)
-  if (gameName !== "Hollow Knight") {
+    if (!formattedData.some(item => item._counted)) {
       gameStats.totalGoals.completed += categoryStats.completed;
       gameStats.totalGoals.total += categoryStats.total;
-  }
+      
+      formattedData.forEach(item => item._counted = true);
+    }
   
-  // Update display
   updateHomeStats();
   
   return categoryStats;
@@ -405,106 +397,34 @@ function showLoading(gameSection) {
 
 async function renderDataForCategory(gameName, categoryName, range, parentElement) {
   console.log('Rendering category:', categoryName, 'for game:', gameName, 'with range:', range);
+  
   const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
   const loadingDiv = showLoading(gameSection);
 
-  const response = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
-  loadingDiv.remove();
+  try {
+    const response = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
+    loadingDiv.remove();
 
-  if (!response || !response.formattedData) {
-    console.error('No formatted data received');
-    return;
-  }
-
-  const { headers, formattedData } = response;
-  console.log('Received data for category', categoryName, ':', formattedData);
-
-  // Count completed items by checking all fields for checkmarks
-  const categoryStats = {
-    completed: formattedData.reduce((count, item) => {
-      const hasCheckmark = Object.values(item).some(value => 
-        typeof value === 'string' && value.includes('✓')
-      );
-      return count + (hasCheckmark ? 1 : 0);
-    }, 0),
-    total: formattedData.length
-  };
-
-  const gameStatsDiv = gameSection.querySelector('.game-stats');
-  const currentGameStats = JSON.parse(gameStatsDiv.dataset.stats);
-  currentGameStats.completed += categoryStats.completed;
-  currentGameStats.total += categoryStats.total;
-  gameStatsDiv.dataset.stats = JSON.stringify(currentGameStats);
-  gameStatsDiv.innerHTML = '';
-  gameStatsDiv.appendChild(createProgressBar(currentGameStats.completed, currentGameStats.total));
-
-  totalStats.completed += categoryStats.completed;
-  totalStats.total += categoryStats.total;
-  updateOverallStats();
-
-  const categorySection = document.createElement("div");
-  categorySection.classList.add("category-section");
-
-  const categoryHeader = document.createElement("div");
-  categoryHeader.classList.add("category-header", "collapsible-header");
-  categoryHeader.addEventListener('click', (e) => {
-    if (!e.target.closest('.category-stats')) {
-      toggleCollapse(categorySection);
+    if (!response || !response.formattedData) {
+      console.error('No formatted data received');
+      return;
     }
-  });
 
-  const categoryTitle = document.createElement("h3");
-  categoryTitle.textContent = categoryName;
-  categoryTitle.setAttribute('data-category', categoryName);
-  categoryHeader.appendChild(categoryTitle);
+    const { headers, formattedData } = response;
+    console.log('Received data for category', categoryName, ':', formattedData);
 
-  const categoryProgress = document.createElement("div");
-  categoryProgress.classList.add("category-stats");
-  categoryProgress.appendChild(createProgressBar(categoryStats.completed, categoryStats.total));
-  categoryHeader.appendChild(categoryProgress);
+    const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData);
+    
+    processGameData(gameName, formattedData);
 
-  categorySection.appendChild(categoryHeader);
+    const categorySection = createCategorySection(categoryName, headers, formattedData, categoryStats);
+    parentElement.appendChild(categorySection);
 
-  const categoryContent = document.createElement("div");
-  categoryContent.classList.add("collapsible-content");
-  
-  // Optimized table creation
-  const table = document.createElement("table");
-  const tableHeader = document.createElement("thead");
-  const headerRow = document.createElement("tr");
-  const headerFragment = document.createDocumentFragment();
-
-  headers.forEach(header => {
-    const th = document.createElement("th");
-    th.textContent = header.label;
-    th.style.width = `${100 / headers.length}%`;
-    headerFragment.appendChild(th);
-  });
-
-  headerRow.appendChild(headerFragment);
-  tableHeader.appendChild(headerRow);
-  table.appendChild(tableHeader);
-
-  const tableBody = document.createElement("tbody");
-  const rowFragment = document.createDocumentFragment();
-
-  formattedData.forEach(rowData => {
-    const row = document.createElement("tr");
-    headers.forEach(header => {
-      const td = document.createElement("td");
-      const value = rowData[header.key];
-      const displayValue = rowData[`display_${header.key}`] || value;
-      td.textContent = displayValue === null ? '-' : displayValue;
-      rowFragment.appendChild(row);
-      row.appendChild(td);
-    });
-  });
-
-  tableBody.appendChild(rowFragment);
-  table.appendChild(tableBody);
-  categoryContent.appendChild(table);
-  categorySection.appendChild(categoryContent);
-  parentElement.appendChild(categorySection);
+  } catch (error) {
+    console.error('Error rendering category:', error);
+    loadingDiv.remove();
+    showError(`Failed to load ${categoryName}`);
+  }
 }
 
 function updateOverallStats() {
