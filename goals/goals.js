@@ -90,35 +90,30 @@ function initializeTabs() {
   
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      // Remove active class from all tabs
       tabs.forEach(t => t.classList.remove('active'));
       
-      // Hide all game sections and content
       document.querySelectorAll('.game-content').forEach(content => {
         content.classList.remove('active');
         content.style.display = 'none';
       });
+      
       document.querySelectorAll('.game-section').forEach(section => {
         section.style.display = 'none';
       });
       
-      // Add active class to clicked tab
       tab.classList.add('active');
       
       const gameName = tab.dataset.game;
       
       if (gameName === 'home') {
-        // Show home content
         const homeContent = document.getElementById('home-content');
         homeContent.classList.add('active');
         homeContent.style.display = 'block';
         categories.style.display = 'none';
       } else {
-        // Hide home content and show categories
         document.getElementById('home-content').style.display = 'none';
         categories.style.display = 'block';
         
-        // Show the selected game's section
         const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
         if (gameSection) {
           gameSection.style.display = 'block';
@@ -568,7 +563,6 @@ async function renderDataForGame(gameName, gameData) {
   const gameHeader = document.createElement("div");
   gameHeader.classList.add("game-header", "collapsible-header");
 
-  // Create title and stats container
   const titleStatsContainer = document.createElement("div");
   titleStatsContainer.classList.add("title-stats-container");
 
@@ -576,7 +570,6 @@ async function renderDataForGame(gameName, gameData) {
   gameTitle.textContent = gameName;
   titleStatsContainer.appendChild(gameTitle);
 
-  // Add time display if available
   if (gameData.timeSpent) {
     const timeDisplay = createTimeDisplay(gameData.timeSpent);
     if (timeDisplay) titleStatsContainer.appendChild(timeDisplay);
@@ -584,12 +577,10 @@ async function renderDataForGame(gameName, gameData) {
 
   gameHeader.appendChild(titleStatsContainer);
 
-  // Initialize game stats
-  let gameStats = { completed: 0, total: 0 };
-  
-  // Create stats display
+  // Initialize game stats with data-stats attribute
   const gameStatsDiv = document.createElement("div");
   gameStatsDiv.classList.add("game-stats");
+  gameStatsDiv.dataset.stats = JSON.stringify({ completed: 0, total: 0 });
   
   const progressBar = createProgressBar({ completed: 0, total: 0 }, gameName === "Hollow Knight");
   gameStatsDiv.appendChild(progressBar);
@@ -603,6 +594,13 @@ async function renderDataForGame(gameName, gameData) {
   
   container.appendChild(gameSection);
 
+  // Update total time for home page
+  if (gameData.timeSpent) {
+    const totalTimeElement = document.getElementById('total-time');
+    const currentTime = parseFloat(totalTimeElement.textContent || '0');
+    totalTimeElement.textContent = (currentTime + gameData.timeSpent).toFixed(1);
+  }
+
   // Process each category
   for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
     const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
@@ -611,21 +609,34 @@ async function renderDataForGame(gameName, gameData) {
     if (formattedData && formattedData.formattedData) {
       const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData.formattedData);
       
+      // Update game totals
+      const currentStats = JSON.parse(gameStatsDiv.dataset.stats);
       if (gameName === "Hollow Knight") {
-        gameStats.completed += categoryStats.completed;
-        gameStats.total += categoryStats.total;
+        currentStats.completed += categoryStats.completed;
+        currentStats.total += categoryStats.total;
       } else {
-        gameStats.completed += categoryStats.rawCompleted;
-        gameStats.total += categoryStats.rawTotal;
+        currentStats.completed += categoryStats.rawCompleted;
+        currentStats.total += categoryStats.rawTotal;
+        
+        // Update global total goals for non-Hollow Knight games
+        gameStats.totalGoals.completed += categoryStats.rawCompleted;
+        gameStats.totalGoals.total += categoryStats.rawTotal;
       }
       
+      gameStatsDiv.dataset.stats = JSON.stringify(currentStats);
+      
+      // Render the category
       await renderDataForCategory(gameName, categoryName, range, gameContent);
     }
   }
 
   // Update the game's progress bar with final stats
+  const finalStats = JSON.parse(gameStatsDiv.dataset.stats);
   gameStatsDiv.innerHTML = '';
-  gameStatsDiv.appendChild(createProgressBar(gameStats, gameName === "Hollow Knight"));
+  gameStatsDiv.appendChild(createProgressBar(finalStats, gameName === "Hollow Knight"));
+  
+  // Update home page stats
+  updateHomeStats();
 }
 
 async function renderGame(gameName, gameData) {
