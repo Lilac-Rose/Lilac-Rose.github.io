@@ -544,3 +544,265 @@ td {
     font-size: 14px;
   }
 }
+
+/* Smooth transitions for all interactive elements */
+.game-section,
+.category-section,
+.terminal-stat-card,
+.game-tab,
+.progress-bar,
+.terminal-container {
+  transition: all 0.3s ease;
+}
+
+/* Terminal effects */
+.terminal-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.terminal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent,
+    var(--terminal-color),
+    transparent
+  );
+  animation: terminal-scan 3s linear infinite;
+}
+
+@keyframes terminal-scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Terminal text typing effect */
+.terminal-text {
+  overflow: hidden;
+  border-right: 2px solid var(--terminal-color);
+  white-space: nowrap;
+  animation: typing 3s steps(40, end),
+             blink-caret 0.75s step-end infinite;
+  margin: 0;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--terminal-color) }
+}
+
+/* Glowing effect for terminal headers */
+.terminal-header {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 5px var(--terminal-color); }
+  to { box-shadow: 0 0 20px var(--terminal-color); }
+}
+
+/* Game tab hover effects */
+.game-tab {
+  position: relative;
+  overflow: hidden;
+}
+
+.game-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--terminal-color);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.game-tab:hover::after {
+  width: 100%;
+}
+
+/* Pulsing effect for stats */
+.terminal-stat-card {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Progress bar animations */
+.progress-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: progress-shine 2s linear infinite;
+}
+
+@keyframes progress-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Grid background animation */
+.grid-overlay {
+  animation: grid-fade 10s linear infinite;
+}
+
+@keyframes grid-fade {
+  0% { opacity: 0.1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 0.1; }
+}
+
+/* Category section hover effects */
+.category-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.category-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 152, 205, 0.1) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.category-section:hover::before {
+  opacity: 1;
+}
+
+/* Table row hover effects */
+tr {
+  transition: all 0.3s ease;
+}
+
+tr:hover {
+  background-color: rgba(0, 152, 205, 0.1);
+  transform: scale(1.01);
+}
+
+/* Loading animation */
+.loading::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--terminal-color);
+  margin-left: 8px;
+  animation: loading-bounce 0.6s infinite alternate;
+}
+
+@keyframes loading-bounce {
+  from { transform: translateY(-2px); }
+  to { transform: translateY(2px); }
+}
+
+/* Stats value animation */
+.stat-value {
+  animation: stat-update 0.5s ease;
+}
+
+@keyframes stat-update {
+  0% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Error message animation */
+.error-message {
+  animation: error-slide 0.3s ease;
+}
+
+@keyframes error-slide {
+  from { transform: translateX(-10px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Diagnostic report animation */
+.diagnostic-report {
+  animation: report-appear 1s ease;
+}
+
+@keyframes report-appear {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Status item animations */
+.status-item {
+  animation: status-fade 0.5s ease;
+  animation-fill-mode: both;
+}
+
+.status-item:nth-child(1) { animation-delay: 0.1s; }
+.status-item:nth-child(2) { animation-delay: 0.2s; }
+.status-item:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes status-fade {
+  from { transform: translateX(-10px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Background container subtle movement */
+.background-container {
+  animation: bg-float 20s ease-in-out infinite;
+}
+
+@keyframes bg-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* Terminal list item animations */
+.terminal-list li {
+  animation: list-appear 0.5s ease;
+  animation-fill-mode: both;
+}
+
+.terminal-list li:nth-child(1) { animation-delay: 0.1s; }
+.terminal-list li:nth-child(2) { animation-delay: 0.2s; }
+.terminal-list li:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes list-appear {
+  from { transform: translateX(-10px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
