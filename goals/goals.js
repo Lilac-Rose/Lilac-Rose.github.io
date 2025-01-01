@@ -613,7 +613,6 @@ async function createCategorySection(categoryName, headers, formattedData, categ
     const headerRow = document.createElement('tr');
     headers.forEach(header => {
       const th = document.createElement('th');
-      // Handle both string and object header formats
       th.textContent = typeof header === 'string' ? header : (header.label || '');
       headerRow.appendChild(th);
     });
@@ -626,11 +625,24 @@ async function createCategorySection(categoryName, headers, formattedData, categ
       const tr = document.createElement('tr');
       headers.forEach(header => {
         const td = document.createElement('td');
-        // Get the key based on header type
         const key = typeof header === 'string' 
           ? header.toLowerCase().replace(/\s+/g, '_')
           : (header.key || header.label?.toLowerCase().replace(/\s+/g, '_'));
-        td.textContent = row[key] || '';
+        
+        // Get the cell value
+        const value = row[key];
+        
+        // Convert boolean or string values to checkmark or x
+        if (typeof value === 'boolean') {
+          td.textContent = value ? '✓' : '✗';
+        } else if (value === 'true' || value === 'TRUE') {
+          td.textContent = '✓';
+        } else if (value === 'false' || value === 'FALSE') {
+          td.textContent = '✗';
+        } else {
+          td.textContent = value || '';
+        }
+        
         tr.appendChild(td);
       });
       tbody.appendChild(tr);
