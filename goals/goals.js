@@ -326,7 +326,6 @@ function createProgressBar(stats) {
   
   const bar = document.createElement('div');
   bar.className = 'progress-bar';
-  // Set the width based on actual progress
   bar.style.width = `${percentage}%`;
   
   const text = document.createElement('div');
@@ -465,6 +464,27 @@ async function renderDataForGame(gameName, gameData) {
   gameTitle.textContent = gameName;
   titleStatsContainer.appendChild(gameTitle);
 
+  // Add game-level progress tracking
+  let gameStats = { completed: 0, total: 0 };
+  
+  const gameContent = document.createElement("div");
+  gameContent.classList.add("collapsible-content");
+  
+  // Process categories first to calculate game stats
+  for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
+    const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
+    const categoryStats = await processCategory(gameName, categoryName, range, gameContent);
+    if (categoryStats) {
+      gameStats.completed += categoryStats.completed;
+      gameStats.total += categoryStats.total;
+    }
+  }
+
+  // Add game progress bar after title
+  const gameProgress = createProgressBar(gameStats);
+  gameProgress.classList.add('game-progress');
+  titleStatsContainer.appendChild(gameProgress);
+
   if (gameData.timeSpent) {
     const timeDisplay = createTimeDisplay(gameData.timeSpent);
     if (timeDisplay) {
@@ -474,20 +494,34 @@ async function renderDataForGame(gameName, gameData) {
 
   gameHeader.appendChild(titleStatsContainer);
   gameSection.appendChild(gameHeader);
-  
-  const gameContent = document.createElement("div");
-  gameContent.classList.add("collapsible-content");
   gameSection.appendChild(gameContent);
-  
   container.appendChild(gameSection);
-
-  // Process each category
-  for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
-    const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
-    await renderDataForCategory(gameName, categoryName, range, gameContent);
-  }
   
   updateHomeStats();
+}
+
+async function processCategory(gameName, categoryName, range, parentElement) {
+  try {
+    const response = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
+    if (!response || !response.formattedData) {
+      console.error('No formatted data received for category:', categoryName);
+      return null;
+    }
+
+    const { headers, formattedData } = response;
+    const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData);
+    const categorySection = await createCategorySection(categoryName, headers, formattedData, categoryStats);
+    
+    if (categorySection && parentElement) {
+      parentElement.appendChild(categorySection);
+    }
+    
+    return categoryStats;
+  } catch (error) {
+    console.error('Error processing category:', error);
+    showError(`Failed to load ${categoryName}`);
+    return null;
+  }
 }
 
 async function renderGame(gameName, gameData) {
@@ -578,15 +612,14 @@ async function createCategorySection(categoryName, headers, formattedData, categ
   
   // Add category progress bar
   const progressBar = createProgressBar(categoryStats);
+  progressBar.classList.add('category-progress');
   header.appendChild(progressBar);
   
   categorySection.appendChild(header);
   
-  // Only create table if we have valid data
   if (headers && headers.length && formattedData && formattedData.length) {
     const table = document.createElement('table');
     
-    // Add headers
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     headers.forEach(header => {
@@ -597,7 +630,6 @@ async function createCategorySection(categoryName, headers, formattedData, categ
     thead.appendChild(headerRow);
     table.appendChild(thead);
     
-    // Add data rows
     const tbody = document.createElement('tbody');
     formattedData.forEach(row => {
       const tr = document.createElement('tr');
@@ -608,17 +640,7 @@ async function createCategorySection(categoryName, headers, formattedData, categ
           : (header.key || header.label?.toLowerCase().replace(/\s+/g, '_'));
         
         const value = row[key];
-        
-        if (typeof value === 'boolean') {
-          td.textContent = value ? '✓' : '✗';
-        } else if (value === 'true' || value === 'TRUE') {
-          td.textContent = '✓';
-        } else if (value === 'false' || value === 'FALSE') {
-          td.textContent = '✗';
-        } else {
-          td.textContent = value || '';
-        }
-        
+        td.textContent = formatCellValue(value);
         tr.appendChild(td);
       });
       tbody.appendChild(tr);
@@ -629,6 +651,17 @@ async function createCategorySection(categoryName, headers, formattedData, categ
   }
   
   return categorySection;
+}
+
+function formatCellValue(value) {
+  if (typeof value === 'boolean') {
+    return value ? '✓' : '✗';
+  } else if (value === 'true' || value === 'TRUE') {
+    return '✓';
+  } else if (value === 'false' || value === 'FALSE') {
+    return '✗';
+  }
+  return value || '';
 }
 
 function resetStats() {
@@ -646,9 +679,8 @@ function resetStats() {
 async function renderAllGames() {
   console.log('Starting renderAllGames');
   const container = document.getElementById("categories");
-  container.innerHTML = "";
+  container.innerHTML = ""; // Just clear the container, no overall stats
 
-  // Remove the overall stats section entirely
   for (const [gameName, gameData] of Object.entries(games)) {
     await renderDataForGame(gameName, gameData);
   }
