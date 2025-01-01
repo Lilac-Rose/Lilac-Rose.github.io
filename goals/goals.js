@@ -399,6 +399,11 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
   console.log('Rendering category:', categoryName, 'for game:', gameName, 'with range:', range);
   
   const gameSection = document.querySelector(`.game-section[data-game="${gameName}"]`);
+  if (!gameSection) {
+    console.error('Game section not found for:', gameName);
+    return;
+  }
+  
   const loadingDiv = showLoading(gameSection);
 
   try {
@@ -406,7 +411,7 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
     loadingDiv.remove();
 
     if (!response || !response.formattedData) {
-      console.error('No formatted data received');
+      console.error('No formatted data received for category:', categoryName);
       return;
     }
 
@@ -414,11 +419,15 @@ async function renderDataForCategory(gameName, categoryName, range, parentElemen
     console.log('Received data for category', categoryName, ':', formattedData);
 
     const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData);
-    
     processGameData(gameName, formattedData);
 
-    const categorySection = createCategorySection(categoryName, headers, formattedData, categoryStats);
-    parentElement.appendChild(categorySection);
+    const categorySection = await createCategorySection(categoryName, headers, formattedData, categoryStats);
+    if (categorySection && parentElement) {
+      parentElement.appendChild(categorySection);
+    } else {
+      console.error('Failed to append category section:', 
+        categorySection ? 'parentElement missing' : 'categorySection creation failed');
+    }
 
   } catch (error) {
     console.error('Error rendering category:', error);
@@ -436,18 +445,14 @@ function updateOverallStats() {
 async function renderDataForGame(gameName, gameData) {
   console.log('Rendering game:', gameName);
   const container = document.getElementById("categories");
+  if (!container) {
+    console.error('Categories container not found');
+    return;
+  }
 
   const gameSection = document.createElement("div");
   gameSection.classList.add("game-section");
   gameSection.setAttribute("data-game", gameName);
-
-  // Add background if exists
-  if (gameBackgrounds[gameName]) {
-    const bgDiv = document.createElement("div");
-    bgDiv.classList.add("game-section-bg");
-    bgDiv.style.backgroundImage = `url(${gameBackgrounds[gameName]})`;
-    gameSection.appendChild(bgDiv);
-  }
 
   const gameHeader = document.createElement("div");
   gameHeader.classList.add("game-header", "collapsible-header");
@@ -461,7 +466,9 @@ async function renderDataForGame(gameName, gameData) {
 
   if (gameData.timeSpent) {
     const timeDisplay = createTimeDisplay(gameData.timeSpent);
-    if (timeDisplay) titleStatsContainer.appendChild(timeDisplay);
+    if (timeDisplay) {
+      titleStatsContainer.appendChild(timeDisplay);
+    }
   }
 
   gameHeader.appendChild(titleStatsContainer);
@@ -471,7 +478,9 @@ async function renderDataForGame(gameName, gameData) {
   gameStatsDiv.dataset.stats = JSON.stringify({ completed: 0, total: 0 });
   
   const progressBar = createProgressBar({ completed: 0, total: 0 });
-  gameStatsDiv.appendChild(progressBar);
+  if (progressBar) {
+    gameStatsDiv.appendChild(progressBar);
+  }
   gameHeader.appendChild(gameStatsDiv);
 
   gameSection.appendChild(gameHeader);
@@ -482,43 +491,20 @@ async function renderDataForGame(gameName, gameData) {
   
   container.appendChild(gameSection);
 
-  // Update total time for home page
-  if (gameData.timeSpent) {
-    const totalTimeElement = document.getElementById('total-time');
-    const currentTime = parseFloat(totalTimeElement.textContent || '0');
-    totalTimeElement.textContent = (currentTime + gameData.timeSpent).toFixed(1);
-  }
-
   // Process each category
   for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
     const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
-    const formattedData = await fetchAndFormatData(SHEET_ID, SHEET_NAME, range);
-    
-    if (formattedData && formattedData.formattedData) {
-      const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData.formattedData);
-      
-      // Update game totals
-      const currentStats = JSON.parse(gameStatsDiv.dataset.stats);
-      currentStats.completed += categoryStats.completed;
-      currentStats.total += categoryStats.total;
-      
-      // Update global total goals
-      gameStats.totalGoals.completed += categoryStats.completed;
-      gameStats.totalGoals.total += categoryStats.total;
-      
-      gameStatsDiv.dataset.stats = JSON.stringify(currentStats);
-      
-      // Render the category
-      await renderDataForCategory(gameName, categoryName, range, gameContent);
-    }
+    await renderDataForCategory(gameName, categoryName, range, gameContent);
   }
 
   // Update the game's progress bar with final stats
   const finalStats = JSON.parse(gameStatsDiv.dataset.stats);
   gameStatsDiv.innerHTML = '';
-  gameStatsDiv.appendChild(createProgressBar(finalStats));
+  const finalProgressBar = createProgressBar(finalStats);
+  if (finalProgressBar) {
+    gameStatsDiv.appendChild(finalProgressBar);
+  }
   
-  // Update home page stats
   updateHomeStats();
 }
 
@@ -605,42 +591,51 @@ async function createCategorySection(categoryName, headers, formattedData, categ
   
   const title = document.createElement('h3');
   title.textContent = categoryName;
+  title.setAttribute('data-category', categoryName);
   header.appendChild(title);
   
-  // Add progress bar
-  const progressBar = createProgressBar(categoryStats, categoryStats.isPercentage);
-  header.appendChild(progressBar);
+  // Add progress bar if categoryStats exists
+  if (categoryStats) {
+    const progressBar = createProgressBar(categoryStats);
+    if (progressBar) {
+      header.appendChild(progressBar);
+    }
+  }
   
   categorySection.appendChild(header);
   
-  // Create table for category data
-  const table = document.createElement('table');
-  
-  // Add headers
-  const thead = document.createElement('thead');
-  const headerRow = document.createElement('tr');
-  headers.forEach(header => {
-    const th = document.createElement('th');
-    th.textContent = header.label;
-    headerRow.appendChild(th);
-  });
-  thead.appendChild(headerRow);
-  table.appendChild(thead);
-  
-  // Add data rows
-  const tbody = document.createElement('tbody');
-  formattedData.forEach(row => {
-    const tr = document.createElement('tr');
+  // Only create table if we have valid data
+  if (headers && headers.length && formattedData && formattedData.length) {
+    const table = document.createElement('table');
+    
+    // Add headers
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
     headers.forEach(header => {
-      const td = document.createElement('td');
-      td.textContent = row[header.key] || '';
-      tr.appendChild(td);
+      const th = document.createElement('th');
+      th.textContent = header.label || header;
+      headerRow.appendChild(th);
     });
-    tbody.appendChild(tr);
-  });
-  table.appendChild(tbody);
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    
+    // Add data rows
+    const tbody = document.createElement('tbody');
+    formattedData.forEach(row => {
+      const tr = document.createElement('tr');
+      headers.forEach(header => {
+        const td = document.createElement('td');
+        const key = header.key || header.toLowerCase().replace(/\s+/g, '_');
+        td.textContent = row[key] || '';
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    
+    categorySection.appendChild(table);
+  }
   
-  categorySection.appendChild(table);
   return categorySection;
 }
 
