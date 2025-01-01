@@ -613,7 +613,8 @@ async function createCategorySection(categoryName, headers, formattedData, categ
     const headerRow = document.createElement('tr');
     headers.forEach(header => {
       const th = document.createElement('th');
-      th.textContent = header.label || header;
+      // Handle both string and object header formats
+      th.textContent = typeof header === 'string' ? header : (header.label || '');
       headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
@@ -625,7 +626,10 @@ async function createCategorySection(categoryName, headers, formattedData, categ
       const tr = document.createElement('tr');
       headers.forEach(header => {
         const td = document.createElement('td');
-        const key = header.key || header.toLowerCase().replace(/\s+/g, '_');
+        // Get the key based on header type
+        const key = typeof header === 'string' 
+          ? header.toLowerCase().replace(/\s+/g, '_')
+          : (header.key || header.label?.toLowerCase().replace(/\s+/g, '_'));
         td.textContent = row[key] || '';
         tr.appendChild(td);
       });
