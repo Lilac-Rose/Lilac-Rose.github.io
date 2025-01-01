@@ -261,13 +261,18 @@ function calculateCategoryStats(gameName, categoryName, formattedData) {
 
   completed = formattedData.reduce((count, item) => {
     const hasCheckmark = Object.values(item).some(value => 
-      typeof value === 'string' && value.includes('✓')
+      (typeof value === 'string' && value.includes('✓')) ||
+      value === true ||
+      value === 'true' ||
+      value === 'TRUE'
     );
     return count + (hasCheckmark ? 1 : 0);
   }, 0);
 
   return { completed, total };
 }
+
+
 async function fetchAndFormatData(sheetId, sheetName, range) {
   try {
     console.log('Starting fetchAndFormatData for range:', range);
@@ -510,6 +515,13 @@ async function processCategory(gameName, categoryName, range, parentElement) {
 
     const { headers, formattedData } = response;
     const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData);
+    
+    // Update total goals
+    if (categoryStats) {
+      gameStats.totalGoals.completed += categoryStats.completed;
+      gameStats.totalGoals.total += categoryStats.total;
+    }
+    
     const categorySection = await createCategorySection(categoryName, headers, formattedData, categoryStats);
     
     if (categorySection && parentElement) {
@@ -667,7 +679,6 @@ function formatCellValue(value) {
 function resetStats() {
   gameStats = {
     totalGoals: { completed: 0, total: 0 },
-    hollowKnight: { completed: 0, total: 112 },
     totalTime: 0
   };
   
@@ -679,11 +690,17 @@ function resetStats() {
 async function renderAllGames() {
   console.log('Starting renderAllGames');
   const container = document.getElementById("categories");
-  container.innerHTML = ""; // Just clear the container, no overall stats
+  container.innerHTML = "";
+  
+  // Reset stats before rendering
+  resetStats();
 
   for (const [gameName, gameData] of Object.entries(games)) {
     await renderDataForGame(gameName, gameData);
   }
+  
+  // Update home stats after all games are rendered
+  updateHomeStats();
 }
 
 function updateTerminalDate() {
