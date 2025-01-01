@@ -326,11 +326,12 @@ function createProgressBar(stats) {
   
   const bar = document.createElement('div');
   bar.className = 'progress-bar';
+  // Set the width based on actual progress
   bar.style.width = `${percentage}%`;
   
   const text = document.createElement('div');
   text.className = 'progress-text';
-  text.textContent = `${completed} / ${total}`;
+  text.textContent = `${completed} / ${total} (${percentage.toFixed(1)}%)`;
   
   container.appendChild(bar);
   container.appendChild(text);

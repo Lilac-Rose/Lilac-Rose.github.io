@@ -583,12 +583,17 @@ td {
 
 /* Terminal text typing effect */
 .terminal-text {
-  overflow: hidden;
-  border-right: 2px solid var(--terminal-color);
-  white-space: nowrap;
-  animation: typing 3s steps(40, end),
-             blink-caret 0.75s step-end infinite;
-  margin: 0;
+  overflow: visible;
+  border-right: none;
+  white-space: normal;
+  animation: fadeIn 0.5s ease-out;  margin: 10px 0;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes typing {
@@ -644,31 +649,36 @@ td {
   100% { transform: scale(1); }
 }
 
-/* Progress bar animations */
 .progress-bar {
-  position: relative;
-  overflow: hidden;
-}
-
-.progress-bar::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  background-color: var(--terminal-color);
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
+  transition: width 0.3s ease;
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
     transparent
   );
-  animation: progress-shine 2s linear infinite;
+  background-size: 20px 20px;
+  animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+  from { background-position: 20px 0; }
+  to { background-position: 0 0; }
 }
 
 @keyframes progress-shine {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
+}
+
+.progress-bar::after {
+  display: none;
 }
 
 /* Grid background animation */
