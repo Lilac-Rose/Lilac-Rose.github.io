@@ -576,6 +576,10 @@ async function createCategorySection(categoryName, headers, formattedData, categ
   title.setAttribute('data-category', categoryName);
   header.appendChild(title);
   
+  // Add category progress bar
+  const progressBar = createProgressBar(categoryStats);
+  header.appendChild(progressBar);
+  
   categorySection.appendChild(header);
   
   // Only create table if we have valid data
@@ -644,22 +648,7 @@ async function renderAllGames() {
   const container = document.getElementById("categories");
   container.innerHTML = "";
 
-  const overallStatsContainer = document.createElement("div");
-  overallStatsContainer.classList.add("overall-stats-container");
-  
-  const overallTitle = document.createElement("h2");
-  overallTitle.textContent = "Overall Progress";
-  overallStatsContainer.appendChild(overallTitle);
-
-  const overallStats = document.createElement("div");
-  overallStats.id = "overall-stats";
-  overallStats.appendChild(createProgressBar(0, 0));
-  overallStatsContainer.appendChild(overallStats);
-
-  container.appendChild(overallStatsContainer);
-
-  totalStats = { completed: 0, total: 0 };
-
+  // Remove the overall stats section entirely
   for (const [gameName, gameData] of Object.entries(games)) {
     await renderDataForGame(gameName, gameData);
   }
