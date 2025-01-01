@@ -7,8 +7,7 @@
     <title>Lilac's Game Tracker :3</title>
     <link rel="stylesheet" href="goals.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preload" as="style" href="goals.css">
-    <link rel="preload" as="script" href="goals.js">
+    <!-- Removed preload tags as they weren't being used within the time limit -->
 </head>
 <body>
     <div class="background-container">
@@ -46,7 +45,7 @@
                         </ul>
                     </div>
                     
-                    <<div class="stats-container">
+                    <div class="stats-container">
                         <div class="terminal-stat-card">
                             <div class="stat-value" id="total-time">0</div>
                             <div class="stat-label">HOURS LOGGED</div>
@@ -63,28 +62,12 @@
         <div id="categories"></div>
     </div>
     
-    <!-- Game tabs -->
     <div class="game-tabs">
         <div class="game-tab active" data-game="home">Home</div>
         <div class="game-tab" data-game="Celeste">Celeste</div>
         <div class="game-tab" data-game="Celeste: Strawberry Jam">Celeste: Strawberry Jam</div>
         <div class="game-tab" data-game="Hollow Knight">Hollow Knight</div>
     </div>
-    
-    <template id="error-template">
-        <div class="error-message"></div>
-    </template>
-
-    <template id="loading-template">
-        <div class="loading">Loading...</div>
-    </template>
-
-    <template id="progress-template">
-        <div class="progress-container">
-            <div class="progress-bar"></div>
-            <div class="progress-text"></div>
-        </div>
-    </template>
     
     <script src="goals.js" type="module"></script>
 </body>
