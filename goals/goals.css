@@ -15,9 +15,6 @@
   --celeste-color: #ff6b6b;
   --celeste-jam-color: #4ecdc4;
   --hollow-knight-color: #6c5ce7;
-  
-  --transition-speed: 0.3s;
-  --blink-speed: 1s;
 }
 
 * {
@@ -40,18 +37,6 @@ body {
   background-color: var(--main-bg);
 }
 
-/* Performance optimizations */
-.main-content, 
-.game-section, 
-.category-section,
-.progress-bar,
-.terminal-stat-card {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* Layout containers */
 .background-container {
   position: fixed;
   top: 0;
@@ -84,7 +69,6 @@ body {
   padding-bottom: 60px;
 }
 
-/* Terminal styling */
 .terminal-container {
   background-color: rgba(0, 0, 0, 0.8);
   border: 1px solid var(--terminal-color);
@@ -123,11 +107,6 @@ body {
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 0.5px;
   color: var(--terminal-color);
-  transition: color 0.3s ease;
-}
-
-.report-header:hover {
-  color: #00b4ef;
 }
 
 .status-list {
@@ -139,7 +118,6 @@ body {
   color: var(--text-primary);
 }
 
-/* Terminal sections */
 .terminal-section {
   margin: 20px 0;
 }
@@ -168,7 +146,6 @@ body {
   margin-right: 10px;
 }
 
-/* Stats display */
 .stats-container {
   display: flex;
   gap: 20px;
@@ -181,14 +158,6 @@ body {
   padding: 20px;
   text-align: center;
   flex: 1;
-  transition: transform var(--transition-speed) ease,
-              box-shadow var(--transition-speed) ease;
-}
-
-.terminal-stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 152, 205, 0.2);
-  border-color: var(--terminal-color);
 }
 
 .stat-value {
@@ -203,7 +172,6 @@ body {
   color: var(--text-primary);
 }
 
-/* Game tabs */
 .game-tabs {
   position: fixed;
   bottom: 0;
@@ -225,7 +193,6 @@ body {
   justify-content: center;
   color: var(--text-primary);
   cursor: pointer;
-  transition: all 0.3s ease;
   position: relative;
   min-width: 150px;
   text-align: center;
@@ -233,49 +200,18 @@ body {
   opacity: 0.8;
 }
 
-.game-tab::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: transparent;
-  transition: all 0.3s ease;
-}
-
-.game-tab:hover {
-  opacity: 1;
-}
-
 .game-tab.active {
   background-color: var(--tab-active-bg);
   opacity: 1;
 }
 
-/* Game-specific tab colors */
-.game-tab[data-game="Celeste"]::before {
-  background-color: var(--celeste-color);
-}
-
-.game-tab[data-game="Celeste: Strawberry Jam"]::before {
-  background-color: var(--celeste-jam-color);
-}
-
-.game-tab[data-game="Hollow Knight"]::before {
-  background-color: var(--hollow-knight-color);
-}
-
-/* Game content sections */
 .game-content {
   display: none;
   width: 100%;
-  display: none;
 }
 
 .game-content.active {
   display: block;
-  display: none;
 }
 
 .game-section {
@@ -286,53 +222,15 @@ body {
   border-radius: 0;
   position: relative;
   overflow: hidden;
-  display: none;
 }
 
-.game-section-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: cover;
-  background-position: center;
-  filter: blur(8px) brightness(0.3);
-  z-index: 0;
-  transition: all 0.3s ease;
-}
-
-.game-section:hover .game-section-bg {
-  filter: blur(6px) brightness(0.4);
-}
-
-.game-section > *:not(.game-section-bg) {
-  position: relative;
-  z-index: 1;
-}
-
-/* Category sections */
 .category-section {
   background-color: rgba(15, 26, 31, 0.9);
   border: 1px solid var(--terminal-color);
   margin-bottom: 20px;
   padding: 20px;
-  transition: all 0.3s ease;
 }
 
-.categories {
-  display: none;
-}
-
-#home-content.active {
-  display: block;
-}
-
-.category-section:hover {
-  box-shadow: 0 0 20px rgba(0, 255, 149, 0.2);
-}
-
-/* Headers */
 h1 {
   color: var(--terminal-color);
   text-align: center;
@@ -359,7 +257,6 @@ h1 {
   letter-spacing: 2px;
 }
 
-/* Tables */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -388,55 +285,8 @@ th {
 td {
   background-color: rgba(10, 15, 20, 0.9);
   color: var(--text-primary);
-  transition: all 0.3s ease;
 }
 
-/* Progress bars */
-.progress-container {
-  background-color: rgba(10, 15, 20, 0.9);
-  border: 1px solid var(--terminal-color);
-  height: 24px;
-  position: relative;
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  background-color: var(--terminal-color);
-  height: 100%;
-  transition: width 0.3s ease;
-  background-image: linear-gradient(
-    90deg,
-    var(--terminal-color) 0%,
-    rgba(0, 152, 205, 0.8) 50%,
-    var(--terminal-color) 100%
-  );
-  background-size: 200% 100%;
-  animation: progress-shine 3s linear infinite;
-}
-
-.progress-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--text-primary);
-  font-size: 14px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-/* Animations */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-@keyframes progress-shine {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-/* Loading states */
 .loading {
   padding: 20px;
   text-align: center;
@@ -445,18 +295,6 @@ td {
   letter-spacing: 2px;
 }
 
-.loading::after {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--terminal-color);
-  margin-left: 8px;
-  animation: loading-pulse 1s infinite;
-}
-
-/* Error states */
 .error-message {
   background-color: var(--secondary-bg);
   border: 1px solid var(--terminal-color);
@@ -467,7 +305,6 @@ td {
   letter-spacing: 2px;
 }
 
-/* Grid overlay */
 .grid-overlay {
   position: fixed;
   top: 0;
@@ -482,39 +319,6 @@ td {
   z-index: -1;
 }
 
-/* Collapsible sections */
-.collapsible-header {
-  cursor: pointer;
-  user-select: none;
-  position: relative;
-}
-
-.collapsible-header::after {
-  content: '−';
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px;
-  color: var(--terminal-color);
-  transition: transform 0.3s ease;
-}
-
-.collapsed .collapsible-header::after {
-  content: '+';
-}
-
-.collapsible-content {
-  transition: max-height 0.6s ease-out;
-  overflow: hidden;
-  max-height: 10000px;
-}
-
-.collapsed .collapsible-content {
-  max-height: 0;
-}
-
-/* Mobile optimizations */
 @media (max-width: 768px) {
   .main-container {
     padding: 0 15px;
@@ -543,276 +347,4 @@ td {
     padding: 0 10px;
     font-size: 14px;
   }
-}
-
-/* Smooth transitions for all interactive elements */
-.game-section,
-.category-section,
-.terminal-stat-card,
-.game-tab,
-.progress-bar,
-.terminal-container {
-  transition: all 0.3s ease;
-}
-
-/* Terminal effects */
-.terminal-container {
-  position: relative;
-  overflow: hidden;
-}
-
-.terminal-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, 
-    transparent,
-    var(--terminal-color),
-    transparent
-  );
-  animation: terminal-scan 3s linear infinite;
-}
-
-@keyframes terminal-scan {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-/* Terminal text typing effect */
-.terminal-text {
-  overflow: visible;
-  border-right: none;
-  white-space: normal;
-  animation: fadeIn 0.5s ease-out;  margin: 10px 0;
-  line-height: 1.4;
-  color: var(--text-primary);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: var(--terminal-color) }
-}
-
-/* Glowing effect for terminal headers */
-.terminal-header {
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from { box-shadow: 0 0 5px var(--terminal-color); }
-  to { box-shadow: 0 0 20px var(--terminal-color); }
-}
-
-/* Game tab hover effects */
-.game-tab {
-  position: relative;
-  overflow: hidden;
-}
-
-.game-tab::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background-color: var(--terminal-color);
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-}
-
-.game-tab:hover::after {
-  width: 100%;
-}
-
-/* Pulsing effect for stats */
-.terminal-stat-card {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-  100% { transform: scale(1); }
-}
-
-.progress-bar {
-  background-color: var(--terminal-color);
-  height: 100%;
-  transition: width 0.3s ease;
-  background-image: linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.15) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0.15) 75%,
-    transparent 75%,
-    transparent
-  );
-  background-size: 20px 20px;
-  animation: progress-bar-stripes 1s linear infinite;
-}
-
-@keyframes progress-bar-stripes {
-  from { background-position: 20px 0; }
-  to { background-position: 0 0; }
-}
-
-@keyframes progress-shine {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.progress-bar::after {
-  display: none;
-}
-
-/* Grid background animation */
-.grid-overlay {
-  animation: grid-fade 10s linear infinite;
-}
-
-@keyframes grid-fade {
-  0% { opacity: 0.1; }
-  50% { opacity: 0.2; }
-  100% { opacity: 0.1; }
-}
-
-/* Category section hover effects */
-.category-section {
-  position: relative;
-  overflow: hidden;
-}
-
-.category-section::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle,
-    rgba(0, 152, 205, 0.1) 0%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-}
-
-.category-section:hover::before {
-  opacity: 1;
-}
-
-/* Table row hover effects */
-tr {
-  transition: all 0.3s ease;
-}
-
-tr:hover {
-  background-color: rgba(0, 152, 205, 0.1);
-  transform: scale(1.01);
-}
-
-/* Loading animation */
-.loading::after {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--terminal-color);
-  margin-left: 8px;
-  animation: loading-bounce 0.6s infinite alternate;
-}
-
-@keyframes loading-bounce {
-  from { transform: translateY(-2px); }
-  to { transform: translateY(2px); }
-}
-
-/* Stats value animation */
-.stat-value {
-  animation: stat-update 0.5s ease;
-}
-
-@keyframes stat-update {
-  0% { transform: scale(1.1); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* Error message animation */
-.error-message {
-  animation: error-slide 0.3s ease;
-}
-
-@keyframes error-slide {
-  from { transform: translateX(-10px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-/* Diagnostic report animation */
-.diagnostic-report {
-  animation: report-appear 1s ease;
-}
-
-@keyframes report-appear {
-  from { transform: translateY(-10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-/* Status item animations */
-.status-item {
-  animation: status-fade 0.5s ease;
-  animation-fill-mode: both;
-}
-
-.status-item:nth-child(1) { animation-delay: 0.1s; }
-.status-item:nth-child(2) { animation-delay: 0.2s; }
-.status-item:nth-child(3) { animation-delay: 0.3s; }
-
-@keyframes status-fade {
-  from { transform: translateX(-10px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-/* Background container subtle movement */
-.background-container {
-  animation: bg-float 20s ease-in-out infinite;
-}
-
-@keyframes bg-float {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-20px) scale(1.05); }
-}
-
-/* Terminal list item animations */
-.terminal-list li {
-  animation: list-appear 0.5s ease;
-  animation-fill-mode: both;
-}
-
-.terminal-list li:nth-child(1) { animation-delay: 0.1s; }
-.terminal-list li:nth-child(2) { animation-delay: 0.2s; }
-.terminal-list li:nth-child(3) { animation-delay: 0.3s; }
-
-@keyframes list-appear {
-  from { transform: translateX(-10px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
 }
