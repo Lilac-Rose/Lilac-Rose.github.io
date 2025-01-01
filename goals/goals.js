@@ -75,6 +75,9 @@ function createTimeDisplay(timeSpent) {
 
 async function initializeTracker() {
   resetStats();
+  
+  await renderAllGames();
+  
   initializeTabs();
   
   document.getElementById('home-content').classList.add('active');
@@ -82,6 +85,7 @@ async function initializeTracker() {
   updateTerminalDate();
   setInterval(updateTerminalDate, 1000);
 }
+
 
 function initializeTabs() {
   const tabs = document.querySelectorAll('.game-tab');
@@ -360,15 +364,17 @@ function updateHomeStats() {
 function processGameData(gameName, formattedData) {
   const categoryStats = calculateCategoryStats(gameName, null, formattedData);
   
-    if (!formattedData.some(item => item._counted)) {
-      gameStats.totalGoals.completed += categoryStats.completed;
-      gameStats.totalGoals.total += categoryStats.total;
-      
-      formattedData.forEach(item => item._counted = true);
-    }
+  const uncountedItems = formattedData.filter(item => !item._counted);
+  
+  if (uncountedItems.length > 0) {
+    const uncountedStats = calculateCategoryStats(gameName, null, uncountedItems);
+    gameStats.totalGoals.completed += uncountedStats.completed;
+    gameStats.totalGoals.total += uncountedStats.total;
+    
+    uncountedItems.forEach(item => item._counted = true);
+  }
   
   updateHomeStats();
-  
   return categoryStats;
 }
 
@@ -516,10 +522,15 @@ async function processCategory(gameName, categoryName, range, parentElement) {
     const { headers, formattedData } = response;
     const categoryStats = calculateCategoryStats(gameName, categoryName, formattedData);
     
-    // Update total goals
-    if (categoryStats) {
-      gameStats.totalGoals.completed += categoryStats.completed;
-      gameStats.totalGoals.total += categoryStats.total;
+    // Only update total goals for uncounted items
+    const uncountedItems = formattedData.filter(item => !item._counted);
+    if (uncountedItems.length > 0) {
+      const uncountedStats = calculateCategoryStats(gameName, categoryName, uncountedItems);
+      gameStats.totalGoals.completed += uncountedStats.completed;
+      gameStats.totalGoals.total += uncountedStats.total;
+      
+      // Mark items as counted
+      uncountedItems.forEach(item => item._counted = true);
     }
     
     const categorySection = await createCategorySection(categoryName, headers, formattedData, categoryStats);
@@ -694,12 +705,36 @@ async function renderAllGames() {
   
   // Reset stats before rendering
   resetStats();
-
+  
+  // Create an array to store all category data promises
+  const categoryPromises = [];
+  
+  // Gather all category data first
+  for (const [gameName, gameData] of Object.entries(games)) {
+    for (const [categoryName, range] of Object.entries(gameData.categories)) {
+      const promise = fetchAndFormatData(SHEET_ID, SHEET_NAME, range)
+        .then(response => {
+          if (response && response.formattedData) {
+            processGameData(gameName, response.formattedData);
+          }
+        })
+        .catch(error => {
+          console.error(`Error processing ${gameName} - ${categoryName}:`, error);
+        });
+      
+      categoryPromises.push(promise);
+    }
+  }
+  
+  // Wait for all category data to be processed
+  await Promise.all(categoryPromises);
+  
+  // Now render the games with the complete stats
   for (const [gameName, gameData] of Object.entries(games)) {
     await renderDataForGame(gameName, gameData);
   }
   
-  // Update home stats after all games are rendered
+  // Update home stats after everything is processed
   updateHomeStats();
 }
 
