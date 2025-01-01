@@ -473,17 +473,6 @@ async function renderDataForGame(gameName, gameData) {
   }
 
   gameHeader.appendChild(titleStatsContainer);
-
-  const gameStatsDiv = document.createElement("div");
-  gameStatsDiv.classList.add("game-stats");
-  gameStatsDiv.dataset.stats = JSON.stringify({ completed: 0, total: 0 });
-  
-  const progressBar = createProgressBar({ completed: 0, total: 0 });
-  if (progressBar) {
-    gameStatsDiv.appendChild(progressBar);
-  }
-  gameHeader.appendChild(gameStatsDiv);
-
   gameSection.appendChild(gameHeader);
   
   const gameContent = document.createElement("div");
@@ -496,14 +485,6 @@ async function renderDataForGame(gameName, gameData) {
   for (const [categoryName, categoryData] of Object.entries(gameData.categories)) {
     const range = typeof categoryData === 'string' ? categoryData : categoryData.range;
     await renderDataForCategory(gameName, categoryName, range, gameContent);
-  }
-
-  // Update the game's progress bar with final stats
-  const finalStats = JSON.parse(gameStatsDiv.dataset.stats);
-  gameStatsDiv.innerHTML = '';
-  const finalProgressBar = createProgressBar(finalStats);
-  if (finalProgressBar) {
-    gameStatsDiv.appendChild(finalProgressBar);
   }
   
   updateHomeStats();
@@ -595,14 +576,6 @@ async function createCategorySection(categoryName, headers, formattedData, categ
   title.setAttribute('data-category', categoryName);
   header.appendChild(title);
   
-  // Add progress bar if categoryStats exists
-  if (categoryStats) {
-    const progressBar = createProgressBar(categoryStats);
-    if (progressBar) {
-      header.appendChild(progressBar);
-    }
-  }
-  
   categorySection.appendChild(header);
   
   // Only create table if we have valid data
@@ -630,10 +603,8 @@ async function createCategorySection(categoryName, headers, formattedData, categ
           ? header.toLowerCase().replace(/\s+/g, '_')
           : (header.key || header.label?.toLowerCase().replace(/\s+/g, '_'));
         
-        // Get the cell value
         const value = row[key];
         
-        // Convert boolean or string values to checkmark or x
         if (typeof value === 'boolean') {
           td.textContent = value ? '✓' : '✗';
         } else if (value === 'true' || value === 'TRUE') {
