@@ -1,0 +1,40 @@
+{
+  "Name": "Elderflower Syrup",
+  "Description": "Used for making Elderflower Cordial.",
+  "Category": "ArtisanGoods",
+  "Edibility": 20,
+  "Price": 150,
+  "IsColored": false,
+  "CanPurchase": false,
+  
+  "Recipe": null,
+"NameLocalization": { 
+    // "es": "",
+   //  "ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+     //"zh": "",
+     },
+ "DescriptionLocalization": { 
+    // "es": "",
+    //"ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+    // "zh": "",
+    },
+
+  }
+
+

@@ -1,0 +1,62 @@
+{
+    "Name": "Cola Kombucha",
+    "Description": "Kombucha made with kola nut extract. Serves as a base for Fize Probiotic Cola.",
+    "Category": "ArtisanGoods",
+    "Edibility": 21,
+    "EdibleIsDrink": true,
+    "EdibleBuffs":
+    {
+        "Farming": 0,
+        "Fishing": 1,
+        "Mining": 1,
+        "Luck": 0,
+        "Foraging": 0,
+        "MaxStamina": 0,
+        "MagnetRadius": 0,
+        "Speed": 2,
+        "Defense": 0,
+        "Attack": 0,
+        "Duration": 300,
+    },
+    "Price": 470,
+    "IsColored": false,
+    "Recipe": null,
+        "CanPurchase": false,
+        
+    
+    "GiftTastes": {
+	"Like": ["Abigail", "Alex", "Caroline", "Clint", "Demetrius", "Dwarf", "Elliott", "Emily", "Evelyn", "George", "Gus", "Haley", "Harvey", "Jas", "Jodi", "Kent", "Leah", "Lewis", "Linus", "Marnie", "Maru", "Pam", "Penny", "Pierre", "Robin", "Sam", "Sandy", "Sebastian", "Shane", "Vincent", "Wizard"],
+	"Dislike": ["Krobus", "Willy"],
+},
+
+
+    "NameLocalization":
+    {
+       // "es": "",
+       // "ko": "",
+       // "de": "",
+        //"fr": "",
+         // "hu": "",
+         // "it": "",
+        //"ja": "",
+       // "pt": "",
+        //"ru": "",
+         // "tr": "",
+       // "zh": "",
+    },
+    "DescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+       // "fr": "",
+         // "hu": "",
+         // "it": "",
+       // "ja": "Å",
+        //"pt": "",
+       // "ru": "",
+         // "tr": "",
+       // "zh": "Å",
+    },
+    
+}

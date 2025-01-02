@@ -1,0 +1,84 @@
+{
+    "Name": "Pineapple Mate Green Tea",
+    "Description": "Green tea with yerba mate and pineapple.",
+    "Category": "Cooking",
+    "Edibility": 21,
+    "EdibleIsDrink": true,
+    "EdibleBuffs":
+    {
+        "Farming": 0,
+        "Fishing": 0,
+        "Mining": 0,
+        "Luck": 0,
+        "Foraging": 0,
+        "MaxStamina": 0,
+        "MagnetRadius": 0,
+        "Speed": 0,
+        "Defense": 2,
+        "Attack": 0,
+        "Duration": 300,
+    },
+    "Price": 500,
+    "IsColored": false,
+    "Recipe":
+    {
+        "ResultCount": 1,
+        "Ingredients": [
+        {
+            "Object": 614,
+            "Count": 1,
+        },
+        {
+            "Object": 832,
+            "Count": 1,
+        },
+	{
+            "Object": "Yerba Mate Extract",
+            "Count": 1,
+        }
+
+		],},
+        "CanPurchase": true,
+        "PurchaseFrom": "Gus",
+        "PurchasePrice": 1000,
+        "PurchaseRequirements": [
+            "y 2"],
+    
+    "GiftTastes":
+    {
+        "Love": ["Caroline", "Lewis", "Haley"],
+        "Like": ["Abigail", "Alex", "Clint", "Demetrius", "Dwarf", "Evelyn", "Emily", "George", "Gus", "Harvey", "Kent", "Krobus", "Leah", "Linus", "Maru", "Marnie", "Pam", "Penny", "Pierre", "Robin", "Sam", "Sandy", "Shane", "Sebastian", "Willy", "Wizard"],
+        
+        "Hate": ["Jas", "Vincent", "Leo"],
+    },
+
+    "NameLocalization":
+    {
+       // "es": "",
+       // "ko": "",
+       // "de": "",
+        //"fr": "",
+         // "hu": "",
+         // "it": "",
+        //"ja": "",
+       // "pt": "",
+        //"ru": "",
+         // "tr": "",
+       // "zh": "",
+    },
+    "DescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+       // "fr": "",
+         // "hu": "",
+         // "it": "",
+       // "ja": "Å",
+        //"pt": "",
+       // "ru": "",
+         // "tr": "",
+       // "zh": "Å",
+    },
+    
+}

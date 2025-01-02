@@ -1,0 +1,80 @@
+{
+    "Name": "Chamomile Hops Tea",
+    "Description": "A hopsy version of chamomile tea.",
+    "Category": "Cooking",
+    "Edibility": 21,
+    "EdibleIsDrink": true,
+    "EdibleBuffs":
+    {
+        "Farming": 0,
+        "Fishing": 0,
+        "Mining": 0,
+        "Luck": 0,
+        "Foraging": 2,
+        "MaxStamina": 0,
+        "MagnetRadius": 0,
+        "Speed": 0,
+        "Defense": 0,
+        "Attack": 0,
+        "Duration": 300,
+    },
+    "Price": 300,
+    "IsColored": false,
+    "Recipe":
+    {
+        "ResultCount": 1,
+        "Ingredients": [
+        {
+            "Object": "Chamomile Tea",
+            "Count": 1,
+        },
+        {
+            "Object": 304,
+            "Count": 1,
+        }
+		],
+},
+        "CanPurchase": true,
+        "PurchaseFrom": "Gus",
+        "PurchasePrice": 750,
+        "PurchaseRequirements": [
+            "y 2"],
+    
+    "GiftTastes":
+    {
+        "Love": ["Evelyn", "Emily"],
+        "Like": ["Abigail", "Alex", "Caroline", "Clint", "Demetrius", "Dwarf", "George", "Gus", "Haley", "Harvey", "Kent", "Krobus", "Leah", "Lewis", "Linus", "Marnie", "Maru", "Pam", "Penny", "Pierre", "Robin", "Sam", "Sandy", "Sebastian", "Shane", "Willy", "Wizard"],
+        "Neutral": ["Jas", "Vincent", "Leo"],
+        
+    },
+
+    "NameLocalization":
+    {
+       // "es": "",
+       // "ko": "",
+       // "de": "",
+        //"fr": "",
+         // "hu": "",
+         // "it": "",
+        //"ja": "",
+       // "pt": "",
+        //"ru": "",
+         // "tr": "",
+       // "zh": "",
+    },
+    "DescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+       // "fr": "",
+         // "hu": "",
+         // "it": "",
+       // "ja": "Å",
+        //"pt": "",
+       // "ru": "",
+         // "tr": "",
+       // "zh": "Å",
+    },
+    
+}

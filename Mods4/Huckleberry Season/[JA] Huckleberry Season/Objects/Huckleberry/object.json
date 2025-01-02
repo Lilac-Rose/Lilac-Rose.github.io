@@ -1,0 +1,17 @@
+{
+    "Name": "Huckleberry",
+    "Description": "Has a tart, slightly bitter taste that works well in pies and jams.",
+    "Category": "Fruit",
+    "Edibility": 40,
+    "Price": 15,
+    "IsColored": false,
+"GiftTastes":
+    {
+        "Love": ["Linus", "Leah", "Leo", "Evelyn", "Marnie", "Caroline"],
+        "Like": ["Abigail", "Alex", "Clint", "Demetrius", "Elliott", "Emily", "George", "Gus", "Harvey", "Jas", "Jodi", "Kent", "Krobus", "Lewis", "Maru", "Pam", "Penny", "Pierre", "Robin", "Sam", "Sandy", "Sebastian", "Shane", "Wizard"],
+        "Dislike": ["Dwarf", "Haley", "Vincent", "Willy"],
+    },
+
+    "Recipe": null,
+    
+}

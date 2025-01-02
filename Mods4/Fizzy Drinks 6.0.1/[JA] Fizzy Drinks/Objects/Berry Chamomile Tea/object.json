@@ -1,0 +1,78 @@
+{
+    "Name": "Berry Chamomile Tea",
+    "Description": "Chamomile tea infused with strawberry for a spring delight!",
+    "Category": "Cooking",
+    "Edibility": 21,
+    "EdibleIsDrink": true,
+    "EdibleBuffs":
+    {
+        "Farming": 0,
+        "Fishing": 0,
+        "Mining": 0,
+        "Luck": 0,
+        "Foraging": 2,
+        "MaxStamina": 0,
+        "MagnetRadius": 0,
+        "Speed": 0,
+        "Defense": 0,
+        "Attack": 0,
+        "Duration": 300,
+    },
+    "Price": 425,
+    "IsColored": false,
+    "Recipe":
+    {
+        "ResultCount": 1,
+        "Ingredients": [
+        {
+            "Object": "Chamomile Tea",
+            "Count": 1,
+        },
+        {
+            "Object": 400,
+            "Count": 1,
+        }],
+        "CanPurchase": true,
+        "PurchaseFrom": "Gus",
+        "PurchasePrice": 850,
+        "PurchaseRequirements": [
+            "z spring/y 2"]
+    },
+    "GiftTastes":
+    {
+        "Love": ["Demetrius", "Evelyn", "Emily", "Maru"],
+        "Like": ["Abigail", "Alex", "Caroline", "Clint", "Dwarf", "George", "Gus", "Haley", "Harvey", "Kent", "Krobus", "Leah", "Lewis", "Linus", "Marnie", "Penny", "Pierre", "Robin", "Sam", "Sandy", "Sebastian"],
+        "Neutral": ["Jas", "Vincent", "Leo"],
+        "Dislike": ["Pam", "Willy", "Shane"],
+    },
+
+    "NameLocalization":
+    {
+       // "es": "",
+       // "ko": "",
+       // "de": "",
+        //"fr": "",
+         // "hu": "",
+         // "it": "",
+        //"ja": "",
+       // "pt": "",
+        //"ru": "",
+         // "tr": "",
+       // "zh": "",
+    },
+    "DescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+       // "fr": "",
+         // "hu": "",
+         // "it": "",
+       // "ja": "Å",
+        //"pt": "",
+       // "ru": "",
+         // "tr": "",
+       // "zh": "Å",
+    },
+    
+}

@@ -1,0 +1,35 @@
+{
+    	"Name": "Rooibos Red Tea",
+    	"Description": "Brewed from rooibos tea leaves, this is a smooth, earthy herbal tea with a dark reddish hue. Can be served hot, cold or iced.",
+    	"Category": "ArtisanGoods",
+  	
+    	"Edibility": 40,
+    	"EdibleIsDrink": true,
+	"EdibleBuffs":
+		{
+        	"Farming": 0,
+        	"Fishing": 0,
+      		"Foraging": 0,
+        	"Mining": 0,
+
+        	"Luck": 0,
+        	"MaxStamina": 0,
+		"MagnetRadius": 0,
+        	"Speed": 0,
+
+		"Attack": 0,
+        	"Defense": 5,
+
+        	"Duration": 120,
+		},
+  	"Price": 150,
+  	"IsColored": false,
+  	"Recipe": null,
+  	"GiftTastes": 
+		{
+		"Love": [ "Caroline", "Dwarf", "Elliott", "Harvey", "Kent", "Sandy", "Sebastian"],
+        	"Like": [ "Abigail", "Alex", "Clint", "Demetrius", "Emily", "Evelyn", "Gus", "Haley", "Jodi", "Krobus", "Leah", "Lewis", "Linus", "Marnie", "Maru", "Pam", "Pierre", "Robin",  "Willy", "Wizard"],
+		"Neutral": [ "Penny", "Sam", "Shane"],
+		"Hate": [ "George", "Jas", "Leo", "Vincent"]
+		},
+}

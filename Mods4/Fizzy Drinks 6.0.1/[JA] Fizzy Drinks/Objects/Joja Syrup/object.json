@@ -1,0 +1,43 @@
+{
+  "Name": "Joja Syrup",
+  "Description": "The exact formula for Joja Cola is a top secret but this commercialized version of the syrup is said to guarantee the same unique taste.",
+  
+  "Edibility": 20,
+  "Price": 200,
+  "IsColored": false,
+"Recipe": null,
+  "CanPurchase": true,
+  
+	"PurchaseFrom": "JojaShop",
+"PurchasePrice": 200,
+	
+"AdditionalPurchaseData": [{"PurchasePrice": 200,  "PurchaseFrom": "ClaireShop", "PurchaseRequirements": [] },{"PurchasePrice": 200,  "PurchaseFrom": "MartinShop", "PurchaseRequirements": [] },{"PurchasePrice": 200,  "PurchaseFrom": "Tunnel", "PurchaseRequirements": [] },{"PurchasePrice": 200, "PurchaseFrom": "RecipeShop", "PurchaseRequirements": []}],
+  
+"NameLocalization": { 
+    // "es": "",
+   // "ko": "",
+    // "de": "Joja Sirup",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+     "pt": "Xarope-Joja",
+    // "ru": "",
+     "tr": "Joja Þurubu",
+    // "zh": "",
+     },
+ "DescriptionLocalization": { 
+    // "es": "",
+   // "ko": "",
+     "de": "Die genaue Rezeptur von Joja Cola ist streng geheim, aber diese kommerzialisierte Version des Sirups soll den gleichen einzigartigen Geschmack garantieren.",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+     "pt": "A fÃ³rmula exata da Joja-Cola Ã© um segredo absoluto, mas dizem que esta versÃ£o comercial do xarope oferece o mesmo sabor Ãºnico.",
+    // "ru": "",
+     "tr": "Joja Kola'nýn asýl formülü çok gizli ama þurubun bu ticari versiyonunun garanti olarak ayný özel tadý verdiði söylenir.",
+    // "zh": "",
+    }
+}
+

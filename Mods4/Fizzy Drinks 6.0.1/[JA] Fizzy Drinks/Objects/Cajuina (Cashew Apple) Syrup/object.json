@@ -1,0 +1,40 @@
+{
+  "Name": "Cajuina (Cashew Apple) Syrup",
+  "Description": "Syrup made from Caju (Cashew Apple) Fruit. Used to make Cajuina Soda.",
+  "Category": "ArtisanGoods",
+  "Edibility": 20,
+  "Price": 175,
+  "IsColored": false,
+  "CanPurchase": false,
+  
+  "Recipe": null,
+"NameLocalization": { 
+    // "es": "",
+   //  "ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+     //"zh": "",
+     },
+ "DescriptionLocalization": { 
+    // "es": "",
+    //"ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+    // "zh": "",
+    },
+
+  }
+
+

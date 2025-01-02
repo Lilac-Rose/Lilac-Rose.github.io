@@ -1,0 +1,45 @@
+{
+    "Name": "Burdock Root Extract",
+    "Description": "Extract made from burdock root, used to make Fize Probiotic Root Beer.",
+    "Category": "ArtisanGoods",
+    "Edibility": -300,
+    "EdibleIsDrink": false,
+    
+    
+    "Price": 320,
+    "IsColored": false,
+    "Recipe": null,
+  
+    
+    
+
+    "NameLocalization":
+    {
+       // "es": "",
+       // "ko": "",
+       // "de": "",
+        //"fr": "",
+         // "hu": "",
+         // "it": "",
+        //"ja": "",
+       // "pt": "",
+        //"ru": "",
+         // "tr": "",
+       // "zh": "",
+    },
+    "DescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+       // "fr": "",
+         // "hu": "",
+         // "it": "",
+       // "ja": "Å",
+        //"pt": "",
+       // "ru": "",
+         // "tr": "",
+       // "zh": "Å",
+    },
+    
+}

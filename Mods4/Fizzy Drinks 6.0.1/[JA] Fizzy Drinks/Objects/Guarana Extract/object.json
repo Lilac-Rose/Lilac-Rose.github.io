@@ -1,0 +1,38 @@
+{
+  "Name": "Guarana Extract",
+  "Description": "Made from Guarana. Used to make Guarana Soda.",
+  "Category": "ArtisanGoods",
+  "Edibility": 20,
+  "Price": 250,
+  "IsColored": false,
+  "CanPurchase": true,
+  "PurchasePrice": 400,
+  "Recipe": null,
+"NameLocalization": { 
+    // "es": "",
+    "ko": "??? ????",
+     "de": "Guarana-Extrakt",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+     "pt": "Extrato de Guaraná",
+    // "ru": "",
+     "tr": "Guarana Ekstrat?",
+   "zh": "??????",
+     },
+ "DescriptionLocalization": { 
+    // "es": "",
+    "ko": "??? ???. ??? ??? ?? ? ?????.",
+     "de": "Hergestellt aus Guarana. Wird zur Herstellung von Guarana-Soda verwendet.",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+     "pt": "Feito com guaraná. Usado para fazer refrigerante de guaraná.",
+    // "ru": "",
+     "tr": "Guaranadan yap?ld?. Guaranal? soda yapmak için kullan?l?r.",
+    "zh": "??????????????????",
+    }
+}
+

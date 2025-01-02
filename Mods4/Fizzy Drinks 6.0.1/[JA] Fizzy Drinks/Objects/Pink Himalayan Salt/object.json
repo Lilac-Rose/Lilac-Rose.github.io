@@ -1,0 +1,47 @@
+{
+    "Name": "Pink Himalayan Salt",
+    "Description": "Pink salt extracted from a region in Pakistan. It is considered more higher quality than table salt but way more expensive.",
+    
+    "Edibility": -300,
+    "EdibleIsDrink": false,
+    
+    
+    "Price": 500,
+    "IsColored": false,
+    "Recipe": null,
+  "CanPurchase": true,
+"PurchaseFrom": "Harvey",
+"PurchasePrice": 500,
+    
+    
+
+    "NameLocalization":
+    {
+       // "es": "",
+       // "ko": "",
+       // "de": "",
+        //"fr": "",
+         // "hu": "",
+         // "it": "",
+        //"ja": "",
+       // "pt": "",
+        //"ru": "",
+         // "tr": "",
+       // "zh": "",
+    },
+    "DescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+       // "fr": "",
+         // "hu": "",
+         // "it": "",
+       // "ja": "Å",
+        //"pt": "",
+       // "ru": "",
+         // "tr": "",
+       // "zh": "Å",
+    },
+    
+}

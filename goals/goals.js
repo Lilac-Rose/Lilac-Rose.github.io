@@ -38,18 +38,18 @@ const games = {
     background: "../images/hollow-knight-background.jpg",
     timeSpent: GAME_TIMES["Hollow Knight"],
     categories: {
-      "Bosses": "B33:C48",
-      "Equipment": "B51:C57",
-      "Spells": "B60:C65",
-      "Dream Nail": "B68:C70",
-      "Nail Upgrades": "B73:C76",
-      "Nail Arts": "B79:C81",
-      "Dreamers": "B84:C94",
-      "Charms": "B97:C136",
-      "Godhome": "B139:C143",
-      "Vessel Fragments": "B146:C154",
-      "Colosseum": "B157:C159",
-      "Mask Shards": "B162:C177"
+      "Bosses": "B34:C48",
+      "Equipment": "B52:C57",
+      "Spells": "B61:C65",
+      "Dream Nail": "B69:C70",
+      "Nail Upgrades": "B74:C76",
+      "Nail Arts": "B80:C81",
+      "Dreamers": "B85:C94",
+      "Charms": "B98:C136",
+      "Godhome": "B140:C143",
+      "Vessel Fragments": "B147:C154",
+      "Colosseum": "B158:C159",
+      "Mask Shards": "B163:C177"
     }
   }
 };

@@ -1,0 +1,42 @@
+{
+  "Name": "Mauby Bark",
+  "Description": "Bark from a mauby tree which is used to make a drink similar to root beer. Used to make Mauby Syrup and Mauby Soda.",
+  "Category": "Greens",
+  "CategoryTextOverride": "Bark",
+  "Edibility": 10,
+  "Price": 50,
+  "IsColored": false,
+  "Recipe": null,
+  "CanPurchase": false,
+
+  
+    "NameLocalization": { 
+    // "es": "",
+   //  "ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+     //"zh": "",
+     },
+ "DescriptionLocalization": { 
+    // "es": "",
+    //"ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+    // "zh": "",
+    },
+
+    
+}
+

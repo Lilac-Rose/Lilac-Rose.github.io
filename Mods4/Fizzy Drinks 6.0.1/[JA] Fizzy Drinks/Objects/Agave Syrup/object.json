@@ -1,0 +1,40 @@
+{
+  "Name": "Agave Syrup",
+  "Description": "Used for making Agave Soda.",
+  "Category": "ArtisanGoods",
+  "Edibility": 20,
+  "Price": 450,
+  "IsColored": false,
+  "CanPurchase": false,
+  
+  "Recipe": null,
+"NameLocalization": { 
+    // "es": "",
+   //  "ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+     //"zh": "",
+     },
+ "DescriptionLocalization": { 
+    // "es": "",
+    //"ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+    // "zh": "",
+    },
+
+  }
+
+

@@ -1,0 +1,13 @@
+{
+  "Name": "Rose Extract",
+  "Description": "Used for making Rose Lemonade Soda.",
+  "Category": "ArtisanGoods",
+  "Edibility": 20,
+  "Price": 110,
+  "IsColored": false,
+  "CanPurchase": false,
+  
+  "Recipe": null,
+  }
+
+

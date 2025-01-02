@@ -1,0 +1,23 @@
+{
+    "Name": "Green Shiso Leaf",
+    "Description": "A member of the perilla family, green shiso is often used as a garnish for various dishes but can also be used for its green colour in drinks.",
+    "Category": "Vegetable",
+    "CategoryTextOverride": "Herb",
+    "CategoryColorOverride": "93, 153, 80, 255",
+    "Edibility": 5,
+    "Price": 60,
+    "IsColored": false,
+
+    "GiftTastes":
+    {
+        "Like": ["Sandy", "Willy"],
+        "Neutral": ["Abigail", "Alex", "Caroline", "Clint", "Demetrius", "Dwarf", "Elliott", "Emily", "Evelyn", "George", "Gus", "Haley", "Harvey", "Jodi", "Kent", "Krobus", "Leah", "Lewis", "Linus", "Marnie", "Maru", "Pam", "Penny", "Pierre", "Robin", "Sam", "Sebastian", "Shane", "Wizard"],
+        "Dislike": ["Jas", "Leo", "Vincent"],
+    },
+
+    "ContextTags": [
+        "season_summer",
+        "color_green",
+        "herb_item",
+    ],
+}

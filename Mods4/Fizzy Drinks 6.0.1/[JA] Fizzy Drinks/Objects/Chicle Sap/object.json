@@ -1,0 +1,40 @@
+{
+  "Name": "Chicle Sap",
+  "Description": "Sap collected from the chicle tree, when boiled and then dried forms the basis for natural chewing gum.",
+  
+  "Edibility": 10,
+  "Price": 50,
+  "IsColored": false,
+  "Recipe": null,
+  "CanPurchase": true,
+  
+"NameLocalization": { 
+    // "es": "",
+   //  "ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+     //"zh": "",
+     },
+ "DescriptionLocalization": { 
+    // "es": "",
+    //"ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+    // "zh": "",
+    },
+
+    
+}
+

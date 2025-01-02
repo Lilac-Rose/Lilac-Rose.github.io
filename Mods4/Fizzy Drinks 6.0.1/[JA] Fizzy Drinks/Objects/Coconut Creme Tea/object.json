@@ -1,0 +1,85 @@
+{
+    "Name": "Coconut Creme Tea",
+    "Description": "White tea with a splash of coconut and milk making it sweet. Perfect for cave or volcano runs.",
+    "Category": "Cooking",
+    "Edibility": 21,
+    "EdibleIsDrink": true,
+    "EdibleBuffs":
+    {
+        "Farming": 0,
+        "Fishing": 0,
+        "Mining": 2,
+        "Luck": 0,
+        "Foraging": 0,
+        "MaxStamina": 0,
+        "MagnetRadius": 0,
+        "Speed": 0,
+        "Defense": 0,
+        "Attack": 0,
+        "Duration": 300,
+    },
+    "Price": 370,
+    "IsColored": false,
+    "Recipe":
+    {
+        "ResultCount": 1,
+        "Ingredients": [
+        {
+            "Object": "White Tea",
+            "Count": 1,
+        },
+        {
+            "Object": 88,
+            "Count": 1,
+        },
+{
+            "Object": -6,
+            "Count": 1,
+        },
+],
+        "CanPurchase": true,
+        "PurchaseFrom": "Gus",
+        "PurchasePrice": 740,
+        "PurchaseRequirements": [
+            "z summer/y 2"]
+    },
+    "GiftTastes":
+    {
+        "Love": ["Demetrius", "Haley", "Linus", "Leah",],
+        "Like": ["Caroline", "Elliott", "Emily", "Evelyn", "Gus", "Harvey", "Jodi", "Lewis", "Marnie", "Penny", "Pierre", "Robin", "Sandy"],
+        "Neutral": ["Maru", "Sam", "Sebastian"],
+        "Dislike": ["Abigail", "Alex", "Clint", "George", "Kent", "Krobus", "Leo", "Wizard"],
+		"Hate": ["Vincent", "Jas", "Pam", "Shane", "Dwarf", "Willy"],
+
+    },
+
+    "NameLocalization":
+    {
+       // "es": "",
+       // "ko": "",
+       // "de": "",
+        //"fr": "",
+         // "hu": "",
+         // "it": "",
+        //"ja": "",
+       // "pt": "",
+        //"ru": "",
+         // "tr": "",
+       // "zh": "",
+    },
+    "DescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+       // "fr": "",
+         // "hu": "",
+         // "it": "",
+       // "ja": "Å",
+        //"pt": "",
+       // "ru": "",
+         // "tr": "",
+       // "zh": "Å",
+    },
+    
+}

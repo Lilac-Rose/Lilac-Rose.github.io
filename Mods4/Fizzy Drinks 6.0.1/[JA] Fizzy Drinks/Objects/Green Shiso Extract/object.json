@@ -1,0 +1,13 @@
+{
+  "Name": "Green Shiso Extract",
+  "Description": "Used for making Shiso Soda.",
+  "Category": "ArtisanGoods",
+  "Edibility": 20,
+  "Price": 120,
+  "IsColored": false,
+  "CanPurchase": false,
+  
+  "Recipe": null,
+  }
+
+

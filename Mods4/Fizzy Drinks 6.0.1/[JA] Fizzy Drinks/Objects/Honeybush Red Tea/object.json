@@ -1,0 +1,35 @@
+{
+    	"Name": "Honeybush Red Tea",
+    	"Description": "Brewed from honeybush tea leaves, this is much like rooibos tea but sweeter. Can be brewed indefinitely without turning bitter unlike most teas. Can be served hot, cold or iced.",
+    	"Category": "ArtisanGoods",
+  	
+    	"Edibility": 50,
+    	"EdibleIsDrink": true,
+	"EdibleBuffs":
+		{
+        	"Farming": 0,
+        	"Fishing": 0,
+      		"Foraging": 0,
+        	"Mining": 0,
+
+        	"Luck": 0,
+        	"MaxStamina": 0,
+		"MagnetRadius": 0,
+        	"Speed": 0,
+
+		"Attack": 5,
+        	"Defense": 0,
+
+        	"Duration": 120,
+		},
+  	"Price": 150,
+  	"IsColored": false,
+  	"Recipe": null,
+  	"GiftTastes": 
+		{
+		"Love": [ "Caroline", "Dwarf", "Elliott", "Harvey", "Kent", "Sandy", "Sebastian" ],
+        	"Like": [ "Abigail", "Alex", "Clint", "Demetrius", "Emily", "Evelyn", "Gus", "Haley", "Jodi", "Krobus", "Leah", "Lewis", "Linus", "Marnie", "Maru", "Pam", "Pierre", "Robin", "Willy", "Wizard", ],
+		"Neutral": [ "Penny", "Sam", "Shane", ],
+		"Hate": [ "George", "Jas", "Leo", "Vincent" ]
+		},
+}

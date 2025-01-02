@@ -1,0 +1,31 @@
+{
+  "Name": "Jojarana",
+  "Description": "Joja Cola with guarana for those that want even more caffeine than coffee.",
+  "Category": "ArtisanGoods",
+  "Edibility": 150,
+  "EdibleIsDrink": true,
+    "EdibleBuffs":
+    {
+        "Farming": 0,
+        "Fishing": 0,
+        "Mining": 0,
+        "Luck": 0,
+        "Foraging": 0,
+        "MaxStamina": 50,
+        "MagnetRadius": 0,
+        "Speed": 2,
+        "Defense": 0,
+        "Attack": 0,
+        "Duration": 360,
+    },
+  "Price": 75,
+  "IsColored": false,
+  "Recipe": null,
+  "GiftTastes":
+    {
+    "Like": ["Sam", "Shane", "Abigail"],
+    "Neutral": ["Sebastian", "Maru", "Clint", "Demetrius", "Lewis", "Robin", "Pam", "Jodi", "Kent", "Alex", "Emily", "Haley", "Harvey", "Caroline", "Evelyn", "George", "Sandy", "Willy", "Linus", "Wizard", "Gus",  "Elliott", "Leah", "Marnie", "Pierre", "Dwarf", "Krobus", "Penny"],
+"Hate": ["Jas", "Leo", "Vincent"]
+    },
+"DisableWithMod": "lycanglass.JCR",
+}

@@ -1,0 +1,36 @@
+{
+  "Name": "JojaBolt",
+  "Description": "Joja Cola with an extra kick of caffeine for those slow mornings.",
+  "Category": "ArtisanGoods",
+  "Edibility": 150,
+  "EdibleIsDrink": true,
+    "EdibleBuffs":
+    {
+        "Farming": 0,
+        "Fishing": 0,
+        "Mining": 0,
+        "Luck": 0,
+        "Foraging": 0,
+        "MaxStamina": 20,
+        "MagnetRadius": 0,
+        "Speed": 2,
+        "Defense": 0,
+        "Attack": 0,
+        "Duration": 360,
+    },
+  "Price": 75,
+  "IsColored": false,
+  "Recipe": null,
+  
+    "GiftTastes":
+    {
+    "Love": ["Harvey",],
+    
+    
+    "Like": ["Abigail", "Sam", "Alex", "Shane", "Emily", "Haley", "Caroline", "Evelyn", "George", "Sandy", "Willy", "Linus", "Wizard", "Gus", "Elliott", "Leah", "Jodi", "Kent", "Marnie", "Pierre", "Dwarf", "Krobus", "Penny", "Sebastian", "Lewis", "Maru", "Clint", "Demetrius", "Robin", "Pam"], 
+"Neutral": ["Leo"],
+"Hate": ["Jas", "Vincent"],
+    },
+"DisableWithMod": "lycanglass.JCR",
+  
+}

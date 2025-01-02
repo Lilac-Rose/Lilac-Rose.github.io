@@ -1,0 +1,40 @@
+{
+  "Name": "Celery Extract",
+  "Description": "Used for making Celery Soda.",
+  "Category": "ArtisanGoods",
+  "Edibility": 20,
+  "Price": 170,
+  "IsColored": false,
+  "CanPurchase": false,
+  
+  "Recipe": null,
+"NameLocalization": { 
+    // "es": "",
+   //  "ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+     //"zh": "",
+     },
+ "DescriptionLocalization": { 
+    // "es": "",
+    //"ko": "",
+    // "de": "",
+    // "fr": "",
+    // "hu": "",
+    // "it": "",
+    // "ja": "",
+    // "pt": "",
+    // "ru": "",
+    // "tr": "",
+    // "zh": "",
+    },
+
+  }
+
+

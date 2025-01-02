@@ -1,0 +1,63 @@
+{
+    "Name": "Joja Voltage",
+    "Description": "Blueberry and lemon with a dash of ginseng providing a volt of energy for your day.",
+    "Category": "ArtisanGoods",
+    "Edibility": 21,
+    "EdibleIsDrink": true,
+    "EdibleBuffs":
+    {
+        "Farming": 0,
+        "Fishing": 0,
+        "Mining": 0,
+        "Luck": 0,
+        "Foraging": 2,
+        "MaxStamina": 0,
+        "MagnetRadius": 0,
+        "Speed": 0,
+        "Defense": 0,
+        "Attack": 0,
+        "Duration": 300,
+    },
+    "Price": 150,
+    "IsColored": false,
+    "Recipe": null,
+  
+    
+    "GiftTastes":
+    {
+        
+        "Like": ["Abigail", "Alex", "Caroline", "Clint", "Demetrius", "Dwarf", "Evelyn", "Emily", "George", "Gus", "Haley", "Harvey", "Kent", "Leah", "Leo", "Lewis", "Linus", "Marnie", "Maru", "Penny", "Pierre", "Robin", "Sam", "Sandy", "Sebastian", "Pam", "Shane"],
+        "Neutral": ["Jas", "Vincent", "Leo"],
+        "Dislike": ["Willy", "Krobus"],
+    },
+
+    "NameLocalization":
+    {
+       // "es": "",
+       // "ko": "",
+       // "de": "",
+        //"fr": "",
+         // "hu": "",
+         // "it": "",
+        //"ja": "",
+       // "pt": "",
+        //"ru": "",
+         // "tr": "",
+       // "zh": "",
+    },
+    "DescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+       // "fr": "",
+         // "hu": "",
+         // "it": "",
+       // "ja": "Å",
+        //"pt": "",
+       // "ru": "",
+         // "tr": "",
+       // "zh": "Å",
+    },
+    
+}

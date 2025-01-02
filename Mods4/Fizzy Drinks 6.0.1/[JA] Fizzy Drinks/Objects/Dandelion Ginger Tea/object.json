@@ -1,0 +1,79 @@
+{
+    "Name": "Dandelion Ginger Tea",
+    "Description": "Dandelion tea with a hint of ginger making this tea a bit stronger than normal.",
+    "Category": "Cooking",
+    "Edibility": 21,
+    "EdibleIsDrink": true,
+    "EdibleBuffs":
+    {
+        "Farming": 0,
+        "Fishing": 0,
+        "Mining": 0,
+        "Luck": 0,
+        "Foraging": 2,
+        "MaxStamina": 0,
+        "MagnetRadius": 0,
+        "Speed": 0,
+        "Defense": 0,
+        "Attack": 0,
+        "Duration": 300,
+    },
+    "Price": 305,
+    "IsColored": false,
+    "Recipe":
+    {
+        "ResultCount": 1,
+        "Ingredients": [
+        {
+            "Object": "Dandelion Tea",
+            "Count": 1,
+        },
+        {
+            "Object": 829,
+            "Count": 1,
+        }],
+        "CanPurchase": true,
+        "PurchaseFrom": "Gus",
+        "PurchasePrice": 710,
+        "PurchaseRequirements": [
+            "y 3"]
+    },
+    "GiftTastes":
+    {
+        "Love": ["Harvey", "Leah", "Linus"],
+        "Like": ["Abigail", "Alex", "Clint", "Demetrius",  "Emily", "Evelyn", "Gus", "Haley", "Kent", "Lewis", "Marnie", "Maru", "Pam", "Penny", "Robin", "Sandy", "Shane"],
+        "Neutral": ["Caroline", "Dwarf", "Elliott", "Haley", "Krobus", "Pierre", "Sam", "Sebastian", "Shane", "Willy", "Wizard"],
+        "Dislike": ["George", "Jas", "Jodi", "Leo", "Vincent"],
+
+    },
+
+    "NameLocalization":
+    {
+       // "es": "",
+       // "ko": "",
+       // "de": "",
+        //"fr": "",
+         // "hu": "",
+         // "it": "",
+        //"ja": "",
+       // "pt": "",
+        //"ru": "",
+         // "tr": "",
+       // "zh": "",
+    },
+    "DescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+       // "fr": "",
+         // "hu": "",
+         // "it": "",
+       // "ja": "Å",
+        //"pt": "",
+       // "ru": "",
+         // "tr": "",
+       // "zh": "Å",
+    },
+    
+}
