@@ -8,13 +8,20 @@
     --text-secondary: #768390;
   }
   
-  body {
-    background-color: var(--main-bg);
-    color: var(--text-primary);
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+  /* General Styles */
+  html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main-bg);
+    color: var(--text-primary);
+    font-family: 'Share Tech Mono', monospace;
+    line-height: 1.6;
   }
   
   header {
@@ -36,15 +43,15 @@
   }
   
   main {
+    flex: 1;
     padding: 20px;
   }
-
+  
   footer {
     background-color: var(--secondary-bg);
     padding: 10px;
     text-align: center;
     border-top: 2px solid var(--terminal-color);
-    margin-top: 20px;
   }
   
   .footer-button {
