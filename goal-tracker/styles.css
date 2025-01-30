@@ -1,50 +1,88 @@
-body {
-    font-family: Arial, sans-serif;
+:root {
+    --main-bg: #0a0f14;
+    --secondary-bg: #0f1a1f;
+    --terminal-color: #0098cd;
+    --warning: #ff9e00;
+    --inactive: #465766;
+    --text-primary: #e6edf3;
+    --text-secondary: #768390;
+  }
+  
+  body {
+    font-family: 'Share Tech Mono', monospace;
     margin: 20px;
+    background-color: var(--main-bg);
+    color: var(--text-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-}
-h1 {
-    color: #333;
-}
-#content {
+  }
+  
+  h1 {
+    color: var(--terminal-color);
+  }
+  
+  #content {
     flex-grow: 1;
     width: 100%;
     max-width: 800px;
-}
-.tab-content {
+  }
+  
+  .tab-content {
     display: none;
-}
-.tab-content.active {
+  }
+  
+  .tab-content.active {
     display: block;
-}
-ul {
+  }
+  
+  ul {
     list-style-type: none;
     padding: 0;
-}
-li {
+  }
+  
+  li {
     margin: 5px 0;
-}
-#tabs {
+  }
+  
+  #tabs {
     display: flex;
     justify-content: center;
     gap: 10px;
     padding: 10px;
-    background: #f4f4f4;
-    border-top: 1px solid #ccc;
+    background-color: var(--secondary-bg);
+    border-top: 1px solid var(--inactive);
     position: fixed;
     bottom: 0;
     width: 100%;
-}
-.tab {
+  }
+  
+  .tab {
     padding: 10px 20px;
-    background: #ddd;
+    background-color: var(--inactive);
+    color: var(--text-primary);
     cursor: pointer;
     border-radius: 5px;
-}
-.tab.active {
-    background: #333;
-    color: #fff;
-}
+    transition: background-color 0.3s ease;
+  }
+  
+  .tab:hover {
+    background-color: var(--terminal-color);
+  }
+  
+  .tab.active {
+    background-color: var(--terminal-color);
+    color: var(--text-primary);
+  }
+  
+  #home-data h2,
+  #game-data h2,
+  #game-data h3 {
+    color: var(--terminal-color);
+  }
+  
+  #home-data h2 span,
+  #game-data h3 span {
+    color: var(--text-primary);
+  }
