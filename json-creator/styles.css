@@ -10,17 +10,30 @@
   
   body {
     font-family: 'Share Tech Mono', monospace;
-    margin: 20px;
+    margin: 0;
+    padding: 20px;
     background-color: var(--main-bg);
     color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
   }
   
   h1 {
     color: var(--terminal-color);
+    margin-bottom: 20px;
   }
   
   form {
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   label {
@@ -35,6 +48,10 @@
     background-color: var(--secondary-bg);
     border: 1px solid var(--inactive);
     color: var(--text-primary);
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    border-radius: 2px; /* Less rounded corners */
   }
   
   button {
@@ -44,7 +61,7 @@
     border: none;
     color: var(--text-primary);
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 2px; /* Less rounded corners */
     transition: background-color 0.3s ease;
   }
   
@@ -54,6 +71,8 @@
   
   #categories {
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
   }
   
   .category {
@@ -61,7 +80,9 @@
     padding: 10px;
     background-color: var(--secondary-bg);
     border: 1px solid var(--inactive);
-    border-radius: 5px;
+    border-radius: 2px; /* Less rounded corners */
+    width: 100%;
+    text-align: center;
   }
   
   .category h3 {
@@ -80,4 +101,8 @@
     color: var(--text-primary);
     white-space: pre-wrap;
     word-wrap: break-word;
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+    border-radius: 0px;
   }
