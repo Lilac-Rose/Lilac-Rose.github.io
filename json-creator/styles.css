@@ -51,7 +51,7 @@
     width: 100%;
     max-width: 300px;
     text-align: center;
-    border-radius: 2px; /* Less rounded corners */
+    border-radius: 2px;
   }
   
   button {
@@ -61,7 +61,7 @@
     border: none;
     color: var(--text-primary);
     cursor: pointer;
-    border-radius: 2px; /* Less rounded corners */
+    border-radius: 2px;
     transition: background-color 0.3s ease;
   }
   
@@ -80,12 +80,29 @@
     padding: 10px;
     background-color: var(--secondary-bg);
     border: 1px solid var(--inactive);
-    border-radius: 2px; /* Less rounded corners */
+    border-radius: 2px;
     width: 100%;
     text-align: center;
   }
   
   .category h3 {
+    margin-top: 0;
+    color: var(--terminal-color);
+  }
+  
+  .subcategories {
+    margin-left: 20px;
+  }
+  
+  .subcategory {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: var(--main-bg);
+    border: 1px solid var(--inactive);
+    border-radius: 2px;
+  }
+  
+  .subcategory h4 {
     margin-top: 0;
     color: var(--terminal-color);
   }
@@ -104,5 +121,5 @@
     width: 100%;
     max-width: 600px;
     text-align: left;
-    border-radius: 0px;
+    border-radius: 2px;
   }

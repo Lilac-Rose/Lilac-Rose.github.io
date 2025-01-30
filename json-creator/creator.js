@@ -11,11 +11,29 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>Category</h3>
             <label for="category-name">Category Name:</label>
             <input type="text" class="category-name" required>
-            <div class="items"></div>
-            <button type="button" class="add-item">Add Item</button>
+            <div class="subcategories"></div>
+            <button type="button" class="add-subcategory">Add Subcategory</button>
             <button type="button" class="remove-category">Remove Category</button>
         `;
         categoriesContainer.appendChild(category);
+    });
+
+    // Add subcategory field
+    document.addEventListener('click', (event) => {
+        if (event.target.classList.contains('add-subcategory')) {
+            const subcategoriesContainer = event.target.previousElementSibling;
+            const subcategory = document.createElement('div');
+            subcategory.className = 'subcategory';
+            subcategory.innerHTML = `
+                <h4>Subcategory</h4>
+                <label for="subcategory-name">Subcategory Name:</label>
+                <input type="text" class="subcategory-name" required>
+                <div class="items"></div>
+                <button type="button" class="add-item">Add Item</button>
+                <button type="button" class="remove-subcategory">Remove Subcategory</button>
+            `;
+            subcategoriesContainer.appendChild(subcategory);
+        }
     });
 
     // Add item field
@@ -37,9 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Remove category or item field
+    // Remove category, subcategory, or item field
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('remove-category')) {
+            event.target.parentElement.remove();
+        }
+        if (event.target.classList.contains('remove-subcategory')) {
             event.target.parentElement.remove();
         }
         if (event.target.classList.contains('remove-item')) {
@@ -57,14 +78,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const categories = {};
         Array.from(document.querySelectorAll('.category')).forEach(category => {
             const categoryName = category.querySelector('.category-name').value;
-            const items = [];
-            Array.from(category.querySelectorAll('.item')).forEach(item => {
-                const key = item.querySelector('.item-key').value;
-                const value = item.querySelector('.item-value').value;
-                const completed = item.querySelector('.item-completed').checked;
-                items.push({ [key]: value, completed });
+            const subcategories = {};
+            Array.from(category.querySelectorAll('.subcategory')).forEach(subcategory => {
+                const subcategoryName = subcategory.querySelector('.subcategory-name').value;
+                const items = [];
+                Array.from(subcategory.querySelectorAll('.item')).forEach(item => {
+                    const key = item.querySelector('.item-key').value;
+                    const value = item.querySelector('.item-value').value;
+                    const completed = item.querySelector('.item-completed').checked;
+                    items.push({ [key]: value, completed });
+                });
+                subcategories[subcategoryName] = items;
             });
-            categories[categoryName] = items;
+            categories[categoryName] = subcategories;
         });
 
         const gameData = {
