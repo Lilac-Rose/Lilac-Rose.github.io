@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let games = [];
 
     // Fetch the list of JSON files in the data folder
-    fetch('/goal-tracker/data/')
+    fetch('/goal-tracker/data')
         .then((response) => response.text())
         .then((html) => {
             // Parse the HTML response to extract JSON file names
