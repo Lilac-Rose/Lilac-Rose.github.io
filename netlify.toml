@@ -31,4 +31,4 @@
   [headers.values]
     Content-Encoding = "br"
     Cache-Control = "public, max-age=31536000"
-    Content-Type = "application/octet-stream"
+    Content-Type = "application/wasm"
