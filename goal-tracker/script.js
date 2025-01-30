@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch the list of JSON files in the data folder
     console.log('Fetching JSON files from /goal-tracker/data/...'); // Debugging
-    fetch('/data/')
+    fetch('goal-tracker\data')
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
