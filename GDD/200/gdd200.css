@@ -47,6 +47,10 @@
     align-self: center;
   }
   
+  p {
+    text-align: center;
+  }
+  
   footer {
     background-color: var(--secondary-bg);
     padding: 10px;
