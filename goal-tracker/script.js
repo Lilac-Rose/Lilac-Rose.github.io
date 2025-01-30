@@ -17,95 +17,76 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalGoals = 0;
     let games = [];
 
-    // Fetch the list of JSON files in the data folder
-    console.log('Fetching JSON files from /goal-tracker/data/...'); // Debugging
-    fetch('goal-tracker\data')
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.text();
-        })
-        .then((html) => {
-            console.log('HTML response received:', html); // Debugging
+    // Manually list the JSON files in the data folder
+    const jsonFiles = [
+        'celeste.json',
+    ];
 
-            // Parse the HTML response to extract JSON file names
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const links = Array.from(doc.querySelectorAll('a'))
-                .map((link) => link.href)
-                .filter((href) => href.endsWith('.json'))
-                .map((href) => href.split('/').pop());
+    console.log('Manually listed JSON files:', jsonFiles); // Debugging
 
-            console.log('Detected JSON files:', links); // Debugging
+    if (jsonFiles.length === 0) {
+        console.warn('No JSON files listed.'); // Debugging
+        return;
+    }
 
-            if (links.length === 0) {
-                console.warn('No JSON files found in /goal-tracker/data/.'); // Debugging
-                return;
-            }
-
-            // Fetch each game's data
-            const fetchPromises = links.map((file) => {
-                console.log(`Fetching data for ${file}...`); // Debugging
-                return fetch(`/goal-tracker/data/${file}`)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then((data) => {
-                        console.log(`Data fetched for ${file}:`, data); // Debugging
-                        return data;
-                    })
-                    .catch((error) => {
-                        console.error(`Error fetching ${file}:`, error); // Debugging
-                        return null;
-                    });
-            });
-
-            Promise.all(fetchPromises).then((gameData) => {
-                games = gameData.filter((game) => game !== null); // Filter out null values
-
-                if (games.length === 0) {
-                    console.error('No valid game data found.'); // Debugging
-                    return;
+    // Fetch each game's data
+    const fetchPromises = jsonFiles.map((file) => {
+        console.log(`Fetching data for ${file}...`); // Debugging
+        return fetch(`/goal-tracker/data/${file}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-
-                console.log('All game data fetched:', games); // Debugging
-
-                // Calculate total hours and goals
-                games.forEach((game) => {
-                    totalHours += game.hours || 0;
-
-                    for (const category of Object.values(game.categories)) {
-                        for (const subcategory of Object.values(category)) {
-                            subcategory.forEach((item) => {
-                                if (item.completed !== undefined) {
-                                    totalGoals++;
-                                    if (item.completed) completedGoals++;
-                                }
-                            });
-                        }
-                    }
-                });
-
-                console.log('Total hours:', totalHours); // Debugging
-                console.log('Completed goals:', completedGoals); // Debugging
-                console.log('Total goals:', totalGoals); // Debugging
-
-                // Update the home page
-                totalHoursElement.textContent = totalHours;
-                completedGoalsElement.textContent = completedGoals;
-                totalGoalsElement.textContent = totalGoals;
-
-                // Create tabs
-                createTabs(links);
+                return response.json();
+            })
+            .then((data) => {
+                console.log(`Data fetched for ${file}:`, data); // Debugging
+                return data;
+            })
+            .catch((error) => {
+                console.error(`Error fetching ${file}:`, error); // Debugging
+                return null;
             });
-        })
-        .catch((error) => {
-            console.error('Error fetching JSON files:', error); // Debugging
+    });
+
+    Promise.all(fetchPromises).then((gameData) => {
+        games = gameData.filter((game) => game !== null); // Filter out null values
+
+        if (games.length === 0) {
+            console.error('No valid game data found.'); // Debugging
+            return;
+        }
+
+        console.log('All game data fetched:', games); // Debugging
+
+        // Calculate total hours and goals
+        games.forEach((game) => {
+            totalHours += game.hours || 0;
+
+            for (const category of Object.values(game.categories)) {
+                for (const subcategory of Object.values(category)) {
+                    subcategory.forEach((item) => {
+                        if (item.completed !== undefined) {
+                            totalGoals++;
+                            if (item.completed) completedGoals++;
+                        }
+                    });
+                }
+            }
         });
+
+        console.log('Total hours:', totalHours); // Debugging
+        console.log('Completed goals:', completedGoals); // Debugging
+        console.log('Total goals:', totalGoals); // Debugging
+
+        // Update the home page
+        totalHoursElement.textContent = totalHours;
+        completedGoalsElement.textContent = completedGoals;
+        totalGoalsElement.textContent = totalGoals;
+
+        // Create tabs
+        createTabs(jsonFiles);
+    });
 
     // Function to create tabs
     function createTabs(links) {
