@@ -1,0 +1,72 @@
+{
+    "game": "Celeste",
+    "hours": 1019,
+    "categories": {
+      "Speedrunning": {
+        "Any%": [
+          {
+            "Time": "Sub 45",
+            "completed": true
+          },
+          {
+            "Time": "Sub 40",
+            "completed": false
+          },
+          {
+            "Time": "Sub 35",
+            "completed": false
+          },
+          {
+            "Time": "Sub 30",
+            "completed": false
+          }
+        ],
+        "ARB": [
+          {
+            "Time": "Sub 1:20:00",
+            "completed": false
+          },
+          {
+            "Time": "Sub 1:10:00",
+            "completed": false
+          },
+          {
+            "Time": "Sub 1:00:00",
+            "completed": false
+          }
+        ],
+        "TE": [
+          {
+            "Time": "Sub 1:20:00",
+            "completed": false
+          },
+          {
+            "Time": "Sub 1:10:00",
+            "completed": false
+          },
+          {
+            "Time": "Sub 1:00:00",
+            "completed": false
+          }
+        ],
+        "100%": [
+          {
+            "Time": "Sub 3:00:00",
+            "completed": false
+          },
+          {
+            "Time": "Sub 2:50:00",
+            "completed": false
+          },
+          {
+            "Time": "Sub 2:40:00",
+            "completed": false
+          },
+          {
+            "Time": "Sub 2:30:00",
+            "completed": false
+          }
+        ]
+      }
+    }
+  }
