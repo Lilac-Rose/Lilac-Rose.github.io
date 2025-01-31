@@ -141,3 +141,48 @@ button:hover {
   text-align: left;
   border-radius: 2px;
 }
+
+/* Live Preview Styles */
+#live-preview {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.preview-table th,
+.preview-table td {
+  padding: 8px;
+  border: 1px solid var(--inactive);
+  text-align: left;
+}
+
+.preview-table th {
+  background-color: var(--secondary-bg);
+  color: var(--terminal-color);
+}
+
+.preview-table td {
+  background-color: var(--main-bg);
+  color: var(--text-primary);
+}
+
+/* Table Row Inputs */
+.table-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.table-row input {
+  flex: 1;
+  padding: 5px;
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--inactive);
+  color: var(--text-primary);
+}

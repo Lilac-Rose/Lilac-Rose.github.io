@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('game-form');
     const categoriesContainer = document.getElementById('categories');
     const output = document.getElementById('output');
+    const previewTable = document.getElementById('preview-table');
+
+    let currentHeaders = [];
+    let currentRows = [];
 
     // Add category field
     document.getElementById('add-category').addEventListener('click', () => {
@@ -28,17 +32,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h4>Subcategory</h4>
                 <label for="subcategory-name">Subcategory Name:</label>
                 <input type="text" class="subcategory-name" required>
-                <div class="table-container">
-                    <div class="table-header">
-                        <label for="header-row">Header Row:</label>
-                        <input type="text" class="header-row" placeholder="Comma-separated headers (e.g., Time, Like?, Notes, Date)" required>
-                    </div>
-                    <div class="table-rows"></div>
-                    <button type="button" class="add-row">Add Row</button>
-                </div>
+                
+                <label for="header-row">Headers (comma-separated):</label>
+                <input type="text" class="header-row" placeholder="Time, Like?, Notes, Date, Completed" required>
+                
+                <div class="table-rows"></div>
+                <button type="button" class="add-row">Add Row</button>
                 <button type="button" class="remove-subcategory">Remove Subcategory</button>
             `;
             subcategoriesContainer.appendChild(subcategory);
+
+            // Update headers and preview when headers change
+            const headerInput = subcategory.querySelector('.header-row');
+            headerInput.addEventListener('input', () => {
+                currentHeaders = headerInput.value.split(',').map(h => h.trim());
+                updatePreview();
+            });
         }
     });
 
@@ -46,18 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('add-row')) {
             const tableRowsContainer = event.target.previousElementSibling;
-            const headerRow = tableRowsContainer.previousElementSibling.querySelector('.header-row').value;
-            const headers = headerRow.split(',').map((header) => header.trim());
-
             const row = document.createElement('div');
             row.className = 'table-row';
-            headers.forEach((header) => {
+
+            currentHeaders.forEach((header) => {
                 const cell = document.createElement('input');
                 cell.type = 'text';
                 cell.placeholder = header;
                 row.appendChild(cell);
             });
+
             tableRowsContainer.appendChild(row);
+            currentRows.push(row);
+            updatePreview();
         }
     });
 
@@ -65,12 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('remove-category')) {
             event.target.parentElement.remove();
+            updatePreview();
         }
         if (event.target.classList.contains('remove-subcategory')) {
             event.target.parentElement.remove();
+            updatePreview();
         }
         if (event.target.classList.contains('remove-row')) {
             event.target.parentElement.remove();
+            currentRows = currentRows.filter(row => row !== event.target.parentElement);
+            updatePreview();
         }
     });
 
@@ -87,17 +101,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const subcategories = {};
             Array.from(category.querySelectorAll('.subcategory')).forEach(subcategory => {
                 const subcategoryName = subcategory.querySelector('.subcategory-name').value;
-                const headerRow = subcategory.querySelector('.header-row').value;
-                const headers = headerRow.split(',').map((header) => header.trim());
+                const headers = subcategory.querySelector('.header-row').value.split(',').map(h => h.trim());
                 const rows = [];
                 Array.from(subcategory.querySelectorAll('.table-row')).forEach(row => {
-                    const rowData = Array.from(row.querySelectorAll('input')).map((input) => input.value);
+                    const rowData = {};
+                    Array.from(row.querySelectorAll('input')).forEach((input, index) => {
+                        rowData[headers[index]] = input.value || 'N/A';
+                    });
                     rows.push(rowData);
                 });
-                subcategories[subcategoryName] = {
-                    headers: headers,
-                    rows: rows
-                };
+                subcategories[subcategoryName] = { headers, rows };
             });
             categories[categoryName] = subcategories;
         });
@@ -110,4 +123,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         output.textContent = JSON.stringify(gameData, null, 2);
     });
+
+    // Update live preview
+    function updatePreview() {
+        previewTable.innerHTML = '';
+        if (currentHeaders.length === 0) return;
+
+        const table = document.createElement('table');
+        table.className = 'preview-table';
+
+        // Add headers
+        const headerRow = document.createElement('tr');
+        currentHeaders.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            headerRow.appendChild(th);
+        });
+        table.appendChild(headerRow);
+
+        // Add rows
+        currentRows.forEach(row => {
+            const tr = document.createElement('tr');
+            Array.from(row.querySelectorAll('input')).forEach(input => {
+                const td = document.createElement('td');
+                td.textContent = input.value || 'N/A';
+                tr.appendChild(td);
+            });
+            table.appendChild(tr);
+        });
+
+        previewTable.appendChild(table);
+    }
 });
