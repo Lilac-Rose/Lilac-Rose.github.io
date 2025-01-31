@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 Array.from(subcategory.querySelectorAll('.table-row')).forEach(row => {
                     const rowData = {};
                     Array.from(row.querySelectorAll('input')).forEach((input, index) => {
-                        rowData[headers[index]] = input.value || 'N/A';
+                        rowData[headers[index]] = input.value || '';
                     });
                     rows.push(rowData);
                 });

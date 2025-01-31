@@ -1,72 +1,52 @@
 {
-    "game": "Celeste",
-    "hours": 1019,
-    "categories": {
-      "Speedrunning": {
-        "Any%": [
-          {
-            "Time": "Sub 45",
-            "completed": true
-          },
-          {
-            "Time": "Sub 40",
-            "completed": false
-          },
-          {
-            "Time": "Sub 35",
-            "completed": false
-          },
-          {
-            "Time": "Sub 30",
-            "completed": false
-          }
+  "game": "Celeste",
+  "hours": 1914,
+  "categories": {
+    "Speedrunning": {
+      "Any%": {
+        "headers": [
+          "Goal",
+          "Done",
+          "Time",
+          "Like",
+          "Notes",
+          "Date"
         ],
-        "ARB": [
+        "rows": [
           {
-            "Time": "Sub 1:20:00",
-            "completed": false
+            "Goal": "Sub 45",
+            "Done": "✓",
+            "Time": "878.8",
+            "Like": "10/10",
+            "Notes": "I played the best damn celeste of my life",
+            "Date": "08/02/2023"
           },
           {
-            "Time": "Sub 1:10:00",
-            "completed": false
+            "Goal": "Sub 40",
+            "Done": "✗",
+            "Time": "N/A",
+            "Like": "N/A",
+            "Notes": "N/A",
+            "Date": "N/A"
           },
           {
-            "Time": "Sub 1:00:00",
-            "completed": false
-          }
-        ],
-        "TE": [
-          {
-            "Time": "Sub 1:20:00",
-            "completed": false
+            "Goal": "Sub 35",
+            "Done": "✗",
+            "Time": "N/A",
+            "Like": "N/A",
+            "Notes": "N/A",
+            "Date": "N/A"
           },
           {
-            "Time": "Sub 1:10:00",
-            "completed": false
-          },
-          {
-            "Time": "Sub 1:00:00",
-            "completed": false
-          }
-        ],
-        "100%": [
-          {
-            "Time": "Sub 3:00:00",
-            "completed": false
-          },
-          {
-            "Time": "Sub 2:50:00",
-            "completed": false
-          },
-          {
-            "Time": "Sub 2:40:00",
-            "completed": false
-          },
-          {
-            "Time": "Sub 2:30:00",
-            "completed": false
+            "Goal": "Sub 30",
+            "Done": "✗",
+            "Time": "N/A",
+            "Like": "N/A",
+            "Notes": "N/A",
+            "Date": "N/A"
           }
         ]
       }
     }
   }
+}
