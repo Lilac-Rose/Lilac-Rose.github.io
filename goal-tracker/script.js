@@ -138,10 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let total = 0;
         for (const category of Object.values(game.categories)) {
             for (const subcategory of Object.values(category)) {
-                subcategory.forEach((item) => {
-                    if (item.completed !== undefined) {
+                subcategory.rows.forEach((row) => {
+                    if (row.completed !== undefined) {
                         total++;
-                        if (item.completed) completed++;
+                        if (row.completed) completed++;
                     }
                 });
             }
@@ -162,18 +162,41 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryHeader.textContent = category;
             gameDataElement.appendChild(categoryHeader);
 
-            for (const [subcategory, items] of Object.entries(subcategories)) {
+            for (const [subcategory, data] of Object.entries(subcategories)) {
                 const subcategoryHeader = document.createElement('h4');
                 subcategoryHeader.textContent = subcategory;
                 gameDataElement.appendChild(subcategoryHeader);
 
-                const list = document.createElement('ul');
-                items.forEach((item) => {
-                    const li = document.createElement('li');
-                    li.textContent = formatItem(item);
-                    list.appendChild(li);
+                // Create a table for the items
+                const table = document.createElement('table');
+                table.className = 'data-table';
+
+                // Create table headers
+                const headerRow = document.createElement('tr');
+                data.headers.forEach((header) => {
+                    const th = document.createElement('th');
+                    th.textContent = header;
+                    headerRow.appendChild(th);
                 });
-                gameDataElement.appendChild(list);
+                table.appendChild(headerRow);
+
+                // Add rows for each item
+                data.rows.forEach((row) => {
+                    const tableRow = document.createElement('tr');
+                    data.headers.forEach((header) => {
+                        const cell = document.createElement('td');
+                        if (header === 'Completed') {
+                            // Use Unicode U+2713 (✓) and U+2717 (✗)
+                            cell.textContent = row[header] ? '✓' : '✗';
+                        } else {
+                            cell.textContent = row[header] || 'N/A'; 
+                        }
+                        tableRow.appendChild(cell);
+                    });
+                    table.appendChild(tableRow);
+                });
+
+                gameDataElement.appendChild(table);
             }
         }
 

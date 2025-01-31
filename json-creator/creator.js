@@ -28,34 +28,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h4>Subcategory</h4>
                 <label for="subcategory-name">Subcategory Name:</label>
                 <input type="text" class="subcategory-name" required>
-                <div class="items"></div>
-                <button type="button" class="add-item">Add Item</button>
+                <div class="table-container">
+                    <div class="table-header">
+                        <label for="header-row">Header Row:</label>
+                        <input type="text" class="header-row" placeholder="Comma-separated headers (e.g., Time, Like?, Notes, Date)" required>
+                    </div>
+                    <div class="table-rows"></div>
+                    <button type="button" class="add-row">Add Row</button>
+                </div>
                 <button type="button" class="remove-subcategory">Remove Subcategory</button>
             `;
             subcategoriesContainer.appendChild(subcategory);
         }
     });
 
-    // Add item field
+    // Add row to the table
     document.addEventListener('click', (event) => {
-        if (event.target.classList.contains('add-item')) {
-            const itemsContainer = event.target.previousElementSibling;
-            const item = document.createElement('div');
-            item.className = 'item';
-            item.innerHTML = `
-                <label for="item-key">Key:</label>
-                <input type="text" class="item-key" required>
-                <label for="item-value">Value:</label>
-                <input type="text" class="item-value" required>
-                <label for="item-completed">Completed:</label>
-                <input type="checkbox" class="item-completed">
-                <button type="button" class="remove-item">Remove Item</button>
-            `;
-            itemsContainer.appendChild(item);
+        if (event.target.classList.contains('add-row')) {
+            const tableRowsContainer = event.target.previousElementSibling;
+            const headerRow = tableRowsContainer.previousElementSibling.querySelector('.header-row').value;
+            const headers = headerRow.split(',').map((header) => header.trim());
+
+            const row = document.createElement('div');
+            row.className = 'table-row';
+            headers.forEach((header) => {
+                const cell = document.createElement('input');
+                cell.type = 'text';
+                cell.placeholder = header;
+                row.appendChild(cell);
+            });
+            tableRowsContainer.appendChild(row);
         }
     });
 
-    // Remove category, subcategory, or item field
+    // Remove category, subcategory, or row
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('remove-category')) {
             event.target.parentElement.remove();
@@ -63,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.classList.contains('remove-subcategory')) {
             event.target.parentElement.remove();
         }
-        if (event.target.classList.contains('remove-item')) {
+        if (event.target.classList.contains('remove-row')) {
             event.target.parentElement.remove();
         }
     });
@@ -81,14 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const subcategories = {};
             Array.from(category.querySelectorAll('.subcategory')).forEach(subcategory => {
                 const subcategoryName = subcategory.querySelector('.subcategory-name').value;
-                const items = [];
-                Array.from(subcategory.querySelectorAll('.item')).forEach(item => {
-                    const key = item.querySelector('.item-key').value;
-                    const value = item.querySelector('.item-value').value;
-                    const completed = item.querySelector('.item-completed').checked;
-                    items.push({ [key]: value, completed });
+                const headerRow = subcategory.querySelector('.header-row').value;
+                const headers = headerRow.split(',').map((header) => header.trim());
+                const rows = [];
+                Array.from(subcategory.querySelectorAll('.table-row')).forEach(row => {
+                    const rowData = Array.from(row.querySelectorAll('input')).map((input) => input.value);
+                    rows.push(rowData);
                 });
-                subcategories[subcategoryName] = items;
+                subcategories[subcategoryName] = {
+                    headers: headers,
+                    rows: rows
+                };
             });
             categories[categoryName] = subcategories;
         });
@@ -96,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const gameData = {
             game: gameName,
             hours: parseInt(gameHours, 10),
-            categories
+            categories: categories
         };
 
         output.textContent = JSON.stringify(gameData, null, 2);
