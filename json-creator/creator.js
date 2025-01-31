@@ -3,9 +3,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoriesContainer = document.getElementById('categories');
     const output = document.getElementById('output');
     const previewTable = document.getElementById('preview-table');
+    const loadJsonInput = document.getElementById('load-json');
 
     let currentHeaders = [];
     let currentRows = [];
+
+    // Load JSON file
+    loadJsonInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const json = JSON.parse(e.target.result);
+            loadJsonIntoForm(json);
+        };
+        reader.readAsText(file);
+    });
 
     // Add category field
     document.getElementById('add-category').addEventListener('click', () => {
@@ -106,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 Array.from(subcategory.querySelectorAll('.table-row')).forEach(row => {
                     const rowData = {};
                     Array.from(row.querySelectorAll('input')).forEach((input, index) => {
-                        rowData[headers[index]] = input.value || '';
+                        rowData[headers[index]] = input.value || 'N/A';
                     });
                     rows.push(rowData);
                 });
@@ -153,5 +167,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         previewTable.appendChild(table);
+    }
+
+    // Load JSON into the form
+    function loadJsonIntoForm(json) {
+        // Clear existing form
+        categoriesContainer.innerHTML = '';
+
+        // Set game name and hours
+        document.getElementById('game-name').value = json.game || '';
+        document.getElementById('game-hours').value = json.hours || 0;
+
+        // Load categories and subcategories
+        for (const [categoryName, subcategories] of Object.entries(json.categories)) {
+            const category = document.createElement('div');
+            category.className = 'category';
+            category.innerHTML = `
+                <h3>Category</h3>
+                <label for="category-name">Category Name:</label>
+                <input type="text" class="category-name" value="${categoryName}" required>
+                <div class="subcategories"></div>
+                <button type="button" class="add-subcategory">Add Subcategory</button>
+                <button type="button" class="remove-category">Remove Category</button>
+            `;
+            categoriesContainer.appendChild(category);
+
+            const subcategoriesContainer = category.querySelector('.subcategories');
+            for (const [subcategoryName, data] of Object.entries(subcategories)) {
+                const subcategory = document.createElement('div');
+                subcategory.className = 'subcategory';
+                subcategory.innerHTML = `
+                    <h4>Subcategory</h4>
+                    <label for="subcategory-name">Subcategory Name:</label>
+                    <input type="text" class="subcategory-name" value="${subcategoryName}" required>
+                    
+                    <label for="header-row">Headers (comma-separated):</label>
+                    <input type="text" class="header-row" value="${data.headers.join(', ')}" required>
+                    
+                    <div class="table-rows"></div>
+                    <button type="button" class="add-row">Add Row</button>
+                    <button type="button" class="remove-subcategory">Remove Subcategory</button>
+                `;
+                subcategoriesContainer.appendChild(subcategory);
+
+                // Add rows
+                const tableRowsContainer = subcategory.querySelector('.table-rows');
+                data.rows.forEach(row => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'table-row';
+                    data.headers.forEach(header => {
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.value = row[header] || 'N/A';
+                        rowDiv.appendChild(input);
+                    });
+                    tableRowsContainer.appendChild(rowDiv);
+                });
+            }
+        }
+
+        // Update preview
+        updatePreview();
     }
 });
