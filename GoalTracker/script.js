@@ -9,43 +9,46 @@ document.addEventListener("DOMContentLoaded", function () {
     let totalGoals = 0;
     let completedGoals = 0;
 
-    // Fetch JSON files from the "data" folder
-    fetch("./data/")
-        .then(response => response.text())
-        .then(text => {
-            const parser = new DOMParser();
-            const htmlDocument = parser.parseFromString(text, "text/html");
-            const jsonFiles = Array.from(htmlDocument.querySelectorAll("a"))
-                .filter(a => a.href.endsWith(".json"))
-                .map(a => a.href);
+    // List of JSON files to fetch (manually specified)
+    const jsonFiles = [
+        './data/celeste.json',
+        './data/hollow_knight.json',
+        './data/other_game.json'
+    ];
 
-            jsonFiles.forEach(file => {
-                fetch(file)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Create a tab for the JSON file
-                        const tabName = file.split("/").pop().replace(".json", "");
-                        const tabButton = document.createElement("button");
-                        tabButton.className = "tab-link";
-                        tabButton.textContent = `[${tabName}]`;
-                        tabButton.onclick = () => openTab(tabName);
-                        tabsContainer.appendChild(tabButton);
+    jsonFiles.forEach(file => {
+        fetch(file)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch ${file}: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Create a tab for the JSON file
+                const tabName = file.split("/").pop().replace(".json", "");
+                const tabButton = document.createElement("button");
+                tabButton.className = "tab-link";
+                tabButton.textContent = `[${tabName}]`;
+                tabButton.onclick = () => openTab(tabName); // Link to openTab function
+                tabsContainer.appendChild(tabButton);
 
-                        // Create a content div for the tab
-                        const tabContent = document.createElement("div");
-                        tabContent.id = tabName;
-                        tabContent.className = "tab-content";
-                        document.body.appendChild(tabContent);
+                // Create a content div for the tab
+                const tabContent = document.createElement("div");
+                tabContent.id = tabName;
+                tabContent.className = "tab-content";
+                document.body.appendChild(tabContent);
 
-                        // Parse and display the JSON data
-                        displayData(data, tabContent);
+                // Parse and display the JSON data
+                displayData(data, tabContent);
 
-                        // Update home tab stats
-                        updateHomeStats(data);
-                    });
-            });
-        });
+                // Update home tab stats
+                updateHomeStats(data);
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+    });
 
+    // Define the openTab function
     function openTab(tabName) {
         const tabContents = document.querySelectorAll(".tab-content");
         tabContents.forEach(tab => tab.style.display = "none");
