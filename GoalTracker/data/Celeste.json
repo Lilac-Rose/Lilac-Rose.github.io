@@ -1,0 +1,47 @@
+{
+  "Game": "Celeste",
+  "Categories": [
+    {
+      "Name": "Speedrunning",
+      "Subcategories": [
+        {
+          "Name": "Any%",
+          "Rows": 4,
+          "Columns": 3,
+          "ColumnHeaders": [
+            "Time",
+            "Completed",
+            "Date",
+            "Notes"
+          ],
+          "Data": [
+            [
+              "Sub 00:45:00",
+              "✓",
+              "2023-10-01",
+              "I played the best Celeste of my life."
+            ],
+            [
+              "Sub 00:40:00",
+              "✗",
+              "",
+              ""
+            ],
+            [
+              "Sub 00:35:00",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Sub 00:30:00",
+              "",
+              "",
+              ""
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

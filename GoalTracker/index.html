@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lilac's Goal List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="terminal">
+    <div id="header">
+      <h1>Lilac's Goal List</h1>
+      <p class="subtitle">// FKLR-F23 "Lila" - Operational Unit //</p>
+    </div>
+
+    <div id="tabs">
+      <button class="tab-link active" onclick="openTab('home')">[Home]</button>
+      <!-- Tabs for JSON files will be added here dynamically -->
+    </div>
+
+    <div id="home" class="tab-content">
+      <h2>[Home Terminal]</h2>
+      <p>> Total Goals Identified: <span id="total-goals">0</span></p>
+      <p>> Completed Goals: <span id="completed-goals">0</span></p>
+      <progress id="total-progress" value="0" max="100"></progress>
+      <p>> System Status: <span class="status">Operational</span></p>
+    </div>
+
+    <!-- Content for JSON files will be added here dynamically -->
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
