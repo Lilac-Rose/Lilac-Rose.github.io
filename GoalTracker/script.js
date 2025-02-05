@@ -50,14 +50,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Define the openTab function
     function openTab(tabName) {
+        // Hide all tab content
         const tabContents = document.querySelectorAll(".tab-content");
-        tabContents.forEach(tab => tab.style.display = "none");
-
+        tabContents.forEach(tab => {
+            tab.style.display = "none"; // Hide all tabs
+        });
+    
+        // Remove the 'active' class from all tab buttons
         const tabLinks = document.querySelectorAll(".tab-link");
-        tabLinks.forEach(link => link.classList.remove("active"));
-
-        document.getElementById(tabName).style.display = "block";
-        document.querySelector(`button[onclick="openTab('${tabName}')"]`).classList.add("active");
+        tabLinks.forEach(link => {
+            link.classList.remove("active");
+        });
+    
+        // Show the selected tab content
+        const selectedTab = document.getElementById(tabName);
+        if (selectedTab) {
+            selectedTab.style.display = "block"; // Show the selected tab
+        }
+    
+        // Add the 'active' class to the clicked tab button
+        const selectedTabButton = document.querySelector(`button[onclick="openTab('${tabName}')"]`);
+        if (selectedTabButton) {
+            selectedTabButton.classList.add("active");
+        }
     }
 
     function displayData(data, container) {
