@@ -32,3 +32,12 @@
     Content-Encoding = "br"
     Cache-Control = "public, max-age=31536000"
     Content-Type = "application/wasm"
+
+[[headers]]
+  for = "/GDD/200/1.2/Build/*.br"
+  [headers.values]
+    Content-Encoding = "br"
+    Cache-Control = "public, max-age=31536000"
+    Content-Type = "application/wasm"
+
+    
