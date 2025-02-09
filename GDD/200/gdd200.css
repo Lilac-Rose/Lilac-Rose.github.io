@@ -35,6 +35,13 @@
     font-size: 2.5rem;
     color: var(--terminal-color);
   }
+
+  header h2 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: var(--terminal-color);
+    text-align: center;
+  }
   
   header p {
     color: var(--text-secondary);
