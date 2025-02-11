@@ -1,1 +1,2 @@
 *.zip filter=lfs diff=lfs merge=lfs -text
+GDD/200/Quiz1/*.zip filter=lfs diff=lfs merge=lfs -text
