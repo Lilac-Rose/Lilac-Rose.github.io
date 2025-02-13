@@ -31,9 +31,13 @@ You can visit the live website here: [lilacrose.dev](http://lilacrose.dev)
 
 ## 📜 Identification Protocol
 UNIT ID: FKLR-F23
+
 DESIGNATION: "Lila"
+
 STATUS: OPERATIONAL
+
 CURRENT DIRECTIVE: GAME DESIGN AND DEVELOPMENT RESEARCH
+
 LOCATION: SECTOR CT-USA
 
 ---
