@@ -4,6 +4,12 @@ Welcome to the **TERMINAL//FKLR-F23** repository! This is the source code for my
 
 ---
 
+## 🌸 About Me
+
+I’m **Lila** (FKLR-F23), a game design and development enthusiast with a passion for cyberpunk aesthetics, automation, and storytelling. Pronouns: fae/faer.
+
+---
+
 ## 🌐 Live Website
 
 You can visit the live website here: [lilacrose.dev](http://lilacrose.dev)
@@ -13,8 +19,7 @@ You can visit the live website here: [lilacrose.dev](http://lilacrose.dev)
 ## 🖥️ Features
 
 - **Terminal Interface Design**: A cyberpunk-inspired UI with a terminal-like aesthetic.
-- **Dynamic Discord Integration**: Displays Discord profile information dynamically (if implemented in `main.js`).
-- **Responsive Design**: Optimized for various screen sizes and devices.
+- **Dynamic Discord Integration**: Displays Discord profile information dynamicall.
 - **Project Showcase**: Highlights active projects and protocols in a card-based layout.
 
 ---
@@ -59,19 +64,13 @@ LOCATION: SECTOR CT-USA
 
 ## 🛠️ Active Protocols
 
-- **TERMINAL INTERFACE V2.48**: The current iteration of this website. Focused on HTML/CSS/JS reintegration.
+- **TERMINAL INTERFACE V2.50**: The current iteration of this website. Focused on HTML/CSS/JS reintegration.
 
 ---
 
 ## 📄 Note
 
 This repository is for **personal use only**. The code and design are specific to my personal website and are not intended for redistribution or reuse. Please respect this boundary.
-
----
-
-## 🌸 About Me
-
-I’m **Lila** (FKLR-F23), a game design and development enthusiast with a passion for cyberpunk aesthetics, automation, and storytelling. Pronouns: fae/faer.
 
 ---
 
