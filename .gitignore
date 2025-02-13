@@ -1,18 +1,5 @@
-_site
-.sass-cache
-.jekyll-cache
-.jekyll-metadata
-vendor
-Gemfile.lock
-
 # Local Netlify folder
 .netlify
 
 .env
 node_modules
-
-
-Mods1.rar
-Mods2.rar
-Mods3.rar
-Mods.zip
