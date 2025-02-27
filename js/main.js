@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM fully loaded');
 
+  console.log("WARNING: Temporal anomaly detected. Proceed with caution.");
+  console.log("ACCESS CODE REQUIRED: FKLR-F23");
+
   var quotes = [
       "Whole worlds pivot on acts of imagination. - Thirteenth Doctor",
       "Letting it get to you. You know what that's called? Being alive. Best thing there is. Being alive right now is all that counts. - Eleventh Doctor",
@@ -76,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
   fetch('/.netlify/functions/get-discord-profile')
   .then((response) => response.json())
   .then((data) => {
-      console.log('Parsed data from API:', data);
+
 
       const avatarElement = document.getElementById('discordAvatar');
       const usernameElement = document.getElementById('discordUsername');

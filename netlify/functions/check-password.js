@@ -7,7 +7,7 @@ exports.handler = async function(event, context) {
     if (submittedPassword === correctPassword) {
         return {
             statusCode: 200,
-            body: JSON.stringify({ accessGranted: true, redirectTo: 'accessGranted' })
+            body: JSON.stringify({ accessGranted: true, redirectTo: 'hidden-page' })
         };
     } else if (submittedPassword === furconPassword) {
         return {
